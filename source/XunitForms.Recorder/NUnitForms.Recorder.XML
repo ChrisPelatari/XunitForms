@@ -1,0 +1,503 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>XunitForms.Recorder</name>
+    </assembly>
+    <members>
+        <member name="T:Xunit.Extensions.Forms.Recorder.ToolStripRecorder">
+            <summary>
+            Base recorder class for all ToolStrip classes.
+            </summary>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.Recorder.Recorder">
+            <summary>
+             This is the abstract base class for all event recorder classes
+             that don't depend on a concrete object type.
+            </summary>
+             <remarks>
+             This class is inherited by <see cref="T:Xunit.Extensions.Forms.Recorder.ControlRecorder"/>
+             and <see cref="T:Xunit.Extensions.Forms.Recorder.ToolStripRecorder"/> which provide
+             control-specific services.
+             </remarks>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.Recorder.IRecorder">
+            <summary>
+            Defines the public interface for all event recorders.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Recorder.IRecorder.EventKey(System.String)">
+            <summary>
+            Returns the event key for the given event name.
+            </summary>
+        </member>
+        <member name="P:Xunit.Extensions.Forms.Recorder.IRecorder.RecorderType">
+            <summary>
+            Gets the type of object being recorded.
+            </summary>
+        </member>
+        <member name="P:Xunit.Extensions.Forms.Recorder.IRecorder.TesterType">
+            <summary>
+            Gets the type of the <see cref="T:Xunit.Extensions.Forms.ControlTester"/>
+            being used.
+            </summary>
+        </member>
+        <member name="P:Xunit.Extensions.Forms.Recorder.IRecorder.Listener">
+            <summary>
+            Gets the <see cref="P:Xunit.Extensions.Forms.Recorder.IRecorder.Listener"/>.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Recorder.Recorder.#ctor(Xunit.Extensions.Forms.Recorder.Listener)">
+            <summary>
+            Constructs a new <see cref="T:Xunit.Extensions.Forms.Recorder.Recorder"/>.
+            </summary>
+            <param name="listener">The <see cref="P:Xunit.Extensions.Forms.Recorder.Recorder.Listener"/> to use with this <see cref="T:Xunit.Extensions.Forms.Recorder.Recorder"/>.</param>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Recorder.Recorder.EventKey(System.String)">
+            <summary>
+            Returns the "Event Key" for the given named event.
+            </summary>
+            <remarks>
+            <para>
+            The <see cref="T:System.Windows.Forms.Control"/> base class defines a large number of events for use in user code, 
+            which are inherited by all derived classes. Instead of members for each possible event handler,
+            a single hash table is used to store event handlers. This hash table is keyed on 
+            private static readonly objects whose names correspond to event handlers.
+            </para>
+            <para>
+            The <see cref="P:Xunit.Extensions.Forms.Recorder.Recorder.Listener"/> class retreives these objects in order to manually combine event handler delegates
+            at run time.
+            </para>
+            </remarks>
+            <param name="name">The name of the event.</param>
+            <returns>A <see cref="T:System.Reflection.FieldInfo"/> object representing the event key for the named event.</returns>
+        </member>
+        <member name="P:Xunit.Extensions.Forms.Recorder.Recorder.RecorderType">
+            <summary>
+            Gets the type of object being recorded.
+            </summary>
+        </member>
+        <member name="P:Xunit.Extensions.Forms.Recorder.Recorder.TesterType">
+            <summary>
+            Gets the type of the <see cref="T:Xunit.Extensions.Forms.ControlTester"/>
+            being used.
+            </summary>
+        </member>
+        <member name="P:Xunit.Extensions.Forms.Recorder.Recorder.Listener">
+            <summary>
+             Gets the <see cref="P:Xunit.Extensions.Forms.Recorder.Recorder.Listener"/> associated with this <see cref="T:Xunit.Extensions.Forms.Recorder.Recorder"/>.
+            </summary>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.Recorder.Action">
+            <summary>
+             The abstract base class for all recordable Actions.
+            </summary>
+        </member>
+        <member name="F:Xunit.Extensions.Forms.Recorder.Action.definition">
+            <summary>
+            The reference to the associated definition.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Recorder.Action.RemoveSpaces(System.String)">
+            <summary>
+            Removes all spaces from a string.
+            </summary>
+            <param name="name">
+            Remove all spaces from this string.
+            </param>
+            <returns>
+            <list type="bullet">
+            <item><paramref name="name"/> without spaces.</item>
+            <item>if <paramref name="name"/> is not effective, returns an empty string</item>
+            </list>
+            </returns>
+        </member>
+        <member name="P:Xunit.Extensions.Forms.Recorder.Action.Definition">
+            <summary>
+            Sets or gets the <see cref="P:Xunit.Extensions.Forms.Recorder.Action.Definition"/> associated with this <c>Action</c>.
+            </summary>
+            <value>
+            The associated <see cref="P:Xunit.Extensions.Forms.Recorder.Action.Definition"/>.
+            </value>
+            <exception cref="T:System.ArgumentException">
+            This exception is thrown if no effective value is given.
+            </exception>
+        </member>
+        <member name="P:Xunit.Extensions.Forms.Recorder.Action.Control">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.Recorder.ICollapsingProcessor">
+            <summary>
+            The public API for all collapsing processers.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Recorder.ICollapsingProcessor.Process(System.Collections.Generic.ICollection{Xunit.Extensions.Forms.Recorder.Action})">
+            <summary>
+            Process the given actions, possibly collapsing adjacent ones.
+            </summary>
+            <param name="actions">The list of actions to process.</param>
+            <returns>The collapsed list of actions.</returns>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Recorder.ICollapsingProcessor.CanCollapse(Xunit.Extensions.Forms.Recorder.EventAction,Xunit.Extensions.Forms.Recorder.EventAction)">
+            <summary>
+            Returns true if the given actions can be collapsed.
+            </summary>
+            <param name="action1">The earlier event to test.</param>
+            <param name="action2">The latter event to test.</param>
+            <returns>True if these events can be collapsed; else false.</returns>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.Recorder.AppForm">
+            <summary>
+            The main form for the Recorder application.
+            </summary>
+            <summary>
+            The main form for the Recorder application.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Recorder.AppForm.#ctor">
+            <summary>
+             Constructs a new <see cref="T:Xunit.Extensions.Forms.Recorder.AppForm"/>.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Recorder.AppForm.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Recorder.AppForm.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.Recorder.FormRecorder">
+            <summary>
+            A <see cref="T:Xunit.Extensions.Forms.Recorder.ControlRecorder"/> class for <see cref="T:System.Windows.Forms.Form"/>s.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Recorder.FormRecorder.#ctor(Xunit.Extensions.Forms.Recorder.Listener)">
+            <summary>
+            Constructes a new <see cref="T:Xunit.Extensions.Forms.Recorder.FormRecorder"/> with the given listener.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Recorder.FormRecorder.Closed(System.Object,System.EventArgs)">
+            <summary>
+            Fires the "Close" event for a form.
+            </summary>
+        </member>
+        <member name="P:Xunit.Extensions.Forms.Recorder.FormRecorder.RecorderType">
+            <summary>
+            The type of control being recorded, <see cref="T:System.Windows.Forms.Form"/>.
+            </summary>
+        </member>
+        <member name="P:Xunit.Extensions.Forms.Recorder.FormRecorder.TesterType">
+            <summary>
+            The tester type for this recorder, <see cref="T:Xunit.Extensions.Forms.FormTester"/>.
+            </summary>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.Recorder.TestWriter">
+            <summary>
+             This class creates a C# unit test for a form 
+             based on events that happen on the form.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Recorder.TestWriter.#ctor(System.Windows.Forms.Form)">
+            <summary>
+            Initialize a <c>TestWriter</c> for a form.
+            </summary>
+            <param name="form">
+            The <see cref="T:System.Windows.Forms.Form"/> whose event are followed and recorded in a test.
+            </param>
+            <exception cref="T:System.ArgumentException">
+            This exception is thrown if <paramref name="form"/> is not effective.
+            </exception>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Recorder.TestWriter.AddDefinition(Xunit.Extensions.Forms.Recorder.Definition)">
+            <summary>
+            Add a definition to the list of definitions.
+            </summary>
+            <param name="definition">
+            The definition which will be added.
+            </param>
+            <exception cref="T:System.ArgumentException">
+            This exception is thrown if <paramref name="definition"/> is not effective.
+            </exception>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Recorder.TestWriter.AddAction(Xunit.Extensions.Forms.Recorder.Action)">
+            <summary>
+            Add an action to the list of actions.
+            </summary>
+            <param name="action">
+            The action which will be added.
+            </param>
+            /// <exception cref="T:System.ArgumentException">
+            This exception is thrown if <paramref name="action"/> is not effective.
+            </exception>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Recorder.TestWriter.Find(System.String,System.Windows.Forms.Form)">
+            <summary>
+            Look for controls or menu items on a form.
+            </summary>
+            <param name="name">
+            The name of the control or menu item to look for.
+            </param>
+            <param name="form">
+            The form which contains the control or menu item we are looking for.
+            </param>
+            <exception cref="T:Xunit.Extensions.Forms.AmbiguousNameException">
+            This exception is thrown if no control or menu item is found.
+            </exception>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Recorder.TestWriter.GetName(System.Object,System.Windows.Forms.Form)">
+            <summary>
+            
+            </summary>
+            <param name="control"></param>
+            <param name="form"></param>
+            <returns></returns>
+            <remarks>
+            won't yet return unique name for two different tester types
+            on the same actual control.  
+            </remarks>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Recorder.TestWriter.UpdateTest">
+            <summary>
+            Update a unit test method : all actions and definitions are updated. The updated unit
+            test is available at <see cref="P:Xunit.Extensions.Forms.Recorder.TestWriter.Test"/>.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Recorder.TestWriter.WriteDefinition(Xunit.Extensions.Forms.Recorder.Definition,System.Text.StringBuilder)">
+            <summary>
+            Append a definition to a string buffer.
+            </summary>
+            <param name="definition">
+            The definition to append to a string buffer.
+            </param>
+            <param name="sb">
+            The string buffer.
+            </param>
+            <exception cref="T:System.ArgumentException">
+            This exception is thrown if <paramref name="sb"/> or <paramref name="definition"/> is not effective.
+            </exception>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Recorder.TestWriter.WriteAction(System.String,System.Text.StringBuilder)">
+            <summary>
+            Write an action to a string buffer.
+            </summary>
+            <param name="action">
+            The action to append to the string buffer.
+            </param>
+            <param name="sb">
+            The string buffer.
+            </param>
+            <exception cref="T:System.ArgumentException">
+            This exception is thrown if <paramref name="sb"/> or <paramref name="action"/> is not effective.
+            </exception>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Recorder.TestWriter.WriteLine(System.Text.StringBuilder)">
+            <summary>
+            Append a new line at the end of a string buffer.
+            </summary>
+            <param name="sb">
+            The buffer to append a new line to.
+            </param>
+            <exception cref="T:System.ArgumentException">
+            This exception is thrown if <paramref name="sb"/> is not effective.
+            </exception>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Recorder.TestWriter.WriteTab(System.Text.StringBuilder)">
+            <summary>
+            Append a tab at the end of a string buffer.
+            </summary>
+            <param name="sb">
+            The buffer to append a tab to.
+            </param>
+            <exception cref="T:System.ArgumentException">
+            This exception is thrown if <paramref name="sb"/> is not effective.
+            </exception>
+        </member>
+        <member name="P:Xunit.Extensions.Forms.Recorder.TestWriter.Test">
+            <summary>
+            Gets or sets the text representation of this test.
+            </summary>
+            <value>
+            This test. Not effective values are set as empty strings.
+            </value>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.Recorder.FormFactory">
+            <summary>
+            This class can create forms of any type and satisfies any
+            constructor specified dependencies.
+            </summary>
+            <remarks>
+            Consider it for internal purposes only by the recorder
+            application. The recorder should eventually be able to
+            generate tests that use mock objects to satisfy the
+            dependencies of a Form. Expectations should be generated by
+            the recorder application. Until then it is just used to
+            instantiate simple forms. So test this.
+            </remarks>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Recorder.FormFactory.New(System.Type)">
+            <summary>
+            Create a form of the specified type.
+            </summary>
+            <param name="type">The type of form to create</param>
+            <returns>An instance of the form</returns>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.Recorder.EventAction">
+            <summary>
+             Recordable action for an Event.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Recorder.EventAction.#ctor(System.String,System.Object[])">
+            <summary>
+             Constructs a new EventAction.
+            </summary>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.Recorder.CompareControlCaptureAction">
+            <summary>
+            This action allows to compare a capture of a <see cref="T:System.Windows.Forms.Control"/> with a stored capture.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Recorder.CompareControlCaptureAction.#ctor(System.String,System.Object)">
+            <summary>
+            Initialize this action.
+            </summary>
+            <param name="name">
+            The file which contains the capture of a control.
+            </param>
+            <param name="val">
+            </param>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.Recorder.Censor">
+            <summary>
+            This class can be used to prevent <see cref="T:Xunit.Extensions.Forms.Recorder.Recorder"/>-derived
+            classes from automatically being added to a <see cref="T:Xunit.Extensions.Forms.Recorder.SupportedEventsRegistry"/>.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Recorder.Censor.Add(System.String)">
+            <summary>
+             Adds the named class to the list of censored <see cref="T:Xunit.Extensions.Forms.Recorder.Recorder"/>s.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Recorder.Censor.Remove(System.String)">
+            <summary>
+            Removes the named class from the list of censored <see cref="T:Xunit.Extensions.Forms.Recorder.Recorder"/>s.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Recorder.Censor.Contains(System.String)">
+            <summary>
+             Returns true if the <see cref="T:Xunit.Extensions.Forms.Recorder.Censor"/> is blocking
+             the given <see cref="T:Xunit.Extensions.Forms.Recorder.Recorder"/> name.
+            </summary>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.Recorder.Definition">
+            <summary>
+             This class represents a C# variable initialization.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Recorder.Definition.#ctor(System.Object,System.String,System.Type,System.String)">
+            <summary>
+             Constructs a new <see cref="T:Xunit.Extensions.Forms.Recorder.Definition"/>.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Recorder.Definition.ToString">
+            <summary>
+             
+            </summary>
+            <returns>C# code to initialize the defined variable.</returns>
+        </member>
+        <member name="P:Xunit.Extensions.Forms.Recorder.Definition.Control">
+            <summary>
+             The control being defined.
+            </summary>
+        </member>
+        <member name="P:Xunit.Extensions.Forms.Recorder.Definition.Name">
+            <summary>
+             The control name to use.
+            </summary>
+        </member>
+        <member name="P:Xunit.Extensions.Forms.Recorder.Definition.VarName">
+            <summary>
+            The variable name of an instance.
+            </summary>
+            <example>
+            <i>toolStripSplitButton1</i> Is the variable name of an instance:
+            <code>
+            ToolStripSplitButtonTester toolStripSplitButton1 = new ToolStripSplitButtonTester("toolStripSplitButton1");
+            </code>
+            </example>
+        </member>
+        <member name="P:Xunit.Extensions.Forms.Recorder.Definition.FormName">
+            <summary>
+             The parent form name.
+            </summary>
+        </member>
+        <member name="P:Xunit.Extensions.Forms.Recorder.Definition.TesterType">
+            <summary>
+             Gets the <see cref="P:Xunit.Extensions.Forms.Recorder.Definition.TesterType"/> associated with this <see cref="T:Xunit.Extensions.Forms.Recorder.Definition"/>.
+            </summary>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.Recorder.CollapsingProcessor">
+            <summary>
+             The default abstract base class for all collapsing processors.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Recorder.CollapsingProcessor.Process(System.Collections.Generic.ICollection{Xunit.Extensions.Forms.Recorder.Action})">
+            <summary>
+            Process the given actions, possibly collapsing adjacent ones.
+            </summary>
+            <param name="actions">The list of actions to process.</param>
+            <returns>The collapsed list of actions.</returns>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Recorder.CollapsingProcessor.CanCollapse(Xunit.Extensions.Forms.Recorder.EventAction,Xunit.Extensions.Forms.Recorder.EventAction)">
+            <summary>
+            Returns true if the given actions can be collapsed.
+            </summary>
+            <param name="action1">The earlier event to test.</param>
+            <param name="action2">The latter event to test.</param>
+            <returns>True if these events can be collapsed; else false.</returns>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.Recorder.Listener">
+            <summary>
+             A <see cref="T:Xunit.Extensions.Forms.Recorder.Listener"/> is used by a <see cref="T:Xunit.Extensions.Forms.Recorder.Recorder"/>
+             to manage events happening on a target control.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Recorder.Listener.#ctor">
+            <summary>
+             Constructs a new <see cref="T:Xunit.Extensions.Forms.Recorder.Listener"/>.
+            </summary>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.Recorder.ToolStripSplitButtonRecorder">
+            <summary>
+             A recorder for <see cref="T:System.Windows.Forms.ToolStripSplitButton"/> controls.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Recorder.ToolStripSplitButtonRecorder.#ctor(Xunit.Extensions.Forms.Recorder.Listener)">
+            <summary>
+             Constructs a new <see cref="T:Xunit.Extensions.Forms.Recorder.ToolStripSplitButtonRecorder"/>.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Recorder.ToolStripSplitButtonRecorder.Click(System.Object,System.EventArgs)">
+            <summary>
+             Raises the Click event for this control.
+            </summary>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.Recorder.EnterSelectTextCollapsingProcessor">
+            <summary>
+             A <see cref="T:Xunit.Extensions.Forms.Recorder.CollapsingProcessor"/> that combines entering and selecting text.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Recorder.EnterSelectTextCollapsingProcessor.CanCollapse(Xunit.Extensions.Forms.Recorder.EventAction,Xunit.Extensions.Forms.Recorder.EventAction)">
+            <summary>
+            Returns true if the given actions can be collapsed.
+            </summary>
+            <param name="action1">The earlier event to test.</param>
+            <param name="action2">The latter event to test.</param>
+            <returns>True if these events can be collapsed; else false.</returns>
+        </member>
+    </members>
+</doc>

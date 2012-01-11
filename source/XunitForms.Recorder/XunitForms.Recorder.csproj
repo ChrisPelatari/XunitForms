@@ -1,0 +1,144 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DAAB0423-50E1-4868-B5A7-07D47BF7CE45}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>XunitForms.Recorder</RootNamespace>
+    <AssemblyName>XunitForms.Recorder</AssemblyName>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>NUnitForms.Recorder.XML</DocumentationFile>
+    <NoWarn>1591</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>NUnitForms.Recorder.XML</DocumentationFile>
+    <NoWarn>1591</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Action.cs" />
+    <Compile Include="AppForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AppForm.Designer.cs">
+      <DependentUpon>AppForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ButtonRecorder.cs" />
+    <Compile Include="Censor.cs" />
+    <Compile Include="CheckBoxRecorder.cs" />
+    <Compile Include="CollapsingProcessor.cs" />
+    <Compile Include="ComboBoxRecorder.cs" />
+    <Compile Include="CompareControlCaptureAction.cs" />
+    <Compile Include="CompositeAction.cs" />
+    <Compile Include="ControlRecorder.cs" />
+    <Compile Include="Definition.cs" />
+    <Compile Include="EnterSelectTextCollapsingProcessor.cs" />
+    <Compile Include="EnterTextCollapsingProcessor.cs" />
+    <Compile Include="EventAction.cs" />
+    <Compile Include="FormFactory.cs" />
+    <Compile Include="FormRecorder.cs" />
+    <Compile Include="ICollapsingProcessor.cs" />
+    <Compile Include="IRecorder.cs" />
+    <Compile Include="LabelRecorder.cs" />
+    <Compile Include="LinkLabelRecorder.cs" />
+    <Compile Include="ListBoxRecorder.cs" />
+    <Compile Include="Listener.cs" />
+    <Compile Include="MenuItemRecorder.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PropertyAssertAction.cs" />
+    <Compile Include="RadioButtonRecorder.cs" />
+    <Compile Include="Recorder.cs" />
+    <Compile Include="RichTextBoxRecorder.cs" />
+    <Compile Include="SupportedEventsRegistry.cs" />
+    <Compile Include="TabControlRecorder.cs" />
+    <Compile Include="TestWriter.cs" />
+    <Compile Include="TextBoxRecorder.cs" />
+    <Compile Include="ToolStripButtonRecorder.cs" />
+    <Compile Include="ToolStripComboBoxRecorder.cs" />
+    <Compile Include="ToolStripDropDownButtonRecorder.cs" />
+    <Compile Include="ToolStripMenuItemRecorder.cs" />
+    <Compile Include="ToolStripRecorder.cs" />
+    <Compile Include="ToolStripSplitButtonRecorder.cs" />
+    <Compile Include="ToolStripTextBoxRecorder.cs" />
+    <Compile Include="TreeViewRecorder.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AppForm.resx">
+      <DependentUpon>AppForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\XunitForms\XunitForms.csproj">
+      <Project>{E579ACDA-8C4F-4E35-A18B-C001D9EECD2B}</Project>
+      <Name>XunitForms</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>

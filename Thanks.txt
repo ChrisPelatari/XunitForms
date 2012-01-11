@@ -1,0 +1,41 @@
+- ThoughtWorks is a great place to work.  (www.thoughtworks.com)
+  (Go work for a company where people are surprised if you don't have a sourceforge account.)
+
+- Levi Khatskevitch for a patch supporting Main Menus.
+                    for multiple (hidden) desktop support.
+                    for enhancement to the Menu Item tester.
+                    for an enhancement allowing Modal forms to be displayed while running in a Windows Service context. (Cruise Control.NET)
+
+- Ian Cooper for an enhancement to ControlTester.
+             for RadioButtonTester
+             for code that helps support Modal Forms.
+             for code that interacts with Message Boxes.
+             for ListBoxTester and ListBoxRecorder
+             for ListViewTester
+             for CheckedListBoxTester
+             for ToolbarTester
+             for ToolBarButtonTester                          
+
+- Richard Schneider for the MouseController.  (This is a lot of code, 
+	thoroughly tested and documented.. Only problem is now I have
+	to document the rest of it as completely.. *sigh* :) )
+
+- Dan Bunea for a bug fix on TextBoxRecorder.
+
+- Mike Chean for a bug report on databinding to a dataset.
+
+- Federico Spinazzi for an enhancement to ComboBoxTester.
+
+- Bart De Boeck for the initial port to .NET 2.0 and several alpha releases on .NET 2.0
+
+- Anders Lillrank for Toolstrip support and several .NET 2.0 contributions.
+
+- Adam Vandenberg for work on .NET 2.0 support, code structure and refactoring.
+
+- Trevor Hall for his extensive feedback and constructive remarks.
+
+- The NUnitASP project gave me ideas about how the API could look for unit testing a user interface.  (nunitasp.sf.net)
+
+- Luc Habert and Amarile (http://www.amarile.fr) for work on modal forms handling.
+
+Many others for ideas / suggestions that ended up being implemented in the source.

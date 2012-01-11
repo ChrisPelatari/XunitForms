@@ -1,0 +1,117 @@
+<Project name="NUnitForms.Test" standardNamespace="NUnitForms.Test" description="" newfilesearch="None" enableviewstate="True" version="1.1" projecttype="C#">
+  <Contents>
+    <File name=".\AssemblyInfo.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\ButtonTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\CheckBoxTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\CheckedListBoxTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\ComboBoxTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\ContextMenuTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\ControlCollectionTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\ControlTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\ControNamelTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\DatabindingTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\DynamicControlsTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\FormCollectionTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\FormFinderTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\FormTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\LabelTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\LinkLabelTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\ListBoxTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\ListViewTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\MainMenuTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\MenuItemCollectionTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\ModalDialogsTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\ModalFormsTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\ModalFormsTestWithoutBaseClassTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\MouseContollerTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\MultipleFormsTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\RadioButtonTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\SimpleAPIKeyboardTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\SimpleAPIMouseTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\TabControlTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\TextBoxTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\ToolbarTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\TreeViewTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\CustomTesters" subtype="Directory" buildaction="Compile" dependson="" data="" />
+    <File name=".\Factory" subtype="Directory" buildaction="Compile" dependson="" data="" />
+    <File name=".\Recorder" subtype="Directory" buildaction="Compile" dependson="" data="" />
+    <File name=".\Scripting" subtype="Directory" buildaction="Compile" dependson="" data="" />
+    <File name=".\SupportedAPI" subtype="Directory" buildaction="Compile" dependson="" data="" />
+    <File name=".\TestForms" subtype="Directory" buildaction="Compile" dependson="" data="" />
+    <File name=".\CustomTesters\ButtonControlRecorder.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\CustomTesters\ButtonControlTester.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Factory\FactoryTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Recorder\CheckBoxRecorderTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Recorder\ComboBoxRecorderTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Recorder\DynamicControlsRecorderTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Recorder\EnterTextCollapsingProcessorTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Recorder\LinkButtonRecorderTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Recorder\ListBoxRecorderTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Recorder\ListenerTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Recorder\MenuItemRecorderTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Recorder\MultipleFormsTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Recorder\NameResolverTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Recorder\RadioButtonRecorderTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Recorder\TabControlRecorderTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Recorder\TestWriterTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Recorder\TextBoxRecorderTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Recorder\TreeViewRecorderTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Scripting\ScriptPlayerGuiTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Scripting\ScriptPlayerTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\SupportedAPI\SupportAssertExtensionTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\SupportedAPI\SupportAssertionExtensionTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\SupportedAPI\SupportCurrentFormPropertyTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\SupportedAPI\SupportFormSpecification.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\SupportedAPI\SupportFormTypeTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\TestForms\AmbiguousNameForm.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\TestForms\ButtonControl.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\TestForms\ButtonTestForm.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\TestForms\CheckBoxDataSetBindingTestForm.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\TestForms\CheckBoxTestForm.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\TestForms\CheckedListBoxTestForm.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\TestForms\ComboBoxTestForm.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\TestForms\ContextMenuTestForm.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\TestForms\DynamicControlsTestForm.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\TestForms\LabelTestForm.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\TestForms\LinkLabelTestForm.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\TestForms\ListBoxTestForm.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\TestForms\ListViewTestForm.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\TestForms\MainMenuTestForm.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\TestForms\ModalMultiForm.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\TestForms\MultiForm.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\TestForms\RadioButtonTestForm.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\TestForms\ScriptDemoForm.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\TestForms\TabControlTestForm.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\TestForms\TextBoxDataSetBindingTestForm.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\TestForms\TextBoxTestForm.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\TestForms\ToolbarTestForm.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\TestForms\TreeViewTestForm.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\ModalFormsInServiceTest.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+  </Contents>
+  <References>
+    <Reference type="Assembly" refto="..\..\lib\NMock\nmock.dll" localcopy="True" />
+    <Reference type="Assembly" refto="..\..\lib\NUnit2.2\nunit.framework.dll" localcopy="True" />
+    <Reference type="Assembly" refto="..\..\lib\NUnit2.2\nunit.core.dll" localcopy="True" />
+    <Reference type="Project" refto="NUnitForms" localcopy="True" />
+    <Reference type="Project" refto="NUnitForms.Recorder" localcopy="True" />
+    <Reference type="Project" refto="NUnitForms.Player" localcopy="True" />
+  </References>
+  <DeploymentInformation target="" script="" strategy="File" />
+  <Configuration runwithwarnings="True" name="Debug">
+    <CodeGeneration runtime="MsNet" compiler="Csc" compilerversion="" warninglevel="4" nowarn="" includedebuginformation="True" optimize="False" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" target="Library" definesymbols="" generatexmldocumentation="False" win32Icon="" noconfig="False" nostdlib="False" />
+    <Execution commandlineparameters="" consolepause="True" />
+    <Output directory="..\bin\Debug" assembly="NUnitForms.Test" executeScript="" executeBeforeBuild="" executeAfterBuild="" executeBeforeBuildArguments="" executeAfterBuildArguments="" />
+  </Configuration>
+  <Configurations active="Debug">
+    <Configuration runwithwarnings="True" name="Debug">
+      <CodeGeneration runtime="MsNet" compiler="Csc" compilerversion="" warninglevel="4" nowarn="" includedebuginformation="True" optimize="False" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" target="Library" definesymbols="" generatexmldocumentation="False" win32Icon="" noconfig="False" nostdlib="False" />
+      <Execution commandlineparameters="" consolepause="True" />
+      <Output directory="..\bin\Debug" assembly="NUnitForms.Test" executeScript="" executeBeforeBuild="" executeAfterBuild="" executeBeforeBuildArguments="" executeAfterBuildArguments="" />
+    </Configuration>
+    <Configuration runwithwarnings="True" name="Release">
+      <CodeGeneration runtime="MsNet" compiler="Csc" compilerversion="" warninglevel="4" nowarn="" includedebuginformation="False" optimize="True" unsafecodeallowed="False" generateoverflowchecks="False" mainclass="" target="Exe" definesymbols="" generatexmldocumentation="False" win32Icon="" noconfig="False" nostdlib="False" />
+      <Execution commandlineparameters="" consolepause="True" />
+      <Output directory="..\bin\Release" assembly="NUnitForms.Test" executeScript="" executeBeforeBuild="" executeAfterBuild="" executeBeforeBuildArguments="" executeAfterBuildArguments="" />
+    </Configuration>
+  </Configurations>
+</Project>

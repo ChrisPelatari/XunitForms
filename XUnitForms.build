@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+<project name="NUnitForms" basedir="." default="test">
+	<description>NUnitForms - Unit Testing Windows Forms Applications</description>
+	
+	<property name="debug" value="true" />
+	
+	<property name="source.dir" value="source" />
+	
+	<property name="nunit.dir" value="lib\NUnit" />
+	<property name="nmock.dir" value="lib\NMock" />
+	<property name="ncover.dir" value="lib\NCover" />
+	
+	<property name="build.dir" value="build" />
+	<property name="bin.dir" value="${build.dir}\bin" />
+	
+	<property name="dll.path" value="${bin.dir}\NUnitForms.dll" />
+	<property name="dll.doc.path" value="${bin.dir}\NUnitForms.xml" />
+	<property name="test.dll.path" value="${bin.dir}\NUnitForms.Test.dll" />
+	<property name="recorder.dll.path" value="${bin.dir}\NUnitForms.Recorder.dll" />
+	<property name="recorder.exe.path" value="${bin.dir}\NUnitForms.Recorder.exe" />
+
+	<target name="build_dir">
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${bin.dir}" />
+		<copy todir="${bin.dir}">
+			<fileset basedir="${nmock.dir}">
+				<include name="nmock2.dll"/>
+			</fileset>
+		</copy>
+		<copy todir="${bin.dir}">
+			<fileset basedir="${nunit.dir}">
+				<include name="nunit.framework.dll"/>
+				<include name="nunit.core.dll"/>
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="createKey">
+		<exec program="${framework::get-tool-path('sn.exe')}" commandline="-q -k NUnitForms.snk" />
+		<exec program="${framework::get-tool-path('sn.exe')}" commandline="-q -d NUnitForms" failonerror="false" />
+		<exec program="${framework::get-tool-path('sn.exe')}" commandline="-q -i NUnitForms.snk NUnitForms" />
+	</target>
+
+	<target name="compile" depends="build_dir">
+		<csc target="library" output="${dll.path}" doc="${dll.doc.path}" debug="${debug}">
+			<sources basedir="${source.dir}\NUnitForms">
+				<include name="**\*.cs" />
+			</sources>
+			<references>
+				<include name="${nunit.dir}\*.dll" />
+			</references>
+			<arg value="/nowarn:1591"/>
+		</csc>
+	</target>
+		
+	<target name="compile_recorder_dll">
+		<csc target="library" output="${recorder.dll.path}" debug="${debug}">
+			<sources basedir="${source.dir}\NUnitForms.Recorder">
+				<include name="**\*.cs" />
+			</sources>
+			<references>
+				<include name="${nunit.dir}\*.dll" />
+				<include name="${dll.path}" />
+			</references>
+		</csc>
+	</target>
+	
+	<target name="compile_recorder_exe" depends="build_dir, compile_recorder_dll">
+		<csc target="exe" output="${recorder.exe.path}" debug="${debug}">
+			<sources basedir="${source.dir}\NUnitForms.Recorder.Application">
+				<include name="**\*.cs" />
+			</sources>
+			<references>
+				<include name="${nunit.dir}\*.dll" />
+				<include name="${dll.path}" />
+				<include name="${recorder.dll.path}" />
+			</references>
+		</csc>
+	</target>
+
+	<target name="compile_test" depends="build_dir, compile, compile_recorder_dll">
+		<csc target="library" output="${test.dll.path}" debug="${debug}">
+			<sources basedir="${source.dir}\NUnitForms.Test">
+				<include name="**\*.cs" />
+			</sources>
+			<resources dynamicprefix="true" prefix="NUnit">
+			        <include name="${source.dir}\NUnitForms.Test\**\*.resx" />
+    			</resources>
+			<references>
+				<include name="${nunit.dir}\*.dll" />
+				<include name="${nmock.dir}\nmock2.dll" />
+				<include name="${dll.path}" />
+				<include name="${recorder.dll.path}" />
+			</references>
+		</csc>
+	</target>
+	
+	<target name="build" depends="compile_test, compile_recorder_exe">
+	</target>
+	
+	<target name="test" depends="build" description="Test project.">
+		<exec program="${nunit.dir}\nunit-console.exe" commandline="${bin.dir}\NUnitForms.Test.dll /nologo"/>
+	</target>
+	
+	<target name="clean" description="Deletes all build files">
+		<mkdir dir="${build.dir}" failonerror="false" />
+		<delete dir="${build.dir}" />
+		<delete>
+			<fileset>
+				<include name="source/**/bin/**/*" />
+				<include name="source/**/obj/**/*" />
+			</fileset>
+		</delete>
+	</target>
+
+</project>

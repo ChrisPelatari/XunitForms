@@ -1,0 +1,45 @@
+Hi Joachim,
+
+ 
+
+  I am one of the developers of NUnitForms (http://nunitforms.sourceforge.net/). Some users requested to implement a “control image capture” to test custom controls with graphics. Do you mind if I use the source code from http://www.codeproject.com/csharp/ScreenCapture.asp#xx1420271xx as a base for this feature? Your copyright notice will of course not be changed.
+
+ 
+
+Thanks,
+
+Bart
+
+ 
+Hi Bart,
+
+ 
+
+thanks for your request, there is no problem to use this source code, please feel free to use it.
+
+ 
+
+kind regards
+
+Joachim
+
+ 
+
+ 
+
+ 
+
+Mit freundlichen Grüßen
+
+Joachim Holzhauer
+
+ 
+
+A-Soft Ingenieurbüro
+
+Oberdorfstrasse 16 / Ob dem Brückle 10
+
+D-78054 Schwenningen
+
+
+<removed contact info-LTM>

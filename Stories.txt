@@ -1,0 +1,42 @@
+Databound control support made general (Have endcurrentedit method.  test it is being used by all property sets..)
+
+add packaging target to nant for a release
+
+Check invokerequired before touching control properties or invoking methods.
+
+documentation in cvs.. add target to update website.
+
+fxcop on build
+
+code coverage back in
+
+Debugging information log to control finder.
+
+Support all native dialogs.. MessageBox, FileOpen, FileSave, etc.. (message box done)
+
+Recorder should support modal dialogs as well as the testers do.
+
+Recorder should have option for mouse recording.
+
+Recorder should have option for keys recording.
+
+Support Dynamically Added Menus.
+
+Complete testing of recorder application internals.
+
+Support all built in control types.
+
+Properties object subdivided by "Category" (Appearance, etc... as in tool box) (Not just exposing the inner object, although this does give complete flexibility, we are striving for ease of use.)
+
+Need to add more automated tests for the recorder application.  Use NUnitForms once we have enough controls supported.
+
+Separate the logic from the recorder app's code behind to illustrate mock objects and test the GUI explicitly.
+
+Not just abstract classes, but any classes with subclasses.  (search for IsAbstract)
+
+Generate tests with mocks (Constructor based dependency injection)
+
+Determine whether it is appropriate to set IsUserInteractive true when called from service like cruise control.
+
+Find out what went wrong with Mouse and keyboard tests. Fix with more robust automation apis in .net 3 ? (All this win32 api cruft is not fun)
+
