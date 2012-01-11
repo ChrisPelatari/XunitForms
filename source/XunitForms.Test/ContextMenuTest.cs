@@ -31,6 +31,7 @@
 #endregion
 
 using Xunit;
+using Should.Fluent;
 
 namespace Xunit.Extensions.Forms.TestApplications
 {
@@ -39,7 +40,7 @@ namespace Xunit.Extensions.Forms.TestApplications
     {
         private LabelTester label;
 
-        public override void Setup()
+        public ContextMenuTest()
         {
             new ContextMenuTestForm().Show();
             label = new LabelTester("myCounterLabel");
@@ -71,7 +72,7 @@ namespace Xunit.Extensions.Forms.TestApplications
         {
             MenuItemTester myMenuItem = new MenuItemTester("Click To Count");
             myMenuItem.Click();
-            Assert.Equal("1", label.Text);
+            label.Text.Should().Equal("1");
         }
 
         [Fact]
@@ -86,7 +87,7 @@ namespace Xunit.Extensions.Forms.TestApplications
         {
             MenuItemTester ClickToCount = new MenuItemTester("Click To Count");
             ClickToCount.Click();
-            Assert.Equal("1", label.Properties.Text);
+            label.Properties.Text.Should().Equal("1");
         }
 
         [Fact]
