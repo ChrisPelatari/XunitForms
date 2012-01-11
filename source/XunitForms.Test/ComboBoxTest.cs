@@ -31,6 +31,7 @@
 #endregion
 
 using Xunit;
+using Should.Fluent;
 
 namespace Xunit.Extensions.Forms.TestApplications
 {
@@ -39,7 +40,7 @@ namespace Xunit.Extensions.Forms.TestApplications
     {
         private ComboBoxTester box;
 
-        public override void Setup()
+        public ComboBoxTest()
         {
             new ComboBoxTestForm().Show();
             box = new ComboBoxTester("myComboBox");
@@ -49,14 +50,14 @@ namespace Xunit.Extensions.Forms.TestApplications
         public void MethodInvokeOnControlTester()
         {
             object foundIndex = box.Invoke("FindStringExact", "three");
-            Assert.Equal(2, foundIndex);
+            foundIndex.Should().Equal(2);
         }
 
         [Fact]
         public void Select()
         {
             box.Select(2);
-            Assert.Equal("three", box.Text);
+            box.Text.Should().Equal("three");
         }
 
         [Fact]
@@ -69,15 +70,15 @@ namespace Xunit.Extensions.Forms.TestApplications
         public void SelectByText()
         {
             box.Select("three");
-            Assert.Equal("three", box.Text);
+            box.Text.Should().Equal("three");
         }
 
         [Fact]
         public void TextBox()
         {
-            Assert.Equal("None", box.Text);
+            box.Text.Should().Equal("None");
             box.Enter("Text");
-            Assert.Equal("Text", box.Text);
+            box.Text.Should().Equal("Text");
         }
     }
 }
