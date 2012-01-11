@@ -31,13 +31,14 @@
 #endregion
 
 using Xunit;
+using Should.Fluent;
 
 namespace Xunit.Extensions.Forms.TestApplications
 {
     
     public class ControlNameTest : XunitFormTest
     {
-        public override void Setup()
+        public ControlNameTest()
         {
             new AmbiguousNameForm().Show();
         }
@@ -55,7 +56,7 @@ namespace Xunit.Extensions.Forms.TestApplications
             LabelTester label = new LabelTester("mySecondLabel");
             ButtonTester button = new ButtonTester("myControl2.myButton");
             button.Click();
-            Assert.Equal("1", label.Text);
+            label.Text.Should().Equal("1");
         }
 
         [Fact]
@@ -71,7 +72,7 @@ namespace Xunit.Extensions.Forms.TestApplications
             LabelTester label = new LabelTester("mySecondLabel");
             ButtonControlTester buttonControl = new ButtonControlTester("myControl2");
             buttonControl.SuperClick();
-            Assert.Equal("1", label.Text);
+            label.Text.Should().Equal("1");
         }
     }
 }

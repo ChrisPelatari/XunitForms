@@ -97,7 +97,7 @@
     <Compile Include="ComboBoxTest.cs" />
     <Compile Include="ContextMenuTest.cs" />
     <Compile Include="ControlTest.cs" />
-    <Compile Include="ControNamelTest.cs" />
+    <Compile Include="ControNameTest.cs" />
     <Compile Include="CustomTesters\ButtonControlRecorder.cs" />
     <Compile Include="CustomTesters\ButtonControlTester.cs" />
     <Compile Include="DatabindingTest.cs" />
