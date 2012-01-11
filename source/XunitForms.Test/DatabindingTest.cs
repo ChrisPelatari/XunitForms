@@ -31,6 +31,7 @@
 #endregion
 
 using Xunit;
+using Should.Fluent;
 
 namespace Xunit.Extensions.Forms.TestApplications
 {
@@ -40,28 +41,28 @@ namespace Xunit.Extensions.Forms.TestApplications
         public void falsehandler(string name, System.IntPtr hWnd, System.Windows.Forms.Form form)
         {
             MessageBoxTester mb = new MessageBoxTester(hWnd);
-            Assert.Equal("False", mb.Text);
+            mb.Text.Should().Equal("False");
             mb.ClickOk();
         }
 
         public void truehandler(string name, System.IntPtr hWnd, System.Windows.Forms.Form form)
         {
             MessageBoxTester mb = new MessageBoxTester(hWnd);
-            Assert.Equal("True", mb.Text);
+            mb.Text.Should().Equal("True");
             mb.ClickOk();
         }
 
         public void oldhandler(string name, System.IntPtr hWnd, System.Windows.Forms.Form form)
         {
             MessageBoxTester mb = new MessageBoxTester(hWnd);
-            Assert.Equal("Old", mb.Text);
+            mb.Text.Should().Equal("Old");
             mb.ClickOk();
         }
 
         public void newhandler(string name, System.IntPtr hWnd, System.Windows.Forms.Form form)
         {
             MessageBoxTester mb = new MessageBoxTester(hWnd);
-            Assert.Equal("New", mb.Text);
+            mb.Text.Should().Equal("New");
             mb.ClickOk();
         }
 
