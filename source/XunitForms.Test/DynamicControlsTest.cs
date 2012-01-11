@@ -31,13 +31,14 @@
 #endregion
 
 using Xunit;
+using Should.Fluent;
 
 namespace Xunit.Extensions.Forms.TestApplications
 {
     
     public class DynamicControlsTest : XunitFormTest
     {
-        public override void Setup()
+        public DynamicControlsTest()
         {
             new DynamicControlsTestForm().Show();
         }
@@ -49,7 +50,7 @@ namespace Xunit.Extensions.Forms.TestApplications
             addButton.Click();
             ButtonTester dynamicButton = new ButtonTester("button0");
             dynamicButton.Click();
-            Assert.Equal("1", dynamicButton.Text);
+            dynamicButton.Text.Should().Equal("1");
         }
 
         [Fact]
@@ -62,7 +63,7 @@ namespace Xunit.Extensions.Forms.TestApplications
             addDuplicateButton.Click();
             addDuplicateButton.Click();
 
-            Assert.Equal(3, duplicate.Count);
+            duplicate.Count.Should().Equal(3);
         }
 
         [Fact]
@@ -82,7 +83,7 @@ namespace Xunit.Extensions.Forms.TestApplications
 
             foreach (ButtonTester button in duplicate)
             {
-                Assert.Equal("1", button.Text);
+                button.Text.Should().Equal("1");
             }
         }
 
@@ -92,7 +93,7 @@ namespace Xunit.Extensions.Forms.TestApplications
             ButtonTester addDuplicateButton = new ButtonTester("btnAddDuplicate");
             ButtonTester duplicate = new ButtonTester("duplicate");
 
-			Assert.Throws<AmbiguousNameException>(delegate {
+			Assert.Throws<AmbiguousNameException>(() => {
 				addDuplicateButton.Click();
 				addDuplicateButton.Click();
 
