@@ -35,6 +35,7 @@
 using System;
 using System.Collections;
 using Xunit;
+using Should.Fluent;
 
 namespace Xunit.Extensions.Forms.TestApplications
 {
@@ -45,7 +46,7 @@ namespace Xunit.Extensions.Forms.TestApplications
 
         private CheckedListBoxTester checkedListBox = null;
 
-        public override void Setup()
+        public CheckedListBoxTest()
         {
             checkedListForm = new CheckedListBoxTestForm();
             checkedListBox = new CheckedListBoxTester("checkedListBox", checkedListForm);
@@ -96,7 +97,7 @@ namespace Xunit.Extensions.Forms.TestApplications
         public void HookupTestForm()
         {
             checkedListForm.Show();
-            Assert.True(checkedListBox.Properties.Visible);
+            checkedListBox.Properties.Visible.Should().Equal(true);
         }
     }
 }

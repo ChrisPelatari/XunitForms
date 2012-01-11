@@ -45,7 +45,7 @@
     <CodeAnalysisRules>
     </CodeAnalysisRules>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <DocumentationFile>NUnitForms.xml</DocumentationFile>
+    <DocumentationFile>XUnitForms.xml</DocumentationFile>
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <NoWarn>1591</NoWarn>
   </PropertyGroup>
