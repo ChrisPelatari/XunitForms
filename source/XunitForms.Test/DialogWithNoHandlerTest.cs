@@ -1,6 +1,7 @@
 using System.Windows.Forms;
 using Xunit.Extensions.Forms.TestApplications;
 using Xunit;
+using Should.Fluent;
 
 namespace Xunit.Extensions.Forms.Test
 {
@@ -14,33 +15,29 @@ namespace Xunit.Extensions.Forms.Test
         [Fact]
         public void TestAcceptButton()
         {
-            ModalFormHandler =
-                delegate(string name, System.IntPtr hWnd, System.Windows.Forms.Form fform)
-                {
+            ModalFormHandler = (name, hWnd, fform) => {
                     acceptButton = new ButtonTester("button1");
                     acceptButton.Click();
                 };
             DialogWithNoHandlersForm form = new DialogWithNoHandlersForm();
             DialogResult result = form.ShowDialog();
-            Assert.Equal(DialogResult.OK, result);
-            Assert.False(form.Visible, "Form was still visible.");
+            result.Should().Equal(DialogResult.OK);
+            form.Visible.Should().Equal(false);
             form.Close();
         }
 
         [Fact]
         public void TestRejectButton()
         {
-            ModalFormHandler =
-                delegate(string name, System.IntPtr hWnd, System.Windows.Forms.Form fform)
-                    {
+            ModalFormHandler = (name, hWnd, fform) => {
                         rejectButton = new ButtonTester("button2");
                         rejectButton.Click();
                     };
 
             DialogWithNoHandlersForm form = new DialogWithNoHandlersForm();
             DialogResult result = form.ShowDialog();
-            Assert.Equal(DialogResult.Cancel, result);
-            Assert.False(form.Visible, "Form was still visible.");
+            result.Should().Equal(DialogResult.Cancel);
+            form.Visible.Should().Equal(false);
             form.Close();
         }
     }
