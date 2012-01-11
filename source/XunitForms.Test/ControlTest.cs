@@ -35,6 +35,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Windows.Forms;
 using Xunit;
+using Should.Fluent;
 
 namespace Xunit.Extensions.Forms.TestApplications
 {
@@ -46,7 +47,7 @@ namespace Xunit.Extensions.Forms.TestApplications
     {
         private ControlTester label;
 
-        public override void Setup()
+        public ControlTest()
         {
             new LabelTestForm().Show();
             label = new ControlTester("myLabel");
@@ -127,7 +128,7 @@ namespace Xunit.Extensions.Forms.TestApplications
         [Fact]
         public void ControlClick()
         {
-            Assert.Equal("myValue", label.Text);
+            label.Text.Should().Equal("myValue");
         }
 
         ///<summary>
@@ -183,15 +184,15 @@ namespace Xunit.Extensions.Forms.TestApplications
         [Fact]
         public void ControlText()
         {
-            Assert.Equal("myValue", label.Text);
+            label.Text.Should().Equal("myValue");
         }
 
         [Fact]
         public void Property()
         {
-            Assert.Equal("myValue", label["Text"]);
+            label["Text"].Should().Equal("myValue");
             label["Text"] = "try to change it";
-            Assert.Equal("try to change it", label["Text"]);
+            label["Text"].Should().Equal("try to change it");
         }
     }
 }
