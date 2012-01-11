@@ -143,9 +143,9 @@
     <Compile Include="MouseControl.cs" />
     <Compile Include="MouseController.cs" />
     <Compile Include="Exceptions\NoSuchControlException.cs" />
-    <Compile Include="NUnitFormsAssertionTest.cs" />
-    <Compile Include="NUnitFormsAssertTest.cs" />
-    <Compile Include="NUnitFormTest.cs" />
+    <Compile Include="XUnitFormsAssertionTest.cs" />
+    <Compile Include="XUnitFormsAssertTest.cs" />
+    <Compile Include="XUnitFormTest.cs" />
     <Compile Include="Testers\OpenFileDialogTester.cs" />
     <Compile Include="Generated Testers\PanelTester.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -32,6 +32,7 @@
 
 using System;
 using Xunit;
+using Should.Fluent;
 
 namespace Xunit.Extensions.Forms.TestApplications
 {
@@ -42,7 +43,7 @@ namespace Xunit.Extensions.Forms.TestApplications
 
         private ButtonTester button;
 
-        public override void Setup()
+        public ButtonTest()
         {
             new ButtonTestForm().Show();
             button = new ButtonTester("myButton");
@@ -52,15 +53,15 @@ namespace Xunit.Extensions.Forms.TestApplications
         [Fact]
         public void ButtonClick()
         {
-            Assert.Equal("0", label.Text);
+            label.Text.Should().Equal("0");
             button.Click();
-            Assert.Equal("1", label.Text);
+            label.Text.Should().Equal("1");
         }
 
         [Fact]
         public void ButtonText()
         {
-            Assert.Equal("button1", button.Text);
+            button.Text.Should().Equal("button1");
         }
 
         [Fact]
@@ -80,17 +81,17 @@ namespace Xunit.Extensions.Forms.TestApplications
         [Fact]
         public void FireEvent()
         {
-            Assert.Equal("0", label.Text);
+            label.Text.Should().Equal("0");
             button.FireEvent("Click");
-            Assert.Equal("1", label.Text);
+            label.Text.Should().Equal("1");
         }
 
         [Fact]
         public void FireEventWithArg()
         {
-            Assert.Equal("0", label.Text);
+            label.Text.Should().Equal("0");
             button.FireEvent("Click", new EventArgs());
-            Assert.Equal("1", label.Text);
+            label.Text.Should().Equal("1");
         }
     }
 }

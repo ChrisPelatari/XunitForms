@@ -31,6 +31,7 @@
 #endregion
 
 using Xunit;
+using Should.Fluent;
 
 namespace Xunit.Extensions.Forms.TestApplications
 {
@@ -41,7 +42,7 @@ namespace Xunit.Extensions.Forms.TestApplications
 
         private LabelTester label;
 
-        public override void Setup()
+        public CheckBoxTest()
         {
             new CheckBoxTestForm().Show();
             checkBox = new CheckBoxTester("myCheckBox");
@@ -53,38 +54,38 @@ namespace Xunit.Extensions.Forms.TestApplications
         {
             Assert.Equal("default", label.Text);
             checkBox.Check();
-            Assert.True(checkBox.Checked);
-            Assert.Equal("on", label.Text);
+            checkBox.Checked.Should().Equal(true);
+            label.Text.Should().Equal("on");
         }
 
         [Fact]
         public void ToggleWithValue()
         {
             checkBox.Check(true);
-            Assert.True(checkBox.Checked);
+            checkBox.Checked.Should().Equal(true);
             checkBox.Check(false);
-            Assert.True(!checkBox.Checked);
+            checkBox.Checked.Should().Equal(false);
             checkBox.Check(true);
-            Assert.True(checkBox.Checked);
+            checkBox.Checked.Should().Equal(true);
         }
 
         [Fact]
         public void UnCheck()
         {
-            Assert.Equal("default", label.Text);
+            label.Text.Should().Equal("default");
             checkBox.UnCheck();
-            Assert.True(!checkBox.Checked);
-            Assert.Equal("default", label.Text);
+            checkBox.Checked.Should().Equal(false);
+            label.Text.Should().Equal("default");
         }
 
         [Fact]
         public void UnCheck2()
         {
-            Assert.Equal("default", label.Text);
+            label.Text.Should().Equal("default");
             checkBox.Check();
             checkBox.UnCheck();
-            Assert.True(!checkBox.Checked);
-            Assert.Equal("off", label.Text);
+            checkBox.Checked.Should().Equal(false);
+            label.Text.Should().Equal("off");
         }
     }
 }
