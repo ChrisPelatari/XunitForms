@@ -34,6 +34,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Xunit;
+using Should.Fluent;
 
 namespace Xunit.Extensions.Forms.TestApplications
 {
@@ -42,7 +43,7 @@ namespace Xunit.Extensions.Forms.TestApplications
     {
         private FormFinder finder;
 
-        public override void Setup()
+        public FormFinderTest()
         {
             finder = new FormFinder();
         }
@@ -62,10 +63,10 @@ namespace Xunit.Extensions.Forms.TestApplications
             Form two = ShowNewForm("form2");
             Form three = ShowNewForm("form3");
             List<Form> found = finder.FindAll();
-            Assert.Equal(3, found.Count);
-            Assert.True(found.Contains(one));
-            Assert.True(found.Contains(two));
-            Assert.True(found.Contains(three));
+            found.Count.Should().Equal(3);
+            found.Contains(one).Should().Equal(true);
+            found.Contains(two).Should().Equal(true);
+            found.Contains(three).Should().Equal(true);
         }
 
         [Fact]
@@ -79,7 +80,7 @@ namespace Xunit.Extensions.Forms.TestApplications
         {
             Form form = ShowNewForm("form");
             Form found = finder.Find("form");
-            Assert.Same(form, found);
+            form.Should().Equal(found);
         }
 
         [Fact]
@@ -87,12 +88,12 @@ namespace Xunit.Extensions.Forms.TestApplications
         {
             Form one = ShowNewForm("form");
             Form two = ShowNewForm("form2");
-            Assert.Equal(2, finder.FindAll().Count);
+            finder.FindAll().Count.Should().Equal(2);
 
             Form found = finder.Find("form");
-            Assert.Same(one, found);
+            one.Should().Equal(found);
             found = finder.Find("form2");
-            Assert.Same(two, found);
+            two.Should().Equal(found);
         }
 
         [Fact]
@@ -115,9 +116,9 @@ namespace Xunit.Extensions.Forms.TestApplications
             Form one = ShowNewForm("form");
             Form two = ShowNewForm("form");
             List<Form> found = finder.FindAll("form");
-            Assert.Equal(2, found.Count);
-            Assert.True(found.Contains(one));
-            Assert.True(found.Contains(two));
+            found.Count.Should().Equal(2);
+            found.Contains(one).Should().Equal(true);
+            found.Contains(two).Should().Equal(true);
         }
     }
 }
