@@ -34,6 +34,7 @@
 
 using System.Windows.Forms;
 using Xunit;
+using Should.Fluent;
 
 namespace Xunit.Extensions.Forms.TestApplications
 {
@@ -44,9 +45,8 @@ namespace Xunit.Extensions.Forms.TestApplications
 
         private ListViewTester listViewDetails = null;
 
-        public override void Setup()
+        public ListViewTest()
         {
-            base.Setup();
             listViewForm = new ListViewTestForm();
             listViewDetails = new ListViewTester("listViewDetails", listViewForm);
         }
@@ -72,11 +72,11 @@ namespace Xunit.Extensions.Forms.TestApplications
 
             string[] selectedColors = new string[] {"Red"};
             listViewDetails.SelectItems(selectedColors);
-            Assert.True(listViewDetails.SelectedItemsMatch(selectedColors));
+            listViewDetails.SelectedItemsMatch(selectedColors).Should().Equal(true);
 
             selectedColors = new string[] {"Red", "Violet"};
             listViewDetails.SelectItems(selectedColors);
-            Assert.False(listViewDetails.SelectedItemsMatch(selectedColors));
+            listViewDetails.SelectedItemsMatch(selectedColors).Should().Equal(false);
         }
 
         [Fact]
@@ -86,14 +86,14 @@ namespace Xunit.Extensions.Forms.TestApplications
             listViewDetails.Items.AddRange(ColorList());
             string[] selectedColors = new string[] {"Red", "Violet"};
             listViewDetails.SelectItems(selectedColors);
-            Assert.True(listViewDetails.SelectedItemsMatch(selectedColors));
+            listViewDetails.SelectedItemsMatch(selectedColors).Should().Equal(true);
         }
 
         [Fact]
         public void ShowListViewForm()
         {
             listViewForm.Show();
-            Assert.True(listViewDetails.Properties.Visible);
+            listViewDetails.Properties.Visible.Should().Equal(true);
         }
     }
 }
