@@ -122,11 +122,6 @@
              Test Fixture for the OpenFileDialogTester class.
             </summary>
         </member>
-        <member name="M:Xunit.Extensions.Forms.TestApplications.OpenFileDialogTest.Setup">
-            <summary>
-             Sets up this test by showing a new OpenFileDialogTestForm form.
-            </summary>
-        </member>
         <member name="M:Xunit.Extensions.Forms.TestApplications.OpenFileDialogTest.OpenFileHandler(System.String,System.IntPtr,System.Windows.Forms.Form)">
             <summary>
              Modal handler to click the open button.

@@ -33,6 +33,7 @@
 using System;
 using System.IO;
 using Xunit;
+using Should.Fluent;
 
 namespace Xunit.Extensions.Forms.TestApplications
 {
@@ -43,16 +44,6 @@ namespace Xunit.Extensions.Forms.TestApplications
     //[Ignore("This dialog caused my tests to hang.")]
     public class OpenFileDialogTest : XunitFormTest
     {
-
-        
-        ///<summary>
-        /// Sets up this test by showing a new OpenFileDialogTestForm form.
-        ///</summary>
-        public override void Setup()
-        {
-            base.Setup();
-        }
-
         ///<summary>
         /// Modal handler to click the open button.
         ///</summary>
@@ -89,7 +80,7 @@ namespace Xunit.Extensions.Forms.TestApplications
             System.Windows.Forms.Application.DoEvents();
 
 
-            Assert.Equal(label1.Text, "cancel pressed");
+            label1.Text.Should().Equal("cancel pressed");
 
             f.Close();
         }
@@ -108,7 +99,7 @@ namespace Xunit.Extensions.Forms.TestApplications
             ButtonTester open_btn = new ButtonTester("btOpenFile");
             open_btn.Click();
 
-            Assert.Equal(label1.Text.ToLower(), fileName.ToLower());
+            label1.Text.ToLower().Should().Equal(fileName.ToLower());
             f.Close();
         }
 
