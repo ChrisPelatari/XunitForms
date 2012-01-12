@@ -32,6 +32,7 @@
 
 using System.IO;
 using Xunit;
+using Should.Fluent;
 
 namespace Xunit.Extensions.Forms.TestApplications
 {
@@ -42,18 +43,15 @@ namespace Xunit.Extensions.Forms.TestApplications
         private string _fileName = "";
         private SaveFileDialogTestForm form;
 
-        public override void Setup()
+        public SaveFileDialogTest()
         {
-            base.Setup();
-
             form = new SaveFileDialogTestForm();
             form.Show();
         }
 
-        public override void TearDown()
+        public void Dispose()
         {
             form.Close();
-            base.TearDown();
         }
 
 
@@ -97,7 +95,7 @@ namespace Xunit.Extensions.Forms.TestApplications
         {
             ModalFormHandler = CancelFileHandler;
             ClickSaveButton();
-            Assert.Equal(label1.Text, "cancel pressed");
+            label1.Text.Should().Equal("cancel pressed");
         }
 
         [Fact, System.STAThread]
@@ -110,7 +108,7 @@ namespace Xunit.Extensions.Forms.TestApplications
             EnsureFileDoesntExist();
 
             ClickSaveButton();
-            Assert.Equal(label1.Text.ToLowerInvariant(), _fileName.ToLowerInvariant());
+            label1.Text.ToLowerInvariant().Should().Equal(_fileName.ToLowerInvariant());
         }
 
 
@@ -124,7 +122,7 @@ namespace Xunit.Extensions.Forms.TestApplications
 
             form.SetDefaultTestFileName(_fileName);
             ClickSaveButton();
-            Assert.Equal(label1.Text.ToLowerInvariant(), _fileName.ToLowerInvariant());
+            label1.Text.ToLowerInvariant().Should().Equal(_fileName.ToLowerInvariant());
         }
     }
 }
