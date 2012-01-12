@@ -31,13 +31,14 @@
 #endregion
 
 using Xunit;
+using Should.Fluent;
 
 namespace Xunit.Extensions.Forms.TestApplications
 {
     
     public class RadioButtonTest : XunitFormTest
     {
-        public override void Setup()
+        public RadioButtonTest()
         {
             new RadioButtonTestForm().Show();
         }
@@ -55,18 +56,18 @@ namespace Xunit.Extensions.Forms.TestApplications
             RadioButtonTester rbViolet = new RadioButtonTester("rbViolet");
 
             rbRed.Click();
-            Assert.Equal("Red", lblSelectedColor.Properties.Text);
-            Assert.Equal(true, rbRed.Properties.Checked);
-            Assert.Equal(false, rbOrange.Properties.Checked);
-            Assert.Equal("Red", rbRed.Text);
-            Assert.Equal("Red", rbRed.Properties.Text);
+            lblSelectedColor.Properties.Text.Should().Equal("Red");
+            rbRed.Properties.Checked.Should().Equal(true);
+            rbOrange.Properties.Checked.Should().Equal(false);
+            rbRed.Text.Should().Equal("Red");
+            rbRed.Properties.Text.Should().Equal("Red");
 
             rbOrange.Click();
-            Assert.Equal("Orange", lblSelectedColor.Properties.Text);
-            Assert.Equal(false, rbRed.Properties.Checked);
-            Assert.Equal(true, rbOrange.Properties.Checked);
-            Assert.Equal("Orange", rbOrange.Text);
-            Assert.Equal("Orange", rbOrange.Properties.Text);
+            lblSelectedColor.Properties.Text.Should().Equal("Orange");
+            rbRed.Properties.Checked.Should().Equal(false);
+            rbOrange.Properties.Checked.Should().Equal(true);
+            rbOrange.Text.Should().Equal("Orange");
+            rbOrange.Properties.Text.Should().Equal("Orange");
         }
     }
 }
