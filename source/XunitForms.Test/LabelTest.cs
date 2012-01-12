@@ -31,6 +31,7 @@
 #endregion
 
 using Xunit;
+using Should.Fluent;
 
 namespace Xunit.Extensions.Forms.TestApplications
 {
@@ -39,7 +40,7 @@ namespace Xunit.Extensions.Forms.TestApplications
     {
         private LabelTester label;
 
-        public override void Setup()
+        public LabelTest()
         {
             label = new LabelTester("myLabel");
             new LabelTestForm().Show();
@@ -50,13 +51,13 @@ namespace Xunit.Extensions.Forms.TestApplications
         {
             //TODO: actually implement something on label.click!!
             label.Click();
-            Assert.Equal("myValue", label.Text);
+            label.Text.Should().Equal("myValue");
         }
 
         [Fact]
         public void LabelText()
         {
-            Assert.Equal("myValue", label.Text);
+            label.Text.Should().Equal("myValue");
         }
     }
 }
