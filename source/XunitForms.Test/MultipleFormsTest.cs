@@ -32,6 +32,7 @@
 
 using System.Windows.Forms;
 using Xunit;
+using Should.Fluent;
 
 namespace Xunit.Extensions.Forms.TestApplications
 {
@@ -66,14 +67,14 @@ namespace Xunit.Extensions.Forms.TestApplications
             LabelTester tabLabel = new LabelTester("label2");
 
             myTabs.SelectTab(1);
-            Assert.Equal("0", tabLabel.Text);
+            tabLabel.Text.Should().Equal("0");
 
-            Assert.Equal("0", myLabel.Text);
+            myLabel.Text.Should().Equal("0");
             myButton.Click();
-            Assert.Equal("1", myLabel.Text);
+            myLabel.Text.Should().Equal("1");
 
             tabButton.Click();
-            Assert.Equal("1", tabLabel.Text);
+            tabLabel.Text.Should().Equal("1");
         }
 
         [Fact]

@@ -37,10 +37,8 @@ namespace Xunit.Extensions.Forms.TestApplications
     
     public class ModalFormsTest : XunitFormTest
     {
-        public override bool UseHidden
-        {
-            get
-            {
+        public override bool UseHidden {
+            get {
                 return false;
             }
         }
@@ -72,7 +70,6 @@ namespace Xunit.Extensions.Forms.TestApplications
             buttonOne.Click();
             form.Close();
             Verify();
-
         }
     }
 }
