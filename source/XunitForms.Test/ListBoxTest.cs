@@ -34,13 +34,14 @@ using System;
 using System.Collections.Specialized;
 using System.Windows.Forms;
 using Xunit;
+using Should.Fluent;
 
 namespace Xunit.Extensions.Forms.TestApplications
 {
     
     public class ListBoxTest : XunitFormTest
     {
-        public override void Setup()
+        public ListBoxTest()
         {
             new ListBoxTestForm().Show();
         }
@@ -63,11 +64,11 @@ namespace Xunit.Extensions.Forms.TestApplications
                 myListBox.SetSelected(color, true);
             }
 
-            Assert.Equal(4, myListBox.Properties.SelectedItems.Count);
+            myListBox.Properties.SelectedItems.Count.Should().Equal(4);
 
             foreach (object selectedItem in myListBox.Properties.SelectedItems)
             {
-                Assert.True(alternates.Contains(Convert.ToString(selectedItem)));
+                alternates.Contains(Convert.ToString(selectedItem)).Should().Equal(true);
             }
         }
 
@@ -75,9 +76,9 @@ namespace Xunit.Extensions.Forms.TestApplications
         public void ListBoxPropertyAsserts()
         {
             ListBoxTester myListBox = new ListBoxTester("myListBox");
-            Assert.Equal(true, myListBox.Properties.Visible);
-            Assert.Null(myListBox.Properties.SelectedItem);
-            Assert.Equal(SelectionMode.MultiExtended, myListBox.Properties.SelectionMode);
+            myListBox.Properties.Visible.Should().Equal(true);
+            myListBox.Properties.SelectedItem.Should().Be.Null();
+            myListBox.Properties.SelectionMode.Should().Equal(SelectionMode.MultiExtended);
         }
 
         [Fact]
@@ -89,13 +90,13 @@ namespace Xunit.Extensions.Forms.TestApplications
             myListBox.ClearSelected();
 
             myListBox.Select(rainbowArray[0]);
-            Assert.Equal(rainbowArray[0], myLabel.Text);
+            myLabel.Text.Should().Equal(rainbowArray[0]);
         }
 
         [Fact]
         public void ListBoxSelectionBad()
         {
-			Assert.Throws<FormsTestAssertionException>(delegate { new ListBoxTester("myListBox").Select("NotFound"); });
+			Assert.Throws<FormsTestAssertionException>(() => { new ListBoxTester("myListBox").Select("NotFound"); });
         }
 
         [Fact]
