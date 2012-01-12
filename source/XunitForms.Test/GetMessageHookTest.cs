@@ -32,6 +32,7 @@
 
 using Xunit;
 using System.Windows.Forms;
+using Should.Fluent;
 
 namespace Xunit.Extensions.Forms.TestApplications
 {
@@ -41,25 +42,20 @@ namespace Xunit.Extensions.Forms.TestApplications
         public void Test000()
         {
             int i = 0;
-            try
-            {
+            try {
                 Util.GetMessageHook.InstallHook();
-                Util.GetMessageHook.Record(delegate()
-                {
+                Util.GetMessageHook.Record(() => {
                     ++i;
                     return i == 2;
                 });
-                Assert.Equal(0, i);
+                i.Should().Equal(0);
                 Application.DoEvents();
-                Assert.Equal(2, i);
+                i.Should().Equal(2);
                 Application.DoEvents();
-                Assert.Equal(2, i);
-            }
-            finally
-            {
+                i.Should().Equal(2);
+            } finally {
                 Util.GetMessageHook.RemoveHook();
-            }
-                        
+            }                        
         }
     }
 }
