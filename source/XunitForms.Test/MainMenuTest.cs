@@ -31,6 +31,7 @@
 #endregion
 
 using Xunit;
+using Should.Fluent;
 
 namespace Xunit.Extensions.Forms.TestApplications
 {
@@ -39,7 +40,7 @@ namespace Xunit.Extensions.Forms.TestApplications
     {
         private LabelTester label = new LabelTester("label");
 
-        public override void Setup()
+        public MainMenuTest()
         {
             new MainMenuTestForm().Show();
         }
@@ -47,7 +48,7 @@ namespace Xunit.Extensions.Forms.TestApplications
         private void ClickAndTest(string name)
         {
             new MenuItemTester(name).Click();
-            Assert.Equal("clicked", label.Text);
+            label.Text.Should().Equal("clicked");
         }
 
         [Fact]
@@ -90,7 +91,7 @@ namespace Xunit.Extensions.Forms.TestApplications
         public void MenuPopup()
         {
             new MenuItemTester("Main").Popup();
-            Assert.Equal("shown", label.Text);
+            label.Text.Should().Equal("shown");
         }
 
         [Fact]
