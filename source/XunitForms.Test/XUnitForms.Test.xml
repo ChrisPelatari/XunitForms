@@ -492,7 +492,7 @@
              Test Fixture for the OpenFileDialogTester class.
             </summary>
         </member>
-        <member name="M:Xunit.Extensions.Forms.TestApplications.OpenFileDialogTestOld.Setup">
+        <member name="M:Xunit.Extensions.Forms.TestApplications.OpenFileDialogTestOld.#ctor">
             <summary>
              Sets up this test by showing a new OpenFileDialogTestForm form.
             </summary>

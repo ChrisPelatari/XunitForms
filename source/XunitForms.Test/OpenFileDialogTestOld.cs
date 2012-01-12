@@ -33,6 +33,7 @@
 using System;
 using System.IO;
 using Xunit;
+using Should.Fluent;
 
 namespace Xunit.Extensions.Forms.TestApplications
 {
@@ -45,9 +46,8 @@ namespace Xunit.Extensions.Forms.TestApplications
         ///<summary>
         /// Sets up this test by showing a new OpenFileDialogTestForm form.
         ///</summary>
-        public override void Setup()
+        public OpenFileDialogTestOld()
         {
-            base.Setup();
             new OpenFileDialogTestForm().Show();
         }
 
@@ -80,7 +80,7 @@ namespace Xunit.Extensions.Forms.TestApplications
             ExpectFileDialog("CancelFileHandler");
             ButtonTester open_btn = new ButtonTester("btOpenFile");
             open_btn.Click();
-            Assert.Equal(label1.Text, "cancel pressed");
+            label1.Text.Should().Equal("cancel pressed");
         }
 
         ///<summary>
@@ -95,7 +95,7 @@ namespace Xunit.Extensions.Forms.TestApplications
             ButtonTester open_btn = new ButtonTester("btOpenFile");
             open_btn.Click();
 
-            Assert.Equal(label1.Text.ToLower(), fileName.ToLower());
+            label1.Text.ToLower().Should().Equal(fileName.ToLower());
         }
 
         [Fact(Skip="This test is used for debug confidence, not to prove the functionality of the OpenFileDialogTester."), STAThread]
@@ -121,7 +121,7 @@ namespace Xunit.Extensions.Forms.TestApplications
                 ButtonTester open_btn = new ButtonTester("btOpenFile");
                 open_btn.Click();
 
-                Assert.Equal(label1.Text.ToLowerInvariant(), fileName.ToLowerInvariant());
+                label1.Text.ToLowerInvariant().Should().Equal(fileName.ToLowerInvariant());
             }
         }
     }
