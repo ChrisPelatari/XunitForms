@@ -33,6 +33,7 @@
 using Xunit.Extensions.Forms.TestApplications;
 using Xunit;
 using System;
+using Should.Fluent;
 
 
 namespace Xunit.Extensions.Forms.UnitTests
@@ -53,86 +54,77 @@ namespace Xunit.Extensions.Forms.UnitTests
 			textBoxForm.Show();
 
 			textBoxTester = new ControlTester("myTextBox");
-			Assert.Equal("default", textBoxTester.Text);
+            textBoxTester.Text.Should().Equal("default");
 
 			keyboardController = new KeyboardController(textBoxTester);	
 		}
 
-		public void TearDown()
-		{
-			keyboardController.Dispose();
-			textBoxForm.Close();
-		}
+        public void Dispose() {
+            keyboardController.Dispose();
+            textBoxForm.Close();
+        }
 
 		[Fact]
 		public void Type_WithSingleCharacterShift()
 		{
 			keyboardController.Type("a+bc");
-			Assert.Equal("aBc", textBoxTester.Text);
+			textBoxTester.Text.Should().Equal("aBc");
 		}
 
 		[Fact]
 		public void Type_WithGroupedCharacterShift()
 		{
 			keyboardController.Type("a+(bc)d");
-			Assert.Equal("aBCd", textBoxTester.Text);
+			textBoxTester.Text.Should().Equal("aBCd");
 		}
 
 		[Fact]
 		public void Type_BACKSPACE()
 		{
 			keyboardController.Type("123{BACKSPACE}4");
-			Assert.Equal("124", textBoxTester.Text);
+			textBoxTester.Text.Should().Equal("124");
 		}
 
 		[Fact]
 		public void Type_EscapesFormatCharacters()
 		{
 			keyboardController.Type("a{+}{(}bc{)}de{%}{[}{]} {{}123{}}");
-			Assert.Equal("a+(bc)de%[] {123}", textBoxTester.Text);
+			textBoxTester.Text.Should().Equal("a+(bc)de%[] {123}");
 		}
 
 		[Fact]
 		public void Type_PreversesCharacterCase()
 		{
 			keyboardController.Type("aBcDE");
-			Assert.Equal("aBcDE", textBoxTester.Text);
+			textBoxTester.Text.Should().Equal("aBcDE");
 		}
 
 		[Fact]
 		public void Type_RepeatCharacters()
 		{
 			keyboardController.Type("-{o 4}-");
-			Assert.Equal("-oooo-", textBoxTester.Text);
+			textBoxTester.Text.Should().Equal("-oooo-");
 		}
 
 		[Fact]
 		public void Type_LEFT()
 		{
 			keyboardController.Type("12{LEFT}34");
-			Assert.Equal("1342", textBoxTester.Text);
+			textBoxTester.Text.Should().Equal("1342");
 		}
 
 		[Fact]
 		public void Type_RIGHT()
 		{
 			keyboardController.Type("123{LEFT}{LEFT}{RIGHT}45");
-			Assert.Equal("12453", textBoxTester.Text);
+			textBoxTester.Text.Should().Equal("12453");
 		}
 
 		[Fact]
 		public void Type_HOME()
 		{
 			keyboardController.Type("123{HOME}5");
-			Assert.Equal("5123", textBoxTester.Text);
+			textBoxTester.Text.Should().Equal("5123");
 		}
-
-		#region IDisposable Members
-
-		public void Dispose() {
-			TearDown();
-		}
-
-		#endregion
 	}
 }
