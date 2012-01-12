@@ -31,6 +31,7 @@
 #endregion
 
 using Xunit;
+using Should.Fluent;
 
 namespace Xunit.Extensions.Forms.TestApplications
 {
@@ -45,9 +46,9 @@ namespace Xunit.Extensions.Forms.TestApplications
             LinkLabelTester link = new LinkLabelTester("myLinkLabel");
             LabelTester label = new LabelTester("myLabel");
 
-            Assert.Equal("0", label.Text);
+            label.Text.Should().Equal("0");
             link.Click();
-            Assert.Equal("1", label.Text);
+            label.Text.Should().Equal("1");
         }
     }
 }
