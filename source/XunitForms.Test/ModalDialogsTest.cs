@@ -32,6 +32,7 @@
 
 using System.Windows.Forms;
 using Xunit;
+using Should.Fluent;
 
 namespace Xunit.Extensions.Forms.TestApplications
 {
@@ -41,24 +42,24 @@ namespace Xunit.Extensions.Forms.TestApplications
         public void MessageBoxOkHandler(string name, System.IntPtr hWnd)
         {
             MessageBoxTester messageBox = new MessageBoxTester(hWnd);
-            Assert.Equal("test string", messageBox.Text);
-            Assert.Equal("caption", messageBox.Title);
+            messageBox.Text.Should().Equal("test string");
+            messageBox.Title.Should().Equal("caption");
             messageBox.ClickOk();
         }
 
         public void MessageBoxCancelHandler(string name, System.IntPtr hWnd)
         {
             MessageBoxTester messageBox = new MessageBoxTester(hWnd);
-            Assert.Equal("test string", messageBox.Text);
-            Assert.Equal("caption", messageBox.Title);
+            messageBox.Text.Should().Equal("test string");
+            messageBox.Title.Should().Equal("caption");
             messageBox.ClickCancel();
         }
 
         public void SimpleOKHandler(string name, System.IntPtr hWnd)
         {
             MessageBoxTester messageBox = new MessageBoxTester(hWnd);
-            Assert.Equal("Just An OK Button", messageBox.Text);
-            Assert.Equal("JustOK", messageBox.Title);
+            messageBox.Text.Should().Equal("Just An OK Button");
+            messageBox.Title.Should().Equal("JustOK");
             messageBox.SendCommand(MessageBoxTester.Command.OK);
         }
 
@@ -71,7 +72,7 @@ namespace Xunit.Extensions.Forms.TestApplications
         [Fact]
         public void NoModalFound()
         {
-			Assert.Throws<ControlNotVisibleException>(delegate { string text = new MessageBoxTester("NotFound").Text; });
+			Assert.Throws<ControlNotVisibleException>(() => { string text = new MessageBoxTester("NotFound").Text; });
         }
 
         [Fact]
@@ -92,15 +93,14 @@ namespace Xunit.Extensions.Forms.TestApplications
         public void TestOKCancelMessageBox()
         {
             DialogBoxHandler = OKAndCancelHandler;
-            Assert.Equal(DialogResult.Cancel,
-                            MessageBox.Show("Both OK and Cancel buttons", "OKAndCancel", MessageBoxButtons.OKCancel));
+            MessageBox.Show("Both OK and Cancel buttons", "OKAndCancel", MessageBoxButtons.OKCancel).Should().Equal(DialogResult.Cancel);
         }
 
         [Fact]
         public void TestSimpleMessageBox()
         {
             DialogBoxHandler = SimpleOKHandler;
-            Assert.Equal(DialogResult.OK, MessageBox.Show("Just An OK Button", "JustOK", MessageBoxButtons.OK));
+            MessageBox.Show("Just An OK Button", "JustOK", MessageBoxButtons.OK).Should().Equal(DialogResult.OK);
         }
 
         [Fact]

@@ -1256,146 +1256,6 @@
             <param name="filePathTwo">The path to the second file to compare.</param>
             <returns>True if the given files have the same contents.</returns>
         </member>
-        <member name="T:Xunit.Extensions.Forms.ControlNotEnabledException">
-            <summary>
-            Exception is thrown when you attempt an action on a Control that is not
-            enabled.
-            </summary>
-        </member>
-        <member name="T:Xunit.Extensions.Forms.ToolBarTester">
-            <summary>
-            A ControlTester for testing Toolbars.  
-            </summary>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.ToolBarTester.GetButton(System.String)">
-            <summary>
-            Get the toolbar with the specified text
-            </summary>
-            <param name="buttonText">The text of the ToolBarButton</param>
-            <returns>A ToolBarButtonTester containing the matching ToolBarButton</returns>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.ToolBarTester.GetButton(System.Int32)">
-            <summary>
-            Get the toolbar at the index
-            </summary>
-            <param name="index">The index of the button within the toolbar</param>
-            <returns>A ToolBarButtonTester containing the matching ToolBarButton</returns>
-            <remarks>We cannot use this[int index] here as used for ControlTester</remarks>
-        </member>
-        <member name="T:Xunit.Extensions.Forms.Desktop">
-             <summary>
-             Do not use directly.  Just use base test class and it takes care of it.
-             </summary>
-             <remarks>
-             	CreateWindowStation()
-                 SetProcessWindowStation()
-                 CreateDesktop()
-                 SetThreadDesktop()
-                 SwitchDesktop()
-             Then,
-                 CloseWindowStation()
-                 CloseDesktop()
-            
-                 http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dllproc/base/createwindowstation.asp
-            
-                 http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dllproc/base/setprocesswindowstation.asp
-            
-                 http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dllproc/base/createdesktop.asp
-            
-                 http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dllproc/base/setthreaddesktop.asp
-            
-                 http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dllproc/base/switchdesktop.asp
-            
-                 http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dllproc/base/closewindowstation.asp
-            
-                 http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dllproc/base/closedesktop.asp
-             
-                 http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dllproc/base/createdesktop.asp
-             
-                 http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dllproc/base/window_station_and_desktop_creation.asp
-             
-             It does work.  I wrote a test to verify.
-             
-             The test, running from my login session, first enumerates all top level 
-             windows (EnumWindows).  It enumerated 1228 windows.  It then creates a new 
-             desktop (hNewDesk = CreateDesktop), changes the thread desktop to the new 
-             desktop (SetThreadDesktop(hNewDesk)), and then creates a new window (a 
-             button control).  It then enumerates windows again, and this time enumerates 
-             only 3 windows (my button plus two others the system must have created for 
-             the new desktop).
-             
-             One thing I found out - you cannot call SetThreadDesktop if the thread (or 
-             maybe even the process - not sure) owns a window.  I was creating the button 
-             and then calling SetThreadDesktop, but the SetThreadDesktop call failed with 
-             0xaa-  the resource is in use or something like that.  I changed the test to 
-             create the button *after* calling SetThreadDesktop and that worked fine.
-             
-             One other thing: your process may not have permission to switch to the other 
-             desktop.  I was at first trying to switch to the WinLogon desktop - I should 
-             have known better - access denied.  You may have to adjust your 
-             permissions/privileges for it to work.  Services can do it (that's primarly 
-             who the SetThreadDesktop API was created for), but I think they have to run 
-             under local system account to do it.
-             
-             http://vbaccelerator.com/home/VB/Code/Libraries/Windows/Creating_New_Desktops/article.asp
-             
-             Thread Connection to a Desktop
-             After a process connects to a window station, the system assigns a desktop to the thread making the connection. The 
-             system determines the desktop to assign to the thread according to the following rules:
-             
-             
-             If the thread has called the SetThreadDesktop function, it connects to the specified desktop. 
-             If the thread did not call SetThreadDesktop, it connects to the desktop inherited from the parent process. 
-             If the thread did not call SetThreadDesktop and did not inherit a desktop, the system attempts to open for MAXIMUM_ALLOWED access and connect to a desktop as follows: 
-             
-             If a desktop name was specified in the lpDesktop member of the STARTUPINFO structure that was passed to the CreateProcess function when the process was created, the thread connects to the specified desktop. 
-             Otherwise, the thread connects to the default desktop of the window station to which the process connected. 
-             The desktop assigned during this connection process cannot be closed by calling the CloseDesktop function.
-             
-             <b>
-             When a process is connecting to a desktop, the system searches the process's handle table for inherited 
-             handles. The system uses the first desktop handle it finds. If you want a child process to connect to 
-             a particular inherited desktop, you must ensure that the only the desired handle is marked inheritable. If a 
-             child process inherits multiple desktop handles, the results of the desktop connection are undefined.
-             
-             Handles to a desktop that the system opens while connecting a process to a desktop are not inheritable.
-             </b>
-             
-             </remarks>
-             <summary>
-             Do not use directly.  Just use base test class and it takes care of it.
-             </summary>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.Desktop.#ctor">
-            <summary>
-             Creates a new desktop for testing using the default settings.
-            </summary>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.Desktop.#ctor(System.String)">
-            <summary>
-            Creates a new hidden desktop for testing with the given name.
-            </summary>
-            <param name="name"></param>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.Desktop.#ctor(System.String,System.Boolean)">
-            <summary>
-             Creates a new desktop with the given name, and conditionally displays it.
-            </summary>
-            <param name="name">The name of the new desktop.</param>
-            <param name="display">True if the new desktop should be displayed.</param>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.Desktop.Dispose">
-            <summary>
-             Releases managed resources.
-            </summary>
-        </member>
-        <member name="T:Xunit.Extensions.Forms.OuterTest">
-            <summary>
-            Meant to be used as a member in a test class not derived from XunitFormTest.
-            The member should be created by setup, and disposed by teardown, or usinged
-            in the test function itself.
-            </summary>
-        </member>
         <member name="T:Xunit.Extensions.Forms.XunitFormTest">
              <summary>
              One of three base classes for your XunitForms tests.  This one can be
@@ -1560,6 +1420,153 @@
             Shorter version of ModalFormHandler without the form argument; meant for dialogs.
             </summary>
         </member>
+        <member name="T:Xunit.Extensions.Forms.ControlNotEnabledException">
+            <summary>
+            Exception is thrown when you attempt an action on a Control that is not
+            enabled.
+            </summary>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.ToolBarTester">
+            <summary>
+            A ControlTester for testing Toolbars.  
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.ToolBarTester.GetButton(System.String)">
+            <summary>
+            Get the toolbar with the specified text
+            </summary>
+            <param name="buttonText">The text of the ToolBarButton</param>
+            <returns>A ToolBarButtonTester containing the matching ToolBarButton</returns>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.ToolBarTester.GetButton(System.Int32)">
+            <summary>
+            Get the toolbar at the index
+            </summary>
+            <param name="index">The index of the button within the toolbar</param>
+            <returns>A ToolBarButtonTester containing the matching ToolBarButton</returns>
+            <remarks>We cannot use this[int index] here as used for ControlTester</remarks>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.XunitFormsAssertionTest">
+            <summary>
+            One of three base classes for your XunitForms tests.  This one can be
+            used by people who want "built-in" Assertion functionality and prefer
+            the older style "Assertion" syntax.
+            </summary>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.Desktop">
+             <summary>
+             Do not use directly.  Just use base test class and it takes care of it.
+             </summary>
+             <remarks>
+             	CreateWindowStation()
+                 SetProcessWindowStation()
+                 CreateDesktop()
+                 SetThreadDesktop()
+                 SwitchDesktop()
+             Then,
+                 CloseWindowStation()
+                 CloseDesktop()
+            
+                 http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dllproc/base/createwindowstation.asp
+            
+                 http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dllproc/base/setprocesswindowstation.asp
+            
+                 http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dllproc/base/createdesktop.asp
+            
+                 http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dllproc/base/setthreaddesktop.asp
+            
+                 http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dllproc/base/switchdesktop.asp
+            
+                 http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dllproc/base/closewindowstation.asp
+            
+                 http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dllproc/base/closedesktop.asp
+             
+                 http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dllproc/base/createdesktop.asp
+             
+                 http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dllproc/base/window_station_and_desktop_creation.asp
+             
+             It does work.  I wrote a test to verify.
+             
+             The test, running from my login session, first enumerates all top level 
+             windows (EnumWindows).  It enumerated 1228 windows.  It then creates a new 
+             desktop (hNewDesk = CreateDesktop), changes the thread desktop to the new 
+             desktop (SetThreadDesktop(hNewDesk)), and then creates a new window (a 
+             button control).  It then enumerates windows again, and this time enumerates 
+             only 3 windows (my button plus two others the system must have created for 
+             the new desktop).
+             
+             One thing I found out - you cannot call SetThreadDesktop if the thread (or 
+             maybe even the process - not sure) owns a window.  I was creating the button 
+             and then calling SetThreadDesktop, but the SetThreadDesktop call failed with 
+             0xaa-  the resource is in use or something like that.  I changed the test to 
+             create the button *after* calling SetThreadDesktop and that worked fine.
+             
+             One other thing: your process may not have permission to switch to the other 
+             desktop.  I was at first trying to switch to the WinLogon desktop - I should 
+             have known better - access denied.  You may have to adjust your 
+             permissions/privileges for it to work.  Services can do it (that's primarly 
+             who the SetThreadDesktop API was created for), but I think they have to run 
+             under local system account to do it.
+             
+             http://vbaccelerator.com/home/VB/Code/Libraries/Windows/Creating_New_Desktops/article.asp
+             
+             Thread Connection to a Desktop
+             After a process connects to a window station, the system assigns a desktop to the thread making the connection. The 
+             system determines the desktop to assign to the thread according to the following rules:
+             
+             
+             If the thread has called the SetThreadDesktop function, it connects to the specified desktop. 
+             If the thread did not call SetThreadDesktop, it connects to the desktop inherited from the parent process. 
+             If the thread did not call SetThreadDesktop and did not inherit a desktop, the system attempts to open for MAXIMUM_ALLOWED access and connect to a desktop as follows: 
+             
+             If a desktop name was specified in the lpDesktop member of the STARTUPINFO structure that was passed to the CreateProcess function when the process was created, the thread connects to the specified desktop. 
+             Otherwise, the thread connects to the default desktop of the window station to which the process connected. 
+             The desktop assigned during this connection process cannot be closed by calling the CloseDesktop function.
+             
+             <b>
+             When a process is connecting to a desktop, the system searches the process's handle table for inherited 
+             handles. The system uses the first desktop handle it finds. If you want a child process to connect to 
+             a particular inherited desktop, you must ensure that the only the desired handle is marked inheritable. If a 
+             child process inherits multiple desktop handles, the results of the desktop connection are undefined.
+             
+             Handles to a desktop that the system opens while connecting a process to a desktop are not inheritable.
+             </b>
+             
+             </remarks>
+             <summary>
+             Do not use directly.  Just use base test class and it takes care of it.
+             </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Desktop.#ctor">
+            <summary>
+             Creates a new desktop for testing using the default settings.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Desktop.#ctor(System.String)">
+            <summary>
+            Creates a new hidden desktop for testing with the given name.
+            </summary>
+            <param name="name"></param>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Desktop.#ctor(System.String,System.Boolean)">
+            <summary>
+             Creates a new desktop with the given name, and conditionally displays it.
+            </summary>
+            <param name="name">The name of the new desktop.</param>
+            <param name="display">True if the new desktop should be displayed.</param>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Desktop.Dispose">
+            <summary>
+             Releases managed resources.
+            </summary>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.OuterTest">
+            <summary>
+            Meant to be used as a member in a test class not derived from XunitFormTest.
+            The member should be created by setup, and disposed by teardown, or usinged
+            in the test function itself.
+            </summary>
+        </member>
         <member name="T:Xunit.Extensions.Forms.FormsTestAssertionException">
             <summary>
             Defines a base class for exceptions generated when testing forms.
@@ -1673,6 +1680,13 @@
             Constant values for use with KeyboardController.
             Values from winuser.h
             http://www.krugle.com/examples/p-dEfbRNANb0n1Aamr/Key.cs
+            </summary>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.XunitFormsAssertTest">
+            <summary>
+            One of three base classes for your XunitForms tests.  This one can be
+            used by people who want "built-in" Assert functionality and prefer
+            the newer style "Assert" syntax.
             </summary>
         </member>
         <member name="T:Xunit.Extensions.Forms.FormsAssert">
@@ -2891,20 +2905,6 @@
              Calls the given method on the target object with the specified arguments.
             </summary>
             <returns>The return value of the called method, if any.</returns>
-        </member>
-        <member name="T:Xunit.Extensions.Forms.XunitFormsAssertTest">
-            <summary>
-            One of three base classes for your XunitForms tests.  This one can be
-            used by people who want "built-in" Assert functionality and prefer
-            the newer style "Assert" syntax.
-            </summary>
-        </member>
-        <member name="T:Xunit.Extensions.Forms.XunitFormsAssertionTest">
-            <summary>
-            One of three base classes for your XunitForms tests.  This one can be
-            used by people who want "built-in" Assertion functionality and prefer
-            the older style "Assertion" syntax.
-            </summary>
         </member>
     </members>
 </doc>
