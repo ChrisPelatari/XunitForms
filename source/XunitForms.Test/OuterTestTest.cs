@@ -15,8 +15,7 @@ namespace Xunit.Extensions.Forms.TestApplications
                 {
                     dlg.CheckFileExists = false;
 
-                    nuf.ModalFormHandler = delegate(string name, IntPtr hWnd, Form form)
-                    {
+                    nuf.ModalFormHandler = (name, hWnd, form) => {
                         new OpenFileDialogTester(hWnd).ClickCancel();
                     };
 
@@ -29,8 +28,7 @@ namespace Xunit.Extensions.Forms.TestApplications
                 {
                     dlg.CheckFileExists = false;
 
-                    nuf.ModalFormHandler = delegate(string name, IntPtr hWnd, Form form)
-                    {
+                    nuf.ModalFormHandler = (name, hWnd, form) => {
                         new OpenFileDialogTester(hWnd).ClickCancel();
                     };
 
@@ -48,10 +46,8 @@ namespace Xunit.Extensions.Forms.TestApplications
                 Form f = new Form();
                 f.Show();
                 System.Threading.EventWaitHandle w = new System.Threading.EventWaitHandle(false, System.Threading.EventResetMode.AutoReset);
-                System.Threading.ThreadPool.QueueUserWorkItem(delegate(object o)
-                {
-                    f.BeginInvoke(new MethodInvoker(delegate()
-                    {
+                System.Threading.ThreadPool.QueueUserWorkItem((object o) => {
+                    f.BeginInvoke(new MethodInvoker(() => {
                         MessageBox.Show("", "Blah");
                     }));
                     w.Set();
