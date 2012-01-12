@@ -31,6 +31,7 @@
 #endregion
 
 using Xunit;
+using Should.Fluent;
 
 namespace Xunit.Extensions.Forms.TestApplications
 {
@@ -52,10 +53,10 @@ namespace Xunit.Extensions.Forms.TestApplications
                 ButtonTester myButton = new ButtonTester("myButton");
                 using (FormTester form = new FormTester("Form"))
                 {
-                    Assert.True(myButton.Properties.Visible);
+                    myButton.Properties.Visible.Should().Equal(true);
                     form.Close();
 
-					Assert.Throws<NoSuchControlException>(delegate {
+					Assert.Throws<NoSuchControlException>(() => {
 						bool shouldNotGetMe = myButton.Properties.Visible;
 					});
                 }
