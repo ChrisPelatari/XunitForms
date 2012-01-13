@@ -32,6 +32,7 @@
 
 using System.Windows.Forms;
 using Xunit;
+using Should.Fluent;
 
 namespace Xunit.Extensions.Forms.TestApplications
 {
@@ -41,7 +42,7 @@ namespace Xunit.Extensions.Forms.TestApplications
         private Form form = null;
         private LabelTester label1 = null;
 
-        public override void Setup()
+        public ToolStripMenuTest()
         {
             form = new ToolStripMenuTestForm();
             form.Show();
@@ -52,28 +53,28 @@ namespace Xunit.Extensions.Forms.TestApplications
         public void InContainerMenu()
         {
             new ToolStripMenuItemTester("itemInContainerToolStripMenuItem").Click();
-            Assert.Equal("itemInContainerToolStripMenuItem clicked", label1.Text);
+            label1.Text.Should().Equal("itemInContainerToolStripMenuItem clicked");
         }
 
         [Fact]
         public void InPanelMenu()
         {
             new ToolStripMenuItemTester("itemInPanelToolStripMenuItem").Click();
-            Assert.Equal("itemInPanelToolStripMenuItem clicked", label1.Text);
+            label1.Text.Should().Equal("itemInPanelToolStripMenuItem clicked");
         }
 
         [Fact]
         public void MainMenuSubItem()
         {
             new ToolStripMenuItemTester("subItemToolStripMenuItem").Click();
-            Assert.Equal("subItemToolStripMenuItem clicked", label1.Text);
+            label1.Text.Should().Equal("subItemToolStripMenuItem clicked");
         }
 
         [Fact]
         public void PlainMenu()
         {
             new ToolStripMenuItemTester("itemToolStripMenuItem").Click();
-            Assert.Equal("itemToolStripMenuItem clicked", label1.Text);
+            label1.Text.Should().Equal("itemToolStripMenuItem clicked");
         }
     }
 }
