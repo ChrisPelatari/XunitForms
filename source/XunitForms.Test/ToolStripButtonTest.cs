@@ -31,6 +31,7 @@
 #endregion
 
 using Xunit;
+using Should.Fluent;
 
 namespace Xunit.Extensions.Forms.TestApplications
 {
@@ -39,7 +40,7 @@ namespace Xunit.Extensions.Forms.TestApplications
     {
         private LabelTester label1 = new LabelTester("label1");
 
-        public override void Setup()
+        public ToolStripButtonTest()
         {
             new ToolStripButtonTestForm().Show();
         }
@@ -49,7 +50,7 @@ namespace Xunit.Extensions.Forms.TestApplications
         {
             ToolStripButtonTester tester = new ToolStripButtonTester("toolStripButtonBottomInContainer");
             tester.Click();
-            Assert.Equal(label1.Text, "toolStripButtonBottomInContainer clicked");
+            label1.Text.Should().Equal("toolStripButtonBottomInContainer clicked");
         }
 
         [Fact]
@@ -57,7 +58,7 @@ namespace Xunit.Extensions.Forms.TestApplications
         {
             ToolStripButtonTester tester = new ToolStripButtonTester("toolStripButtonCenterInContainer");
             tester.Click();
-            Assert.Equal(label1.Text, "toolStripButtonCenterInContainer clicked");
+            label1.Text.Should().Equal("toolStripButtonCenterInContainer clicked");
         }
 
         [Fact]
@@ -65,7 +66,7 @@ namespace Xunit.Extensions.Forms.TestApplications
         {
             ToolStripButtonTester tester = new ToolStripButtonTester("toolStripButtonLeftInContainer");
             tester.Click();
-            Assert.Equal(label1.Text, "toolStripButtonLeftInContainer clicked");
+            label1.Text.Should().Equal("toolStripButtonLeftInContainer clicked");
         }
 
         [Fact]
@@ -73,7 +74,7 @@ namespace Xunit.Extensions.Forms.TestApplications
         {
             ToolStripButtonTester tester = new ToolStripButtonTester("toolStripButtonOnMain");
             tester.Click();
-            Assert.Equal(label1.Text, "toolStripButtonOnMain clicked");
+            label1.Text.Should().Equal("toolStripButtonOnMain clicked");
         }
 
         [Fact]
@@ -81,7 +82,7 @@ namespace Xunit.Extensions.Forms.TestApplications
         {
             ToolStripButtonTester tester = new ToolStripButtonTester("toolStripButtonInPanel");
             tester.Click();
-            Assert.Equal(label1.Text, "toolStripButtonInPanel clicked");
+            label1.Text.Should().Equal("toolStripButtonInPanel clicked");
         }
 
         [Fact]
@@ -89,7 +90,7 @@ namespace Xunit.Extensions.Forms.TestApplications
         {
             ToolStripButtonTester tester = new ToolStripButtonTester("toolStripButtonRightInContainer");
             tester.Click();
-            Assert.Equal(label1.Text, "toolStripButtonRightInContainer clicked");
+            label1.Text.Should().Equal("toolStripButtonRightInContainer clicked");
         }
 
         [Fact]
@@ -98,7 +99,7 @@ namespace Xunit.Extensions.Forms.TestApplications
             ToolStripDropDownButtonTester tester =
                 new ToolStripDropDownButtonTester("toolStripDropDownButtonOnStatusStrip");
             tester.Click();
-            Assert.Equal(label1.Text, "toolStripDropDownButtonOnStatusStrip clicked");
+            label1.Text.Should().Equal("toolStripDropDownButtonOnStatusStrip clicked");
         }
 
         [Fact]
@@ -106,7 +107,7 @@ namespace Xunit.Extensions.Forms.TestApplications
         {
             ToolStripButtonTester tester = new ToolStripButtonTester("toolStripButtonTopInContainer");
             tester.Click();
-            Assert.Equal(label1.Text, "toolStripButtonTopInContainer clicked");
+            label1.Text.Should().Equal("toolStripButtonTopInContainer clicked");
         }
     }
 }
