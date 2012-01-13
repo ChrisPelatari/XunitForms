@@ -32,6 +32,7 @@
 
 using Xunit.Extensions.Forms.Test.TestForms;
 using Xunit;
+using Should.Fluent;
 
 namespace Xunit.Extensions.Forms.TestApplications
 {
@@ -43,7 +44,7 @@ namespace Xunit.Extensions.Forms.TestApplications
         private ToolStripItemTester tsb;
         private ToolStripItemTester tsl;
 
-        public override void Setup()
+        public ToolStripContainerTest()
         {
             new ToolStripContainerTestForm().Show();
             button = new ButtonTester("b1");
@@ -55,17 +56,17 @@ namespace Xunit.Extensions.Forms.TestApplications
         [Fact]
         public void ButtonClick()
         {
-            Assert.Equal("", box.Text);
+            box.Text.Should().Be.Empty();
             button.Click();
-            Assert.Equal("Clicked", box.Text);
+            box.Text.Should().Equal("Clicked");
         }
 
         [Fact]
         public void ToolStripButtonClick()
         {
-            Assert.Equal("toolStripLabel1", tsl.Text);
+            tsl.Text.Should().Equal("toolStripLabel1");
             tsb.Click();
-            Assert.Equal("Clicked", tsl.Text);
+            tsl.Text.Should().Equal("Clicked");
         }
     }
 }
