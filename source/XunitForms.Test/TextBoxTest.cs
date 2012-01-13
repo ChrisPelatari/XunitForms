@@ -33,6 +33,7 @@
 using Xunit;
 using System;
 using System.Windows.Forms;
+using Should.Fluent;
 
 namespace Xunit.Extensions.Forms.TestApplications
 {
@@ -42,14 +43,14 @@ namespace Xunit.Extensions.Forms.TestApplications
         public void oldhandler(string name, IntPtr hWnd, Form form)
         {
             MessageBoxTester mb = new MessageBoxTester(hWnd);
-            Assert.Equal("Old", mb.Text);
+            mb.Text.Should().Equal("Old");
             mb.ClickOk();
         }
 
         public void newhandler(string name, IntPtr hWnd, Form form)
         {
             MessageBoxTester mb = new MessageBoxTester(hWnd);
-            Assert.Equal("New", mb.Text);
+            mb.Text.Should().Equal("New");
             mb.ClickOk();
         }
 
@@ -91,9 +92,9 @@ namespace Xunit.Extensions.Forms.TestApplications
             TextBoxTestForm f = new TextBoxTestForm();
             f.Show();
             TextBoxTester box = new TextBoxTester("myTextBox");
-            Assert.Equal("default", box.Text);
+            box.Text.Should().Equal("default");
             box.Enter("Text");
-            Assert.Equal("Text", box.Text);
+            box.Text.Should().Equal("Text");
             f.Close();
         }
     }
