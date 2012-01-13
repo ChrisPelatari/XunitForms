@@ -4,10 +4,201 @@
         <name>XunitForms</name>
     </assembly>
     <members>
-        <member name="T:Xunit.Extensions.Forms.ToolStripItemTester">
+        <member name="T:Xunit.Extensions.Forms.OuterTest">
             <summary>
-             Base class for Tool Strip Item testers.
+            Meant to be used as a member in a test class not derived from XunitFormTest.
+            The member should be created by setup, and disposed by teardown, or usinged
+            in the test function itself.
             </summary>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.XunitFormTest">
+             <summary>
+             One of three base classes for your XunitForms tests.  This one can be
+             used by people who do not need or want "built-in" Assert functionality.
+            
+             This is the recommended base class for all unit tests that use XunitForms.  
+             </summary>
+             <remarks>
+             You should probably extend this class to create all of your test fixtures.  The benefit is that
+             this class implements setup and teardown methods that clean up after your test.  Any forms that
+             are created and displayed during your test are cleaned up by the tear down method.  This base
+             class also provides easy access to keyboard and mouse controllers.  It has a method that allows
+             you to set up a handler for modal dialog boxes.  It allows your tests to run on a separate 
+             (usually hidden) desktop so that they are faster and do not interfere with your normal desktop
+             activity.  If you want custom setup and teardown behavior, you should override the virtual 
+             Setup and TearDown methods.  Do not use the setup and teardown attributes in your child class.
+             </remarks>
+        </member>
+        <member name="F:Xunit.Extensions.Forms.XunitFormTest.verified">
+            <summary>
+            True if the modal handlers for this test have been verified; else false.
+            </summary>
+            <remarks>
+            It would be better form to make this private and provide a protected getter property, though
+            that could break existing tests.
+            </remarks>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.XunitFormTest.#ctor">
+            <summary>
+            This is the base classes setup method.  It will be called by Xunit before each test.
+            You should not have anything to do with it.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.XunitFormTest.EmulateSendKeys">
+            <summary>
+            A patch method to allow migration to an alternative SendKeys class instead
+            of the dot Net SendKeys class. Once the new class is completed this method
+            will be replaced by a method to allow use of the dot Net class.
+            
+            This method must only be called at the start of the test fixture's overriden
+            SetUp().
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.XunitFormTest.EmulateWindowSpecificSendKeys">
+            <summary>
+            A patch method to allow migration to an alternative SendKeys class instead
+            of the dot Net SendKeys class. Once the new class is completed this method
+            will be replaced by a method to allow use of the dot Net class.
+            
+            This method must only be called at the start of the test fixture's overriden
+            SetUp().
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.XunitFormTest.Setup">
+            <summary>
+            Override this Setup method if you have custom behavior to execute before each test
+            in your fixture.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.XunitFormTest.Verify">
+            <summary>
+            This method is called by Xunit after each test runs.  If you have custom
+            behavior to run after each test, then override the TearDown method and do
+            it there.  That method is called at the beginning of this one.
+            You should not need to do anything with it.  Do not call it.
+            If you do call it, call it as the last thing you do in your test.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.XunitFormTest.TearDown">
+            <summary>
+            Override this TearDown method if you have custom behavior to execute after each test
+            in your fixture.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.XunitFormTest.ExpectFileDialog(System.String)">
+            <summary>
+            Unreliable. Deprecated in favor of ModalFormHandler/ModalDialogHandler.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.XunitFormTest.ExpectFileDialog(System.String,System.Boolean)">
+            <summary>
+            Unreliable. Deprecated in favor of ModalFormHandler/ModalDialogHandler.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.XunitFormTest.ExpectFileDialog(Xunit.Extensions.Forms.ModalFormActivated)">
+            <summary>
+            Unreliable. Deprecated in favor of ModalFormHandler/ModalDialogHandler.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.XunitFormTest.ExpectFileDialog(Xunit.Extensions.Forms.ModalFormActivated,System.Boolean)">
+            <summary>
+            Unreliable. Deprecated in favor of ModalFormHandler/ModalDialogHandler.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.XunitFormTest.ExpectModal(System.String,Xunit.Extensions.Forms.ModalFormActivated)">
+            <summary>
+            Deprecated in favor of ModalFormHandler/ModalDialogHandler.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.XunitFormTest.ExpectModal(System.String,Xunit.Extensions.Forms.ModalFormActivated,System.Boolean)">
+            <summary>
+            Deprecated in favor of ModalFormHandler/ModalDialogHandler.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.XunitFormTest.ExpectModal(System.String,System.String,System.Boolean)">
+            <summary>
+            Deprecated in favor of ModalFormHandler/ModalDialogHandler.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.XunitFormTest.ExpectModal(System.String,System.String)">
+            <summary>
+            Deprecated in favor of ModalFormHandler/ModalDialogHandler.
+            </summary>
+        </member>
+        <member name="P:Xunit.Extensions.Forms.XunitFormTest.DisplayHidden">
+            <summary>
+            This property controls whether the separate hidden desktop is displayed for the duration of
+            this test.  You will need to override and return true from this property if your test makes
+            use of the keyboard or mouse controllers.  (The hidden desktop cannot accept user input.)  For
+            tests that do not use the keyboard and mouse controller (most should not) you don't need to do
+            anything with this.  The default behavior is fine.
+            </summary>
+        </member>
+        <member name="P:Xunit.Extensions.Forms.XunitFormTest.UseHidden">
+            <summary>
+            This property controls whether a separate desktop is used at all. Tests on the separate desktop
+            are faster and safer (there is no danger of keyboard or mouse input going to your own separate 
+            running applications).  However, it fails on some systems; also, it is not possible to unlock 
+            by hand a blocked test (e.g. due to a modal form). In order to enable it, you can override
+            this method from your test class to return true. Or you can set an environment variable called
+            "UseHiddenDesktop" and set that to "true".
+            </summary>
+        </member>
+        <member name="P:Xunit.Extensions.Forms.XunitFormTest.Mouse">
+            <summary>
+            Returns a reference to the current MouseController for doing Mouse tests.  I recommend
+            this only when you are writing your own custom controls and need to respond to actual
+            mouse input to test them properly.  In most other cases there is a better way to test
+            the form's logic.
+            </summary>
+        </member>
+        <member name="P:Xunit.Extensions.Forms.XunitFormTest.Keyboard">
+            <summary>
+            Returns a reference to the current KeyboardController for doing Keyboard tests.  I recommend
+            this only when you are writing your own custom controls and need to respond to actual
+            keyboard input to test them properly.  In most other cases there is a better way to test
+            for the form's logic.
+            </summary>
+        </member>
+        <member name="P:Xunit.Extensions.Forms.XunitFormTest.ModalFormHandler">
+            <summary>
+            Records a single shot modal form handler. The handler receives as arguments the title of the window,
+            its handle, and the corresponding form (null if it is not a form, i.e. a dialog box). The handler is
+            single shot: it is removed after being run; therefore, if it is expected to trigger a new modal form,
+            it should install a new handler before returning. The handler can work on dialog boxes by creating
+            a message box tester or file dialog tester, passing the handle of the box (its second argument) to the
+            tester's constructor. The tester constructors taking as argument the box title are unreliable and deprecated.
+            </summary>
+        </member>
+        <member name="P:Xunit.Extensions.Forms.XunitFormTest.DialogBoxHandler">
+            <summary>
+            Shorter version of ModalFormHandler without the form argument; meant for dialogs.
+            </summary>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.SendKey.SendKeys">
+            <summary>
+            Wrapper for the dot Net SendKeys class to allow reference by interface
+            for injection and unit testing.
+            
+            Microsoft documents the SendKeys class as unreliable. Only use this class
+            for implementation of ISendKeys if you must use the dot Net class.
+            
+            See: http://msdn2.microsoft.com/en-us/library/system.windows.forms.sendkeys.sendwait(VS.90).aspx
+            </summary>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.ControlNotEnabledException">
+            <summary>
+            Exception is thrown when you attempt an action on a Control that is not
+            enabled.
+            </summary>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.ListBoxTester">
+            <summary>
+            A ControlTester for testing ListBoxes.  
+            </summary>
+            <remarks>
+            It includes helper methods for selecting items from the list
+            and for clearing those selections.</remarks>
         </member>
         <member name="T:Xunit.Extensions.Forms.ReflectionTester">
             <summary>
@@ -90,169 +281,6 @@
             The Control being tested.
             </summary>
         </member>
-        <member name="M:Xunit.Extensions.Forms.ToolStripItemTester`2.Click">
-            <summary>
-            Convenience method "Clicks" on the control being tested if it is visible.
-            </summary>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.ToolStripItemTester`2.DoubleClick">
-            <summary>
-            Convenience method "DoubleClicks" on the control being tested if it is visible.
-            </summary>
-            <exception>
-            ControlNotVisibleException is thrown if the Control is not Visible.
-            </exception>
-        </member>
-        <member name="P:Xunit.Extensions.Forms.ToolStripItemTester`2.Text">
-            <summary>
-            Convenience method retrieves the Text property of the tested control.
-            </summary>
-        </member>
-        <member name="T:Xunit.Extensions.Forms.NoSuchControlException">
-            <summary>
-            Exception is thrown when a control can not be found
-            by its specified name.
-            </summary>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.NoSuchControlException.#ctor(System.String)">
-            <summary>
-            Creates a NoSuchControlException.
-            </summary>
-            <remarks>
-            The message string can be specified.
-            </remarks>
-            <param name="message">The messasge for the exception.</param>
-        </member>
-        <member name="T:Xunit.Extensions.Forms.ToolStripDropDownButtonTester">
-            <summary>
-            A ToolStripItem tester for testing DropDownButtons.
-            </summary>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.ToolStripDropDownButtonTester.ClickDropDownItem(System.Int32)">
-            <summary>
-            Clickes the DropDownItem with the given index.
-            </summary>
-            <param name="index"></param>
-        </member>
-        <member name="T:Xunit.Extensions.Forms.MessageBoxTester">
-            <summary>
-            A ControlTester for MessageBoxes.  
-            Allows you to handle and test MessageBoxes by pressing any of the
-            buttons that ordinarily appear on them.
-            </summary>
-            <remarks>
-            It does not extend ControlTester because MessageBoxes are not controls.</remarks>
-            <code>
-            public void MessageBoxHandler
-            {
-            	MessageBoxTester messageBox = new MessageBoxTester( "MessageBoxName" );
-            	Assert.Equal( "MessageBoxText", messageBox.Text );
-              Assert.Equal( "MessageBoxTitle", messageBox.Title );
-            	messageBox.SendCommand( MessageBoxTester.Command.OK );
-            }
-            </code>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.MessageBoxTester.#ctor(System.IntPtr)">
-            <summary>
-            Creates a MessageBoxTester with the specified handle.  XunitForms
-            users probably won't use this directly.  Use the other constructor.
-            </summary>
-            <param name="handle">The handle of the MessageBox to test.</param>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.MessageBoxTester.#ctor(System.String)">
-            <summary>
-            Deprecated in favor of the constructor taking the box's handle as argument.
-            </summary>
-            <param name="name">The name of the MessageBox to test.</param>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.MessageBoxTester.SendCommand(Xunit.Extensions.Forms.MessageBoxTester.Command)">
-            <summary>
-            Sends a command to the MessageBox.
-            </summary>
-            <param name="cmd">The <see cref="T:Xunit.Extensions.Forms.MessageBoxTester.Command"/> to send to this <see cref="T:System.Windows.Forms.MessageBox"/>.</param>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.MessageBoxTester.ClickOk">
-            <summary>
-            Clicks the Ok button of a MessageBox.
-            </summary>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.MessageBoxTester.ClickCancel">
-            <summary>
-            Clicks the cancel button of a MessageBox.
-            </summary>
-        </member>
-        <member name="P:Xunit.Extensions.Forms.MessageBoxTester.Title">
-            <summary>
-            Returns the caption on the message box we are testing.
-            </summary>
-        </member>
-        <member name="P:Xunit.Extensions.Forms.MessageBoxTester.Text">
-            <summary>
-            Returns the text of the message box we are testing.
-            </summary>
-        </member>
-        <member name="T:Xunit.Extensions.Forms.MessageBoxTester.Command">
-            <summary>
-            Available commands you can send to the MessageBox.
-            </summary>
-            <remarks>
-            There are convenience methods for OK and Cancel, so you should not need 
-            those.
-            </remarks>
-        </member>
-        <member name="F:Xunit.Extensions.Forms.MessageBoxTester.Command.OK">
-            <summary>
-            Represents an OK button on a <see cref="T:System.Windows.Forms.MessageBox"/>.
-            </summary>
-        </member>
-        <member name="F:Xunit.Extensions.Forms.MessageBoxTester.Command.Cancel">
-            <summary>
-            Represents a Cancel button on a <see cref="T:System.Windows.Forms.MessageBox"/>.
-            </summary>
-        </member>
-        <member name="F:Xunit.Extensions.Forms.MessageBoxTester.Command.Abort">
-            <summary>
-            Represents an Abort button on a <see cref="T:System.Windows.Forms.MessageBox"/>.
-            </summary>
-        </member>
-        <member name="F:Xunit.Extensions.Forms.MessageBoxTester.Command.Retry">
-            <summary>
-            Represents a Retry button on a <see cref="T:System.Windows.Forms.MessageBox"/>.
-            </summary>
-        </member>
-        <member name="F:Xunit.Extensions.Forms.MessageBoxTester.Command.Ignore">
-            <summary>
-            Represents an Ignore button on a <see cref="T:System.Windows.Forms.MessageBox"/>.
-            </summary>
-        </member>
-        <member name="F:Xunit.Extensions.Forms.MessageBoxTester.Command.Yes">
-            <summary>
-            Represents a Yes button on a <see cref="T:System.Windows.Forms.MessageBox"/>.
-            </summary>
-        </member>
-        <member name="F:Xunit.Extensions.Forms.MessageBoxTester.Command.No">
-            <summary>
-            Represents a No button on a <see cref="T:System.Windows.Forms.MessageBox"/>.
-            </summary>
-        </member>
-        <member name="F:Xunit.Extensions.Forms.MessageBoxTester.Command.Close">
-            <summary>
-            Represents a Close button on a <see cref="T:System.Windows.Forms.MessageBox"/>.
-            </summary>
-        </member>
-        <member name="F:Xunit.Extensions.Forms.MessageBoxTester.Command.Help">
-            <summary>
-            Represents a Close button on a <see cref="T:System.Windows.Forms.MessageBox"/>.
-            </summary>
-        </member>
-        <member name="T:Xunit.Extensions.Forms.ListViewTester">
-            <summary>
-            A ControlTester for testing List Views.  
-            </summary>
-            <remarks>
-            It includes helper methods for selecting items from the list
-            and for clearing those selections.</remarks>
-        </member>
         <member name="M:Xunit.Extensions.Forms.ControlTester`2.Click">
             <summary>
             Convenience method "Clicks" on the control being tested if it is visible
@@ -290,6 +318,45 @@
             <summary>
             Convenience method retrieves the Text property of the tested control.
             </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.ListBoxTester.ClearSelected">
+            <summary>
+            Clears the selections from the list box.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.ListBoxTester.Select(System.Int32)">
+            <summary>
+            Selects an item in the ListBox according to its index.
+            </summary>
+            <param name="i">the index to select.</param>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.ListBoxTester.Select(System.String)">
+            <summary>
+            Selects an item in the list according to its string value.
+            </summary>
+            <param name="text">The item to select.</param>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.ListBoxTester.SetSelected(System.Int32,System.Boolean)">
+            <summary>
+            Sets the selected property of an item at an index.
+            </summary>
+            <param name="index">the index to select (or clear)</param>
+            <param name="value">true if you want to select, false to clear.</param>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.ListBoxTester.SetSelected(System.String,System.Boolean)">
+            <summary>
+            Sets the selected property of an item with a specified string value.
+            </summary>
+            <param name="text">the item to select (or clear)</param>
+            <param name="value">true if you want to select, false to clear.</param>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.ListViewTester">
+            <summary>
+            A ControlTester for testing List Views.  
+            </summary>
+            <remarks>
+            It includes helper methods for selecting items from the list
+            and for clearing those selections.</remarks>
         </member>
         <member name="M:Xunit.Extensions.Forms.ListViewTester.ClearSelected">
             <summary>
@@ -330,37 +397,565 @@
             Helper method to return the columns of the list view
             </summary>
         </member>
+        <member name="T:Xunit.Extensions.Forms.RadioButtonTester">
+            <summary>
+            A ControlTester for testing RadioButtons.  
+            </summary>
+            <remarks>
+            This class provides a convenience property for determining
+            whether a RadioButton is checked.</remarks>
+        </member>
+        <member name="P:Xunit.Extensions.Forms.RadioButtonTester.Checked">
+            <summary>
+             Gets the Checked property of the underlying radio button.
+            </summary>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.RichTextBoxTester">
+            <summary>
+            A ControlTester for testing RichTextBoxes.
+            </summary>
+            <remarks>
+            There is a convenience method for entering text into a RichTextBox.</remarks>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.RichTextBoxTester.Enter(System.String)">
+            <summary>
+            This method allows you to enter text into the text box.
+            </summary>
+            <param name="text">The text to enter into the text box.</param>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.TabControlTester">
+            <summary>
+            A ControlTester for testing TabControls.
+            </summary>
+            <remarks>
+            There is a convenience method for selecting a specified tab.</remarks>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.TabControlTester.SelectTab(System.Int32)">
+            <summary>
+            Selects the tab at the specified index.
+            </summary>
+            <param name="index">The tab to select.</param>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.TextBoxTester">
+            <summary>
+            A ControlTester for testing TextBoxes.
+            </summary>
+            <remarks>
+            There is a convenience method for entering text into a text box.</remarks>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.TextBoxTester.Enter(System.String)">
+            <summary>
+            This method allows you to enter text into the text box.
+            </summary>
+            <param name="text">The text to enter into the text box.</param>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.ToolBarTester">
+            <summary>
+            A ControlTester for testing Toolbars.  
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.ToolBarTester.GetButton(System.String)">
+            <summary>
+            Get the toolbar with the specified text
+            </summary>
+            <param name="buttonText">The text of the ToolBarButton</param>
+            <returns>A ToolBarButtonTester containing the matching ToolBarButton</returns>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.ToolBarTester.GetButton(System.Int32)">
+            <summary>
+            Get the toolbar at the index
+            </summary>
+            <param name="index">The index of the button within the toolbar</param>
+            <returns>A ToolBarButtonTester containing the matching ToolBarButton</returns>
+            <remarks>We cannot use this[int index] here as used for ControlTester</remarks>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.ToolStripItemTester`2.Click">
+            <summary>
+            Convenience method "Clicks" on the control being tested if it is visible.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.ToolStripItemTester`2.DoubleClick">
+            <summary>
+            Convenience method "DoubleClicks" on the control being tested if it is visible.
+            </summary>
+            <exception>
+            ControlNotVisibleException is thrown if the Control is not Visible.
+            </exception>
+        </member>
+        <member name="P:Xunit.Extensions.Forms.ToolStripItemTester`2.Text">
+            <summary>
+            Convenience method retrieves the Text property of the tested control.
+            </summary>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.ToolStripComboBoxTester">
+            <summary>
+            A Component tester for testing ToolStripComboBoxes.
+            </summary>
+            <summary>
+            A Component tester for testing ToolStripComboBoxes.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.ToolStripComboBoxTester.Enter(System.String)">
+            <summary>
+            Sets the text property of the ToolStripComboBox to the specified value.
+            </summary>
+            <remarks>
+            TODO: Also calls EndCurrentEdit() so that databinding will happen.
+            </remarks>
+            <param name="text">The specified value for the text property.</param>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.ToolStripComboBoxTester.Select(System.String)">
+            <summary>
+            Selects an entry in the ToolStripComboBox according to its string value.
+            </summary>
+            <remarks>
+            Sets the Selected Index property on the underlying control after calling
+            FindStringExact
+            </remarks>
+            <param name="text">The string value of the entry to select.</param>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.ToolStripDropDownButtonTester">
+            <summary>
+            A ToolStripItem tester for testing DropDownButtons.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.ToolStripDropDownButtonTester.ClickDropDownItem(System.Int32)">
+            <summary>
+            Clickes the DropDownItem with the given index.
+            </summary>
+            <param name="index"></param>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.ToolStripSplitButtonTester">
+            <summary>
+            A ToolStripItem tester for testing ToolStripSplitButtons.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.ToolStripSplitButtonTester.ClickDropDownItem(System.Int32)">
+            <summary>
+            Clicks the DropDownItem with the given index.
+            </summary>
+            <param name="index"></param>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.ToolStripSplitButtonTester.ButtonClick">
+            <summary>
+            Simulates that the "user" clicks on the button part of the
+            ToolStripSplitButton.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.ToolStripSplitButtonTester.ButtonDoubleClick">
+            <summary>
+            Simulates that the "user" double clicks on the button part of the
+            ToolStripSplitButton.
+            </summary>
+        </member>
         <member name="M:Xunit.Extensions.Forms.ToolStripTextBoxTester.Enter(System.String)">
             <summary>
             This method allows you to enter text into the text box.
             </summary>
             <param name="text">The text to enter into the text box.</param>
         </member>
-        <member name="T:Xunit.Extensions.Forms.MenuItemTester">
+        <member name="T:Xunit.Extensions.Forms.TreeViewTester">
             <summary>
-            A ControlTester for MenuItems.
+            A ControlTester for testing TreeViews.
             </summary>
             <remarks>
-            It does not extend ControlTester because MenuItems are not Controls.  (sadly)</remarks>
+            There is a convenience method for selecting a node in the tree.</remarks>
         </member>
-        <member name="M:Xunit.Extensions.Forms.MenuItemTester.Click">
+        <member name="M:Xunit.Extensions.Forms.TreeViewTester.SelectNode(System.Int32[])">
             <summary>
-            Clicks the MenuItem (activates it)
+            Selects a node in the tree.
+            </summary>
+            <param name="indices">an array of the indexes of the node to select</param>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.Finder`1">
+            <summary>
+            Internal use only.  Finds controls, components, and menuitems
+            according to their name property.
+            </summary>
+            <remarks>
+            It is also used by the recorder application which is why it is not
+            internal.
+            </remarks>
+            the recorder application.
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Finder`1.#ctor(System.String,System.Windows.Forms.Form)">
+            <summary>
+            Creates a Finder that will find things on a specific Form according to their name.
+            </summary>
+            <param name="name">The name of the Control to find.</param>
+            <param name="form">The form to search for the control.</param>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Finder`1.#ctor(System.String)">
+            <summary>
+            Creates a Finder that will find things according to their name.  
+            </summary>
+            <param name="name">The name of the thing to find.</param>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Finder`1.Find">
+            <summary>
+            Finds a control.  
+            </summary>
+            <exception>
+            If there is more than one with the specified name, it will
+            throw an AmbiguousNameException.  If the Control does not exist, it will throw
+            a NoSuchControlException.
+            </exception>
+            <returns>The control if one is found.</returns>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.CheckBoxTester">
+            <summary>
+            A ControlTester for testing CheckBoxes.
             </summary>
         </member>
-        <member name="M:Xunit.Extensions.Forms.MenuItemTester.Popup">
+        <member name="M:Xunit.Extensions.Forms.CheckBoxTester.Check(System.Boolean)">
             <summary>
-            Pops up a menu.
+            Sets the shouldCheck property to the specified value.
             </summary>
         </member>
-        <member name="P:Xunit.Extensions.Forms.MenuItemTester.Text">
+        <member name="M:Xunit.Extensions.Forms.CheckBoxTester.Check">
             <summary>
-            Gets the text of this MenuItem.
+            Sets the Checked property of the CheckBox to true
             </summary>
         </member>
-        <member name="P:Xunit.Extensions.Forms.MenuItemTester.Properties">
+        <member name="M:Xunit.Extensions.Forms.CheckBoxTester.UnCheck">
             <summary>
-            Allows you to access any properties of this MenuItem.
+            Sets the Checked property of the CheckBox to false
+            </summary>
+        </member>
+        <member name="P:Xunit.Extensions.Forms.CheckBoxTester.Checked">
+            <summary>
+            Retrieves the Checked property of the CheckBox
+            </summary>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.CheckedListBoxTester">
+            <summary>
+            A ControlTester for testing CheckedListBoxes.  
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.CheckedListBoxTester.CheckItem(System.String)">
+            <summary>
+            Checks the row that matches item in the list
+            </summary>
+            <param name="item">The list item to check</param>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.CheckedListBoxTester.CheckItems(System.String[])">
+            <summary>
+            Check a range of items
+            </summary>
+            <param name="items"></param>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.CheckedListBoxTester.SetItemChecked(System.Int32,System.Boolean)">
+            <summary>
+            Check a specific item in a list.
+            </summary>
+            <param name="index">The index of the item to check</param>
+            <param name="selected">True to select the item, false to unselect it.</param>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.CheckedListBoxTester.ClearItem(System.String)">
+            <summary>
+            Clears the row that matches item in the list
+            </summary>
+            <param name="item">The list item to check</param>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.CheckedListBoxTester.CheckSelectedItems(System.Collections.ArrayList)">
+            <summary>
+             Check items matching those in the given list.
+            </summary>
+            <param name="matchList">The list of items to check.</param>
+        </member>
+        <member name="P:Xunit.Extensions.Forms.CheckedListBoxTester.Items">
+            <summary>
+            Provides access to the list of items
+            </summary>
+            <returns>A CheckedListBox.ObjectCollection of all the items in the list</returns>
+        </member>
+        <member name="P:Xunit.Extensions.Forms.CheckedListBoxTester.CheckedItems">
+            <summary>
+            Provides access to the list of checked items
+            </summary>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.ComboBoxTester">
+            <summary>
+            A ControlTester for testing ComboBoxes.
+            </summary>
+            <remarks>
+            Has convenience methods for Selecting items and Entering text.
+            <para>
+            Fully supported by the recorder application
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.ComboBoxTester.Enter(System.String)">
+            <summary>
+            Sets the text property of the ComboBox to the specified value.
+            </summary>
+            <remarks>
+            Also calls EndCurrentEdit() so that databinding will happen.
+            </remarks>
+            <param name="text">The specified value for the text property.</param>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.ComboBoxTester.Select(System.Int32)">
+            <summary>
+            Selects an entry in the ComboBox according to its index.
+            </summary>
+            <remarks>
+            Sets the SelectedIndex property on the underlying control.
+            </remarks>
+            <param name="i">The index of the ComboBox entry to select.</param>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.ComboBoxTester.Select(System.String)">
+            <summary>
+            Selects an entry in the ComboBox according to its string value.
+            </summary>
+            <remarks>
+            Sets the Selected Index property on the underlying control after calling
+            FindStringExact
+            </remarks>
+            <param name="text">The string value of the entry to select.</param>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.LinkLabelTester.Click">
+            <summary>
+             Clicks the LinkLabel.
+             NOTE: Should this do "LinkClick" instead?
+            </summary>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.ImageFormatHandler">
+            <summary>
+            Supplies some helpers methods used for image processing (file selection dialog, 
+            image format options selection etc.).
+            Here, this is just a fragment of the actual implementation !!!
+            
+            </summary>
+        </member>
+        <member name="F:Xunit.Extensions.Forms.ImageFormatHandler.availableDecoders">
+            <summary>
+            All image decoders available.
+            </summary>
+        </member>
+        <member name="F:Xunit.Extensions.Forms.ImageFormatHandler.availableEncoders">
+            <summary>
+            All image encoders available.
+            </summary>
+        </member>
+        <member name="F:Xunit.Extensions.Forms.ImageFormatHandler.defaultFormat">
+            <summary>
+            This is the default format used for saving images.
+            </summary>
+        </member>
+        <member name="F:Xunit.Extensions.Forms.ImageFormatHandler.encodingColorDepth">
+            <summary>
+            The color depth for TIFF
+            </summary>
+        </member>
+        <member name="F:Xunit.Extensions.Forms.ImageFormatHandler.encodingCompression">
+            <summary>
+            The TIFF compression type
+            </summary>
+        </member>
+        <member name="F:Xunit.Extensions.Forms.ImageFormatHandler.encodingQuality">
+            <summary>
+            The quality for JPEG compresseion (0...100)
+            </summary>
+        </member>
+        <member name="F:Xunit.Extensions.Forms.ImageFormatHandler.encodingRenderMethod">
+            <summary>
+            The rendering method for ????
+            </summary>
+        </member>
+        <member name="F:Xunit.Extensions.Forms.ImageFormatHandler.encodingScanMethod">
+            <summary>
+            The scanning method for GIF
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.ImageFormatHandler.#ctor">
+            <summary>
+            Creator
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.ImageFormatHandler.GetImageFormat(Xunit.Extensions.Forms.ImageFormatHandler.ImageFormatTypes)">
+            <summary>
+            Get the image format associated with that enum, if it does not exist, then return a 'null'.
+            </summary>
+            <param name="type">The image format enum type</param>
+            <returns>The windows image format type</returns>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.ImageFormatHandler.GetMimeType(Xunit.Extensions.Forms.ImageFormatHandler.ImageFormatTypes)">
+            <summary>
+            Get the MIME name of the image format associated with that enum, 
+            if it does not exist, then return a 'null'.
+            </summary>
+            <param name="type">The image format enum type</param>
+            <returns>The MIME name of the desired image format type or 'null' when none exists.</returns>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.ImageFormatHandler.GetImageFormat(System.Drawing.Imaging.ImageFormat)">
+            <summary>
+            Get the enum image format associated with that windows format, if it does not exist, then return a 'imgNone'.
+            </summary>
+            <param name="type">The windows image format type</param>
+            <returns>The image format enum type</returns>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.ImageFormatHandler.GetCodecInfo(Xunit.Extensions.Forms.ImageFormatHandler.ImageFormatTypes)">
+            <summary>
+            Search the codec for a given type, cycle through encoders and decoders until found. 
+            If no match is found, return 'null'.
+            </summary>
+            <param name="type">The graphic format</param>
+            <returns>The associated codec or 'null'.</returns>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.ImageFormatHandler.GetEncoderParameters(Xunit.Extensions.Forms.ImageFormatHandler.ImageFormatTypes,System.Drawing.Imaging.ImageCodecInfo@)">
+            <summary>
+            Get the encoder parameters used for saving a graphic into a file or stream.
+            </summary>
+            <param name="type">The desired format type.</param>
+            <param name="info">Returns the codec info.</param>
+            <returns>The encoder parameters or 'null' when not supported by the requested type.</returns>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.ImageFormatHandler.GetDefaultFilenameExtension(Xunit.Extensions.Forms.ImageFormatHandler.ImageFormatTypes)">
+            <summary>
+            Get the default filename extension for a given type
+            </summary>
+            <param name="type">The image type</param>
+            <returns>The extension string.</returns>
+        </member>
+        <member name="P:Xunit.Extensions.Forms.ImageFormatHandler.DefaultFormat">
+            <summary>
+            Get/Set the default image format used
+            </summary>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.ImageFormatHandler.ImageFormatTypes">
+            <summary>
+            An enum which represents all supported graphic formats. These enum names are also used
+            to get a description from the resources.
+            </summary>
+        </member>
+        <member name="F:Xunit.Extensions.Forms.ImageFormatHandler.ImageFormatTypes.imgNone">
+            <summary>
+            Undefined format
+            </summary>
+        </member>
+        <member name="F:Xunit.Extensions.Forms.ImageFormatHandler.ImageFormatTypes.imgBMP">
+            <summary>
+            Windows bitmap
+            </summary>
+        </member>
+        <member name="F:Xunit.Extensions.Forms.ImageFormatHandler.ImageFormatTypes.imgEMF">
+            <summary>
+            Enhanced Windows metafile
+            </summary>
+        </member>
+        <member name="F:Xunit.Extensions.Forms.ImageFormatHandler.ImageFormatTypes.imgEXIF">
+            <summary>
+            Exchangeable Image File
+            </summary>
+        </member>
+        <member name="F:Xunit.Extensions.Forms.ImageFormatHandler.ImageFormatTypes.imgGIF">
+            <summary>
+            Graphics Interchange Format
+            </summary>
+        </member>
+        <member name="F:Xunit.Extensions.Forms.ImageFormatHandler.ImageFormatTypes.imgICON">
+            <summary>
+            Windows icon
+            </summary>
+        </member>
+        <member name="F:Xunit.Extensions.Forms.ImageFormatHandler.ImageFormatTypes.imgJPEG">
+            <summary>
+            Joint Photographic Experts Group
+            </summary>
+        </member>
+        <member name="F:Xunit.Extensions.Forms.ImageFormatHandler.ImageFormatTypes.imgPNG">
+            <summary>
+            Portable Network Graphics
+            </summary>
+        </member>
+        <member name="F:Xunit.Extensions.Forms.ImageFormatHandler.ImageFormatTypes.imgTIFF">
+            <summary>
+            Tag Image File
+            </summary>
+        </member>
+        <member name="F:Xunit.Extensions.Forms.ImageFormatHandler.ImageFormatTypes.imgWMF">
+            <summary>
+            Windows metafile
+            </summary>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.MainForm">
+            <summary>
+            Main form of screen capture application
+            </summary>
+        </member>
+        <member name="F:Xunit.Extensions.Forms.MainForm.capture">
+            <summary>
+            The class instance used to capture the screen
+            </summary>
+        </member>
+        <member name="F:Xunit.Extensions.Forms.MainForm.handlers">
+            <summary>
+            Helper to handle the file formats
+            </summary>
+        </member>
+        <member name="F:Xunit.Extensions.Forms.MainForm.pathName">
+            <summary>
+            The path of the executable, used to save the captured images.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.MainForm.#ctor">
+            <summary>
+            Do it....
+            </summary>
+        </member>
+        <member name="F:Xunit.Extensions.Forms.MainForm.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.MainForm.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.MainForm.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.NativeMethods">
+            <summary>
+            Helper class which maps some WIN32 values
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.NativeMethods.GetWindowRect(System.IntPtr,Xunit.Extensions.Forms.NativeMethods.RECT@)">
+            <summary>
+            Get a windows rectangle in a RECT structure
+            </summary>
+            <param name="hwnd">The window handle to look up</param>
+            <param name="rect">The rectangle</param>
+            <returns></returns>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.NativeMethods.BringWindowToTop(System.IntPtr)">
+            <summary>
+            The BringWindowToTop function brings the specified window to the top of the Z order. 
+            If the window is a top-level window, it is activated. 
+            If the window is a child window, the top-level parent window associated 
+            with the child window is activated. 
+            </summary>
+            <param name="hWnd">Handle to the window to bring to the top of the Z order. </param>
+            <returns>If the function succeeds, the return value is nonzero.
+            If the function fails, the return value is zero. 
+            To get extended error information, call GetLastError. 
+            </returns>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.NativeMethods.GetWindowRect(System.IntPtr)">
+            <summary>
+            Get a windows rectangle in a .NET structure
+            </summary>
+            <param name="hwnd">The window handle to look up</param>
+            <returns>The rectangle</returns>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Program.Main">
+            <summary>
+            The main entry point for the application.
             </summary>
         </member>
         <member name="T:Xunit.Extensions.Forms.CaptureHandleDelegateHandler">
@@ -616,81 +1211,118 @@
             On a multi monitor system capture all screens in different images.
             </summary>
         </member>
-        <member name="T:Xunit.Extensions.Forms.ToolStripSplitButtonTester">
+        <member name="M:Xunit.Extensions.Forms.ToolBarButtonTester.Click">
             <summary>
-            A ToolStripItem tester for testing ToolStripSplitButtons.
+            Click a pushbutton
             </summary>
         </member>
-        <member name="M:Xunit.Extensions.Forms.ToolStripSplitButtonTester.ClickDropDownItem(System.Int32)">
+        <member name="M:Xunit.Extensions.Forms.ToolBarButtonTester.ClickDropDownMenuItem(System.String)">
             <summary>
-            Clicks the DropDownItem with the given index.
+            Click an item in a dropdown menu
             </summary>
-            <param name="index"></param>
+            <param name="menuText">The name of the menu item to click</param>
         </member>
-        <member name="M:Xunit.Extensions.Forms.ToolStripSplitButtonTester.ButtonClick">
+        <member name="P:Xunit.Extensions.Forms.ToolBarButtonTester.Bar">
             <summary>
-            Simulates that the "user" clicks on the button part of the
-            ToolStripSplitButton.
-            </summary>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.ToolStripSplitButtonTester.ButtonDoubleClick">
-            <summary>
-            Simulates that the "user" double clicks on the button part of the
-            ToolStripSplitButton.
+            The toolbar that this button refers too
             </summary>
         </member>
-        <member name="T:Xunit.Extensions.Forms.ToolStripComboBoxTester">
+        <member name="P:Xunit.Extensions.Forms.ToolBarButtonTester.Button">
             <summary>
-            A Component tester for testing ToolStripComboBoxes.
-            </summary>
-            <summary>
-            A Component tester for testing ToolStripComboBoxes.
+            The button that this tester encapsulates
             </summary>
         </member>
-        <member name="M:Xunit.Extensions.Forms.ToolStripComboBoxTester.Enter(System.String)">
+        <member name="P:Xunit.Extensions.Forms.ToolBarButtonTester.DropDownMenu">
             <summary>
-            Sets the text property of the ToolStripComboBox to the specified value.
+            Helper method to get the dropdown menu from a button
             </summary>
-            <remarks>
-            TODO: Also calls EndCurrentEdit() so that databinding will happen.
+        </member>
+        <member name="T:Xunit.Extensions.Forms.EventHelper">
+            <summary>
+             Methods for firing events via reflection.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.EventHelper.RaiseEvent(System.Object,System.String)">
+            <summary>
+             Fires the named event on the given object using the object's "OnEventName" method.
+            </summary>
+             <remarks>
+             <para>
+             By convention, an event named "MyEvent(object sender, MyEventArgs e)" should have a virtual protected
+             method "OnMyEvent(MyEventArgs e)" that actually calls any attached event handler.
+             </para>
+             <para>
+             This method assumes that the target event has been implemented with this pattern.
+             </para>
+             </remarks>
+            <param name="targetObject">The object raising the event.</param>
+            <param name="eventName">The name of the event to raise.</param>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.EventHelper.RaiseEvent(System.Object,System.String,System.Object[])">
+            <summary>
+             Fires the named event on the given object using the object's "OnEventName" method.
+            </summary>
+             <remarks>
+             <para>
+             By convention, an event named "MyEvent(object sender, MyEventArgs e)" should have a virtual protected
+             method "OnMyEvent(MyEventArgs e)" that actually calls any attached event handler.
+             </para>
+             <para>
+             This method assumes that the target event has been implemented with this pattern.
+             </para>
+             </remarks>
+            <param name="targetObject">The object raising the event.</param>
+            <param name="eventName">The name of the event to raise.</param>
+            <param name="args">A list of arguments to pass to the EventArgs-derived parameter's constructor.</param>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.EventHelper.RaiseEvent(System.Object,System.String,System.EventArgs)">
+            <summary>
+             Fires the named event on the given object using the object's "OnEventName" method.
+            </summary>
+             <remarks>
+             <para>
+             By convention, an event named "MyEvent(object sender, MyEventArgs e)" should have a virtual protected
+             method "OnMyEvent(MyEventArgs e)" that actually calls any attached event handler.
+             </para>
+             <para>
+             This method assumes that the target event has been implemented with this pattern.
+             </para>
+             </remarks>
+            <param name="targetObject">The object raising the event.</param>
+            <param name="eventName">The name of the event to raise.</param>
+            <param name="arg">The EventArgs-derived class to pass to this event.</param>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.EventHelper.Call(System.Object,System.String,System.Object[])">
+            <summary>
+             Calls the given method on the target object with the specified arguments.
+            </summary>
+            <returns>The return value of the called method, if any.</returns>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.AmbiguousNameException">
+             <summary>
+             Exception is thrown when there is more than one control with the specified name.
+             </summary>
+             <remarks>
+             You should qualify the name according to the name property of the parent control in
+             a dot-delimited string.
+             <para>
+             If you have multiple dynamic controls with the same name, consider giving them unique
+             names or else access them using the indexer property on each ControlTester.
+             </para> 
             </remarks>
-            <param name="text">The specified value for the text property.</param>
+            <example>
+            grandparent.parent.child is a valid name string.. You can use the shortest name string
+            that uniquely identifies a control.
+            </example>
         </member>
-        <member name="M:Xunit.Extensions.Forms.ToolStripComboBoxTester.Select(System.String)">
+        <member name="M:Xunit.Extensions.Forms.AmbiguousNameException.#ctor(System.String)">
             <summary>
-            Selects an entry in the ToolStripComboBox according to its string value.
+            Creates an AmbiguousNameException.
             </summary>
             <remarks>
-            Sets the Selected Index property on the underlying control after calling
-            FindStringExact
+            The message string can be specified.
             </remarks>
-            <param name="text">The string value of the entry to select.</param>
-        </member>
-        <member name="T:Xunit.Extensions.Forms.RadioButtonTester">
-            <summary>
-            A ControlTester for testing RadioButtons.  
-            </summary>
-            <remarks>
-            This class provides a convenience property for determining
-            whether a RadioButton is checked.</remarks>
-        </member>
-        <member name="P:Xunit.Extensions.Forms.RadioButtonTester.Checked">
-            <summary>
-             Gets the Checked property of the underlying radio button.
-            </summary>
-        </member>
-        <member name="T:Xunit.Extensions.Forms.TabControlTester">
-            <summary>
-            A ControlTester for testing TabControls.
-            </summary>
-            <remarks>
-            There is a convenience method for selecting a specified tab.</remarks>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.TabControlTester.SelectTab(System.Int32)">
-            <summary>
-            Selects the tab at the specified index.
-            </summary>
-            <param name="index">The tab to select.</param>
+            <param name="message">The messasge for the exception.</param>
         </member>
         <member name="T:Xunit.Extensions.Forms.ExpectedModalResult">
             <summary>
@@ -737,126 +1369,18 @@
             Returns a list of all results in this list that did not pass.
             </summary>
         </member>
-        <member name="T:Xunit.Extensions.Forms.AmbiguousNameException">
-             <summary>
-             Exception is thrown when there is more than one control with the specified name.
-             </summary>
-             <remarks>
-             You should qualify the name according to the name property of the parent control in
-             a dot-delimited string.
-             <para>
-             If you have multiple dynamic controls with the same name, consider giving them unique
-             names or else access them using the indexer property on each ControlTester.
-             </para> 
-            </remarks>
-            <example>
-            grandparent.parent.child is a valid name string.. You can use the shortest name string
-            that uniquely identifies a control.
-            </example>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.AmbiguousNameException.#ctor(System.String)">
+        <member name="T:Xunit.Extensions.Forms.FileAssert">
             <summary>
-            Creates an AmbiguousNameException.
-            </summary>
-            <remarks>
-            The message string can be specified.
-            </remarks>
-            <param name="message">The messasge for the exception.</param>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.ToolBarButtonTester.Click">
-            <summary>
-            Click a pushbutton
+             Assertions for files.
             </summary>
         </member>
-        <member name="M:Xunit.Extensions.Forms.ToolBarButtonTester.ClickDropDownMenuItem(System.String)">
+        <member name="M:Xunit.Extensions.Forms.FileAssert.AreBinaryEqual(System.String,System.String)">
             <summary>
-            Click an item in a dropdown menu
+             Compare two files for binary equality.
             </summary>
-            <param name="menuText">The name of the menu item to click</param>
-        </member>
-        <member name="P:Xunit.Extensions.Forms.ToolBarButtonTester.Bar">
-            <summary>
-            The toolbar that this button refers too
-            </summary>
-        </member>
-        <member name="P:Xunit.Extensions.Forms.ToolBarButtonTester.Button">
-            <summary>
-            The button that this tester encapsulates
-            </summary>
-        </member>
-        <member name="P:Xunit.Extensions.Forms.ToolBarButtonTester.DropDownMenu">
-            <summary>
-            Helper method to get the dropdown menu from a button
-            </summary>
-        </member>
-        <member name="T:Xunit.Extensions.Forms.SendKey.AlternateSendKeys">
-            <summary>
-            Alternative to the dot Net SendKeys class.
-            
-            SendWait method emulates the dot Net class method.
-            </summary>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.SendKey.AlternateSendKeys.SendWait(System.String)">
-            <summary>
-            Send text to keyboard parsing text using .Net SendKeys.SendWait(...) method formatting.
-            See: http://msdn2.microsoft.com/en-us/library/system.windows.forms.sendkeys.sendwait(VS.90).aspx
-            </summary>
-            <param name="text"></param>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.MouseControl.Convert(System.Drawing.PointF,System.Drawing.PointF)">
-            <summary>
-              Translation between mouse position and screen position.
-            </summary>
-            <param name="p">
-              A <see cref="T:System.Drawing.PointF"/> mouse coordinate relative to
-              the origin control and specified in PositioXunit.
-            </param>
-            <param name="scale">
-            The scale to convert by.
-            </param>
-            <returns>
-              A <see cref="T:Xunit.Extensions.Forms.Win32.Point"/> mouse coordinate relative to
-              the screen and specified in pixels.
-            </returns>
-        </member>
-        <member name="T:Xunit.Extensions.Forms.ComboBoxTester">
-            <summary>
-            A ControlTester for testing ComboBoxes.
-            </summary>
-            <remarks>
-            Has convenience methods for Selecting items and Entering text.
-            <para>
-            Fully supported by the recorder application
-            </para>
-            </remarks>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.ComboBoxTester.Enter(System.String)">
-            <summary>
-            Sets the text property of the ComboBox to the specified value.
-            </summary>
-            <remarks>
-            Also calls EndCurrentEdit() so that databinding will happen.
-            </remarks>
-            <param name="text">The specified value for the text property.</param>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.ComboBoxTester.Select(System.Int32)">
-            <summary>
-            Selects an entry in the ComboBox according to its index.
-            </summary>
-            <remarks>
-            Sets the SelectedIndex property on the underlying control.
-            </remarks>
-            <param name="i">The index of the ComboBox entry to select.</param>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.ComboBoxTester.Select(System.String)">
-            <summary>
-            Selects an entry in the ComboBox according to its string value.
-            </summary>
-            <remarks>
-            Sets the Selected Index property on the underlying control after calling
-            FindStringExact
-            </remarks>
-            <param name="text">The string value of the entry to select.</param>
+            <param name="filePathOne">The path to the first file to compare.</param>
+            <param name="filePathTwo">The path to the second file to compare.</param>
+            <returns>True if the given files have the same contents.</returns>
         </member>
         <member name="T:Xunit.Extensions.Forms.FileDialogTester">
             <summary>
@@ -909,266 +1433,34 @@
             Initial name of the file dialog boxes. They seem to change name after their creation.
             </summary>
         </member>
-        <member name="M:Xunit.Extensions.Forms.Win32.BlockInput(System.Boolean)">
+        <member name="T:Xunit.Extensions.Forms.FormsAssert">
             <summary>
-            Specifies the function's purpose. If this parameter is TRUE, keyboard and mouse input events are 
-            blocked. If this parameter is FALSE, keyboard and mouse events are unblocked. Note that only 
-            the thread that blocked input can successfully unblock input. 
-            </summary>
-            <param name="blockIt"></param>
-            <returns></returns>
-            <remarks>
-            When input is blocked, real physical input from the mouse or keyboard will not affect the input queue's 
-            synchronous key state (reported by GetKeyState and GetKeyboardState), nor will it affect the asynchronous 
-            key state (reported by GetAsyncKeyState). However, the thread that is blocking input can affect both of 
-            these key states by calling SendInput. No other thread can do this.
-            The system will unblock input in the following cases: 
-            The thread that blocked input unexpectedly exits without calling BlockUserInput with fBlock set to FALSE. 
-            In this case, the system cleans up properly and re-enables input. Windows 95/98/Me: The system displays the
-            Close Program/Fault dialog box. This can occur if the thread faults or if the user presses CTRL+ALT+DEL. 
-            Windows 2000/XP: The user presses CTRL+ALT+DEL or the system invokes the Hard System Error modal message
-            box (for example, when a program faults or a device fails). 
-            </remarks>
-        </member>
-        <member name="T:Xunit.Extensions.Forms.Win32.KEYBDINPUT">
-            <summary>
-            Another example can be found on http://www.pinvoke.net/default.aspx/user32/SendInput.html. Notice
-            that KEYBDINPUT on pinvoke.net is split in two structs : INPUT and KEYBDINPUT. The KEYBDINPUT that is
-            used here, contains both structs of pinvoke.net.
+             Additional assertion methods for XunitForms.
             </summary>
         </member>
-        <member name="M:Xunit.Extensions.Forms.Win32.MOUSEINPUT.#ctor(System.Int32)">
+        <member name="M:Xunit.Extensions.Forms.FormsAssert.Equal(System.Object,System.Object,System.String)">
             <summary>
-             
-             </summary>
-             <remarks>
-            dx
-            Specifies the absolute position of the mouse, or the amount of motion since the last mouse event was generated, depending on the value of the dwFlags member. Absolute data is specified as the x coordinate of the mouse; relative data is specified as the number of pixels moved. 
-            dy
-            Specifies the absolute position of the mouse, or the amount of motion since the last mouse event was generated, depending on the value of the dwFlags member. Absolute data is specified as the y coordinate of the mouse; relative data is specified as the number of pixels moved. 
-            mouseData
-            If dwFlags contains MOUSEEVENTF_WHEEL, then mouseData specifies the amount of wheel movement. A positive value indicates that the wheel was rotated forward, away from the user; a negative value indicates that the wheel was rotated backward, toward the user. One wheel click is defined as WHEEL_DELTA, which is 120. 
-            Windows 2000/XP: IfdwFlags does not contain MOUSEEVENTF_WHEEL, MOUSEEVENTF_XDOWN, or MOUSEEVENTF_XUP, then mouseData should be zero. 
-            
-            If dwFlags contains MOUSEEVENTF_XDOWN or MOUSEEVENTF_XUP, then mouseData specifies which X buttons were pressed or released. This value may be any combination of the following flags. 
-            
-            XBUTTON1
-            Set if the first X button is pressed or released.
-            XBUTTON2
-            Set if the second X button is pressed or released.
-            dwFlags
-            A set of bit flags that specify various aspects of mouse motion and button clicks. The bits in this member can be any reasonable combination of the following values. 
-            The bit flags that specify mouse button status are set to indicate changes in status, not ongoing conditions. For example, if the left mouse button is pressed and held down, MOUSEEVENTF_LEFTDOWN is set when the left button is first pressed, but not for subsequent motions. Similarly, MOUSEEVENTF_LEFTUP is set only when the button is first released. 
-            
-            You cannot specify both the MOUSEEVENTF_WHEEL flag and either MOUSEEVENTF_XDOWN or MOUSEEVENTF_XUP flags simultaneously in the dwFlags parameter, because they both require use of the mouseData field. 
-            
-            MOUSEEVENTF_ABSOLUTE
-            Specifies that the dx and dy members contain normalized absolute coordinates. If the flag is not set, dxand dy contain relative data (the change in position since the last reported position). This flag can be set, or not set, regardless of what kind of mouse or other pointing device, if any, is connected to the system. For further information about relative mouse motion, see the following Remarks section.
-            MOUSEEVENTF_MOVE
-            Specifies that movement occurred.
-            MOUSEEVENTF_LEFTDOWN
-            Specifies that the left button was pressed.
-            MOUSEEVENTF_LEFTUP
-            Specifies that the left button was released.
-            MOUSEEVENTF_RIGHTDOWN
-            Specifies that the right button was pressed.
-            MOUSEEVENTF_RIGHTUP
-            Specifies that the right button was released.
-            MOUSEEVENTF_MIDDLEDOWN
-            Specifies that the middle button was pressed.
-            MOUSEEVENTF_MIDDLEUP
-            Specifies that the middle button was released.
-            MOUSEEVENTF_VIRTUALDESK
-            Windows 2000/XP:Maps coordinates to the entire desktop. Must be used with MOUSEEVENTF_ABSOLUTE.
-            MOUSEEVENTF_WHEEL
-            Windows NT/2000/XP: Specifies that the wheel was moved, if the mouse has a wheel. The amount of movement is specified in mouseDataÃ‚Â .
-            MOUSEEVENTF_XDOWN
-            Windows 2000/XP: Specifies that an X button was pressed.
-            MOUSEEVENTF_XUP
-            Windows 2000/XP: Specifies that an X button was released.
-            time
-            Time stamp for the event, in milliseconds. If this parameter is 0, the system will provide its own time stamp. 
-            dwExtraInfo
-            </remarks>
+             Asserts that the given objects are equal.
+            </summary>
+            <param name="o"></param>
+            <param name="o2"></param>
+            <param name="error"></param>
+            <exception cref="T:Xunit.Extensions.Forms.FormsTestAssertionException"></exception>
         </member>
-        <member name="T:Xunit.Extensions.Forms.Strings">
+        <member name="M:Xunit.Extensions.Forms.FormsAssert.IsTrue(System.Boolean)">
             <summary>
-             Additional methods for working with strings.
+             Asserts that the given value is true.
             </summary>
+            <param name="val"></param>
+            <exception cref="T:Xunit.Extensions.Forms.FormsTestAssertionException"></exception>
         </member>
-        <member name="M:Xunit.Extensions.Forms.Strings.SafeRemoveSpaces(System.String)">
+        <member name="M:Xunit.Extensions.Forms.FormsAssert.IsTrue(System.Boolean,System.String)">
             <summary>
-            Removes all spaces from a string.
+             Asserts that the given value is true.
             </summary>
-            <param name="name">
-            Remove all spaces from this string.
-            </param>
-            <returns>
-            <list type="bullet">
-            <item><paramref name="name"/> without spaces.</item>
-            <item>if <paramref name="name"/> is not effective, returns an empty string</item>
-            </list>
-            </returns>
-        </member>
-        <member name="T:Xunit.Extensions.Forms.SaveFileDialogTester">
-            <summary>
-            This class is used to test the built-in OpenFileDialog. This class is not meant to be
-            used directly. Instead you should use the ExpectOpenFileDialog and CancelOpenFileDialog functions
-            in the XunitFormTest
-            class.
-            </summary>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.SaveFileDialogTester.#ctor(System.IntPtr)">
-            <summary>
-            Constructs a new SaveFileDialogTester working on the dialog box having the given handle.
-            </summary>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.SaveFileDialogTester.#ctor(System.String)">
-            <summary>
-            Unreliable, kept for compatibility. The title is not actually used.
-            </summary>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.SaveFileDialogTester.SaveFile(System.String)">
-            <summary>
-            Inputs the give file name into the dialog box, and clicks the save button.
-            </summary>
-        </member>
-        <member name="T:Xunit.Extensions.Forms.ModalFormHandler">
-            <summary>
-            Used to specify a handler for a Modal form that is displayed during testing.
-            </summary>
-            <param name="name">Title of the form. Note that the titles of the file dialog boxes are not reliable.</param>
-            <param name="hWnd">Handle of the modal form. Can be passed to the constructors of the dialog box testers.</param>
-            <param name="form">Reference to the modal form. Null if it is a dialog box.</param>
-        </member>
-        <member name="T:Xunit.Extensions.Forms.DialogBoxHandler">
-            <summary>
-            Same as ModalFormHandler, without the form argument.
-            </summary>
-        </member>
-        <member name="T:Xunit.Extensions.Forms.ModalFormTester">
-            <summary>
-             A class for testing Modal Forms.
-            </summary>
-        </member>
-        <member name="F:Xunit.Extensions.Forms.ModalFormTester.hwndList">
-            <summary>
-            This list is used to keep track of which windows that have been created.
-            </summary>
-        </member>
-        <member name="F:Xunit.Extensions.Forms.ModalFormTester.listening">
-            <summary>
-            True if we have begun listening for CBT Activate events.
-            </summary>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.ModalFormTester.Dispose">
-            <summary>
-             Disposes any resources being managed.
-            </summary>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.ModalFormTester.Verify">
-            <summary>
-            Verifies that all expected handlers were invoked,
-            and that no unexpected ones were.
-            </summary>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.ModalFormTester.Callback_ModalListener(System.Int32,System.IntPtr,System.IntPtr)">
-            <summary>
-            CBT callback called when a form is activated.
-            If the newly activated form is modal, invoke the registered handler.
-            </summary>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.ModalFormTester.ExpectModal(System.String,Xunit.Extensions.Forms.ModalFormActivated)">
-            <summary>
-             Registers an expected handler for the given form caption.
-            </summary>
-            <param name="name">The caption of the form to handle.</param>
-            <param name="handler">The handler.</param>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.ModalFormTester.ExpectModal(System.String,Xunit.Extensions.Forms.ModalFormActivated,System.Boolean)">
-            <summary>
-             Registers an expected or unexpected handler for the given form caption.
-            </summary>
-            <param name="name">The caption of the form to handle.</param>
-            <param name="handler">The handler.</param>
-            <param name="expected">True if this handler is expected; false if this handler is not expected.</param>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.ModalFormTester.Add(System.String,Xunit.Extensions.Forms.ModalFormActivatedHwnd,System.Int32)">
-            <summary>
-             Registers an expected or unexpected handler for the given form caption.
-            </summary>
-            <param name="name">The caption of the form to handle.</param>
-            <param name="handler">The handler.</param>
-            <param name="expectedCount">number of times this handler is expected</param>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.ModalFormTester.UnexpectedModal(System.IntPtr)">
-             <summary>
-             A <see cref="T:Xunit.Extensions.Forms.ModalFormActivatedHwnd"/> that tries to click the OK button of the modal form.
-            </summary>
-        </member>
-        <member name="T:Xunit.Extensions.Forms.ModalFormTester.Handler">
-            <summary>
-            This class encapsulates a event handler
-            along with information on whether it was
-            expected to be called, and if it was actually called.
-            </summary>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.ModalFormTester.Handler.#ctor(System.Delegate,System.Int32,System.String)">
-            <summary>
-            Constructs a new <see cref="T:Xunit.Extensions.Forms.ModalFormTester.Handler"/>.
-            </summary>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.ModalFormTester.Handler.Verify">
-            <summary>
-            Verify that this handler was either expected and invoked,
-            or not expected and not invoked.
-            </summary>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.ModalFormTester.Handler.Invoke(System.IntPtr)">
-            <summary>
-            Invokes the wrapped event handler with the given window handle.
-            </summary>
-            <param name="hWnd"></param>
-        </member>
-        <member name="T:Xunit.Extensions.Forms.RichTextBoxTester">
-            <summary>
-            A ControlTester for testing RichTextBoxes.
-            </summary>
-            <remarks>
-            There is a convenience method for entering text into a RichTextBox.</remarks>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.RichTextBoxTester.Enter(System.String)">
-            <summary>
-            This method allows you to enter text into the text box.
-            </summary>
-            <param name="text">The text to enter into the text box.</param>
-        </member>
-        <member name="T:Xunit.Extensions.Forms.Key">
-            <summary>
-            Constant values for use with KeyboardController.
-            </summary>
-        </member>
-        <member name="T:Xunit.Extensions.Forms.IKeepAlive">
-            <summary>
-            This interface allows a Form to signal that it should not be disposed between tests.
-            </summary>
-        </member>
-        <member name="P:Xunit.Extensions.Forms.IKeepAlive.KeepAlive">
-            <summary>
-            Gets a value which determines if this object should be kept alive between tests.
-            </summary>
-        </member>
-        <member name="T:Xunit.Extensions.Forms.KeepAlive">
-            <summary>
-            Static helper class for <see cref="T:Xunit.Extensions.Forms.IKeepAlive"/> management.
-            </summary>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.KeepAlive.ShouldKeepAlive(System.Object)">
-            <summary>
-             Tests if the given object should be kept alive.
-            </summary>
-            <param name="obj">The object to test.</param>
-            <returns>True if obj should be kept alive.</returns>
+            <param name="val"></param>
+            <param name="error"></param> 
+            <exception cref="T:Xunit.Extensions.Forms.FormsTestAssertionException"></exception>
         </member>
         <member name="T:Xunit.Extensions.Forms.ControlNotVisibleException">
             <summary>
@@ -1185,272 +1477,20 @@
             </remarks>
             <param name="message">The messasge for the exception.</param>
         </member>
-        <member name="T:Xunit.Extensions.Forms.CheckBoxTester">
+        <member name="T:Xunit.Extensions.Forms.FormsTestAssertionException">
             <summary>
-            A ControlTester for testing CheckBoxes.
+            Defines a base class for exceptions generated when testing forms.
             </summary>
         </member>
-        <member name="M:Xunit.Extensions.Forms.CheckBoxTester.Check(System.Boolean)">
+        <member name="M:Xunit.Extensions.Forms.FormsTestAssertionException.#ctor(System.String)">
             <summary>
-            Sets the shouldCheck property to the specified value.
+             Constructs a new <see cref="T:Xunit.Extensions.Forms.FormsTestAssertionException"/> with the given message.
             </summary>
         </member>
-        <member name="M:Xunit.Extensions.Forms.CheckBoxTester.Check">
+        <member name="M:Xunit.Extensions.Forms.FormsTestAssertionException.#ctor(System.String,System.Exception)">
             <summary>
-            Sets the Checked property of the CheckBox to true
-            </summary>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.CheckBoxTester.UnCheck">
-            <summary>
-            Sets the Checked property of the CheckBox to false
-            </summary>
-        </member>
-        <member name="P:Xunit.Extensions.Forms.CheckBoxTester.Checked">
-            <summary>
-            Retrieves the Checked property of the CheckBox
-            </summary>
-        </member>
-        <member name="T:Xunit.Extensions.Forms.FormFinder">
-            <summary>
-            A class to help find a form according to its name.  XunitForms users should not need to use
-            this class.  Consider it as internal.  
-            </summary>
-            <remarks>
-            It is also used by the recorder application.</remarks>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.FormFinder.FindAll(System.String)">
-            <summary>
-            Finds all of the forms with a specified name and returns them in a FormCollection.
-            </summary>
-            <param name="formName">The name of the form to search for.</param>
-            <returns>the FormCollection of all found forms.</returns>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.FormFinder.Find(System.String)">
-            <summary>
-            Finds one form with the specified name.
-            </summary>
-            <param name="formName">The name of the form to search for.</param>
-            <returns>The form it finds.</returns>
-            <exception cref="T:Xunit.Extensions.Forms.NoSuchControlException">
-            Thrown if there are no forms with the specified name.
-            </exception>
-            <exception cref="T:Xunit.Extensions.Forms.AmbiguousNameException">
-            Thrown if there is more than one form with the specified name.</exception>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.FormFinder.FindAll">
-            <summary>
-            Finds all of the forms.
-            </summary>
-            <returns>FormCollection with all of the forms regardless of name.</returns>
-        </member>
-        <member name="T:Xunit.Extensions.Forms.FileAssert">
-            <summary>
-             Assertions for files.
-            </summary>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.FileAssert.AreBinaryEqual(System.String,System.String)">
-            <summary>
-             Compare two files for binary equality.
-            </summary>
-            <param name="filePathOne">The path to the first file to compare.</param>
-            <param name="filePathTwo">The path to the second file to compare.</param>
-            <returns>True if the given files have the same contents.</returns>
-        </member>
-        <member name="T:Xunit.Extensions.Forms.XunitFormTest">
-             <summary>
-             One of three base classes for your XunitForms tests.  This one can be
-             used by people who do not need or want "built-in" Assert functionality.
-            
-             This is the recommended base class for all unit tests that use XunitForms.  
-             </summary>
-             <remarks>
-             You should probably extend this class to create all of your test fixtures.  The benefit is that
-             this class implements setup and teardown methods that clean up after your test.  Any forms that
-             are created and displayed during your test are cleaned up by the tear down method.  This base
-             class also provides easy access to keyboard and mouse controllers.  It has a method that allows
-             you to set up a handler for modal dialog boxes.  It allows your tests to run on a separate 
-             (usually hidden) desktop so that they are faster and do not interfere with your normal desktop
-             activity.  If you want custom setup and teardown behavior, you should override the virtual 
-             Setup and TearDown methods.  Do not use the setup and teardown attributes in your child class.
-             </remarks>
-        </member>
-        <member name="F:Xunit.Extensions.Forms.XunitFormTest.verified">
-            <summary>
-            True if the modal handlers for this test have been verified; else false.
-            </summary>
-            <remarks>
-            It would be better form to make this private and provide a protected getter property, though
-            that could break existing tests.
-            </remarks>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.XunitFormTest.#ctor">
-            <summary>
-            This is the base classes setup method.  It will be called by Xunit before each test.
-            You should not have anything to do with it.
-            </summary>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.XunitFormTest.EmulateSendKeys">
-            <summary>
-            A patch method to allow migration to an alternative SendKeys class instead
-            of the dot Net SendKeys class. Once the new class is completed this method
-            will be replaced by a method to allow use of the dot Net class.
-            
-            This method must only be called at the start of the test fixture's overriden
-            SetUp().
-            </summary>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.XunitFormTest.EmulateWindowSpecificSendKeys">
-            <summary>
-            A patch method to allow migration to an alternative SendKeys class instead
-            of the dot Net SendKeys class. Once the new class is completed this method
-            will be replaced by a method to allow use of the dot Net class.
-            
-            This method must only be called at the start of the test fixture's overriden
-            SetUp().
-            </summary>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.XunitFormTest.Setup">
-            <summary>
-            Override this Setup method if you have custom behavior to execute before each test
-            in your fixture.
-            </summary>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.XunitFormTest.Verify">
-            <summary>
-            This method is called by Xunit after each test runs.  If you have custom
-            behavior to run after each test, then override the TearDown method and do
-            it there.  That method is called at the beginning of this one.
-            You should not need to do anything with it.  Do not call it.
-            If you do call it, call it as the last thing you do in your test.
-            </summary>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.XunitFormTest.TearDown">
-            <summary>
-            Override this TearDown method if you have custom behavior to execute after each test
-            in your fixture.
-            </summary>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.XunitFormTest.ExpectFileDialog(System.String)">
-            <summary>
-            Unreliable. Deprecated in favor of ModalFormHandler/ModalDialogHandler.
-            </summary>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.XunitFormTest.ExpectFileDialog(System.String,System.Boolean)">
-            <summary>
-            Unreliable. Deprecated in favor of ModalFormHandler/ModalDialogHandler.
-            </summary>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.XunitFormTest.ExpectFileDialog(Xunit.Extensions.Forms.ModalFormActivated)">
-            <summary>
-            Unreliable. Deprecated in favor of ModalFormHandler/ModalDialogHandler.
-            </summary>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.XunitFormTest.ExpectFileDialog(Xunit.Extensions.Forms.ModalFormActivated,System.Boolean)">
-            <summary>
-            Unreliable. Deprecated in favor of ModalFormHandler/ModalDialogHandler.
-            </summary>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.XunitFormTest.ExpectModal(System.String,Xunit.Extensions.Forms.ModalFormActivated)">
-            <summary>
-            Deprecated in favor of ModalFormHandler/ModalDialogHandler.
-            </summary>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.XunitFormTest.ExpectModal(System.String,Xunit.Extensions.Forms.ModalFormActivated,System.Boolean)">
-            <summary>
-            Deprecated in favor of ModalFormHandler/ModalDialogHandler.
-            </summary>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.XunitFormTest.ExpectModal(System.String,System.String,System.Boolean)">
-            <summary>
-            Deprecated in favor of ModalFormHandler/ModalDialogHandler.
-            </summary>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.XunitFormTest.ExpectModal(System.String,System.String)">
-            <summary>
-            Deprecated in favor of ModalFormHandler/ModalDialogHandler.
-            </summary>
-        </member>
-        <member name="P:Xunit.Extensions.Forms.XunitFormTest.DisplayHidden">
-            <summary>
-            This property controls whether the separate hidden desktop is displayed for the duration of
-            this test.  You will need to override and return true from this property if your test makes
-            use of the keyboard or mouse controllers.  (The hidden desktop cannot accept user input.)  For
-            tests that do not use the keyboard and mouse controller (most should not) you don't need to do
-            anything with this.  The default behavior is fine.
-            </summary>
-        </member>
-        <member name="P:Xunit.Extensions.Forms.XunitFormTest.UseHidden">
-            <summary>
-            This property controls whether a separate desktop is used at all. Tests on the separate desktop
-            are faster and safer (there is no danger of keyboard or mouse input going to your own separate 
-            running applications).  However, it fails on some systems; also, it is not possible to unlock 
-            by hand a blocked test (e.g. due to a modal form). In order to enable it, you can override
-            this method from your test class to return true. Or you can set an environment variable called
-            "UseHiddenDesktop" and set that to "true".
-            </summary>
-        </member>
-        <member name="P:Xunit.Extensions.Forms.XunitFormTest.Mouse">
-            <summary>
-            Returns a reference to the current MouseController for doing Mouse tests.  I recommend
-            this only when you are writing your own custom controls and need to respond to actual
-            mouse input to test them properly.  In most other cases there is a better way to test
-            the form's logic.
-            </summary>
-        </member>
-        <member name="P:Xunit.Extensions.Forms.XunitFormTest.Keyboard">
-            <summary>
-            Returns a reference to the current KeyboardController for doing Keyboard tests.  I recommend
-            this only when you are writing your own custom controls and need to respond to actual
-            keyboard input to test them properly.  In most other cases there is a better way to test
-            for the form's logic.
-            </summary>
-        </member>
-        <member name="P:Xunit.Extensions.Forms.XunitFormTest.ModalFormHandler">
-            <summary>
-            Records a single shot modal form handler. The handler receives as arguments the title of the window,
-            its handle, and the corresponding form (null if it is not a form, i.e. a dialog box). The handler is
-            single shot: it is removed after being run; therefore, if it is expected to trigger a new modal form,
-            it should install a new handler before returning. The handler can work on dialog boxes by creating
-            a message box tester or file dialog tester, passing the handle of the box (its second argument) to the
-            tester's constructor. The tester constructors taking as argument the box title are unreliable and deprecated.
-            </summary>
-        </member>
-        <member name="P:Xunit.Extensions.Forms.XunitFormTest.DialogBoxHandler">
-            <summary>
-            Shorter version of ModalFormHandler without the form argument; meant for dialogs.
-            </summary>
-        </member>
-        <member name="T:Xunit.Extensions.Forms.ControlNotEnabledException">
-            <summary>
-            Exception is thrown when you attempt an action on a Control that is not
-            enabled.
-            </summary>
-        </member>
-        <member name="T:Xunit.Extensions.Forms.ToolBarTester">
-            <summary>
-            A ControlTester for testing Toolbars.  
-            </summary>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.ToolBarTester.GetButton(System.String)">
-            <summary>
-            Get the toolbar with the specified text
-            </summary>
-            <param name="buttonText">The text of the ToolBarButton</param>
-            <returns>A ToolBarButtonTester containing the matching ToolBarButton</returns>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.ToolBarTester.GetButton(System.Int32)">
-            <summary>
-            Get the toolbar at the index
-            </summary>
-            <param name="index">The index of the button within the toolbar</param>
-            <returns>A ToolBarButtonTester containing the matching ToolBarButton</returns>
-            <remarks>We cannot use this[int index] here as used for ControlTester</remarks>
-        </member>
-        <member name="T:Xunit.Extensions.Forms.XunitFormsAssertionTest">
-            <summary>
-            One of three base classes for your XunitForms tests.  This one can be
-            used by people who want "built-in" Assertion functionality and prefer
-            the older style "Assertion" syntax.
+             Constructs a new <see cref="T:Xunit.Extensions.Forms.FormsTestAssertionException"/> with the given message
+             and inner exception.
             </summary>
         </member>
         <member name="T:Xunit.Extensions.Forms.Desktop">
@@ -1560,478 +1600,450 @@
              Releases managed resources.
             </summary>
         </member>
-        <member name="T:Xunit.Extensions.Forms.OuterTest">
+        <member name="T:Xunit.Extensions.Forms.FormFinder">
             <summary>
-            Meant to be used as a member in a test class not derived from XunitFormTest.
-            The member should be created by setup, and disposed by teardown, or usinged
-            in the test function itself.
+            A class to help find a form according to its name.  XunitForms users should not need to use
+            this class.  Consider it as internal.  
             </summary>
+            <remarks>
+            It is also used by the recorder application.</remarks>
         </member>
-        <member name="T:Xunit.Extensions.Forms.FormsTestAssertionException">
+        <member name="M:Xunit.Extensions.Forms.FormFinder.FindAll(System.String)">
             <summary>
-            Defines a base class for exceptions generated when testing forms.
+            Finds all of the forms with a specified name and returns them in a FormCollection.
             </summary>
+            <param name="formName">The name of the form to search for.</param>
+            <returns>the FormCollection of all found forms.</returns>
         </member>
-        <member name="M:Xunit.Extensions.Forms.FormsTestAssertionException.#ctor(System.String)">
+        <member name="M:Xunit.Extensions.Forms.FormFinder.Find(System.String)">
             <summary>
-             Constructs a new <see cref="T:Xunit.Extensions.Forms.FormsTestAssertionException"/> with the given message.
+            Finds one form with the specified name.
             </summary>
+            <param name="formName">The name of the form to search for.</param>
+            <returns>The form it finds.</returns>
+            <exception cref="T:Xunit.Extensions.Forms.NoSuchControlException">
+            Thrown if there are no forms with the specified name.
+            </exception>
+            <exception cref="T:Xunit.Extensions.Forms.AmbiguousNameException">
+            Thrown if there is more than one form with the specified name.</exception>
         </member>
-        <member name="M:Xunit.Extensions.Forms.FormsTestAssertionException.#ctor(System.String,System.Exception)">
+        <member name="M:Xunit.Extensions.Forms.FormFinder.FindAll">
             <summary>
-             Constructs a new <see cref="T:Xunit.Extensions.Forms.FormsTestAssertionException"/> with the given message
-             and inner exception.
+            Finds all of the forms.
             </summary>
+            <returns>FormCollection with all of the forms regardless of name.</returns>
         </member>
-        <member name="T:Xunit.Extensions.Forms.CheckedListBoxTester">
+        <member name="T:Xunit.Extensions.Forms.FormTester">
             <summary>
-            A ControlTester for testing CheckedListBoxes.  
-            </summary>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.CheckedListBoxTester.CheckItem(System.String)">
-            <summary>
-            Checks the row that matches item in the list
-            </summary>
-            <param name="item">The list item to check</param>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.CheckedListBoxTester.CheckItems(System.String[])">
-            <summary>
-            Check a range of items
-            </summary>
-            <param name="items"></param>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.CheckedListBoxTester.SetItemChecked(System.Int32,System.Boolean)">
-            <summary>
-            Check a specific item in a list.
-            </summary>
-            <param name="index">The index of the item to check</param>
-            <param name="selected">True to select the item, false to unselect it.</param>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.CheckedListBoxTester.ClearItem(System.String)">
-            <summary>
-            Clears the row that matches item in the list
-            </summary>
-            <param name="item">The list item to check</param>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.CheckedListBoxTester.CheckSelectedItems(System.Collections.ArrayList)">
-            <summary>
-             Check items matching those in the given list.
-            </summary>
-            <param name="matchList">The list of items to check.</param>
-        </member>
-        <member name="P:Xunit.Extensions.Forms.CheckedListBoxTester.Items">
-            <summary>
-            Provides access to the list of items
-            </summary>
-            <returns>A CheckedListBox.ObjectCollection of all the items in the list</returns>
-        </member>
-        <member name="P:Xunit.Extensions.Forms.CheckedListBoxTester.CheckedItems">
-            <summary>
-            Provides access to the list of checked items
-            </summary>
-        </member>
-        <member name="T:Xunit.Extensions.Forms.MainForm">
-            <summary>
-            Main form of screen capture application
-            </summary>
-        </member>
-        <member name="F:Xunit.Extensions.Forms.MainForm.components">
-            <summary>
-            Required designer variable.
-            </summary>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.MainForm.Dispose(System.Boolean)">
-            <summary>
-            Clean up any resources being used.
-            </summary>
-            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.MainForm.InitializeComponent">
-            <summary>
-            Required method for Designer support - do not modify
-            the contents of this method with the code editor.
-            </summary>
-        </member>
-        <member name="F:Xunit.Extensions.Forms.MainForm.capture">
-            <summary>
-            The class instance used to capture the screen
-            </summary>
-        </member>
-        <member name="F:Xunit.Extensions.Forms.MainForm.handlers">
-            <summary>
-            Helper to handle the file formats
-            </summary>
-        </member>
-        <member name="F:Xunit.Extensions.Forms.MainForm.pathName">
-            <summary>
-            The path of the executable, used to save the captured images.
-            </summary>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.MainForm.#ctor">
-            <summary>
-            Do it....
-            </summary>
-        </member>
-        <member name="T:Xunit.Extensions.Forms.Win32Interop.VirtualKeyCodes">
-            <summary>
-            Microsft virtual key codes.
-            http://msdn2.microsoft.com/en-us/library/ms927175.aspx
+            A ControlTester for testing forms.
             
+            This class implements a Close() helper method to close a form that you find.
+            </summary>
+            <remarks>
+            This class does not have all of the constructors because they don't make
+            sense in this context.</remarks>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.FormTester.Dispose">
+            <summary>
+            Disposes the associated Form.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.FormTester.Close">
+            <summary>
+            Closes the associated Form.
+            </summary>
+        </member>
+        <member name="P:Xunit.Extensions.Forms.FormTester.DialogResult">
+            <summary>
+            Gets or sets the dialog result for the form.
+            </summary>
+            <returns>
+            A <c>System.Windows.Forms.DialogResult</c> that represents the result of the form when used as a dialog box.
+            </returns>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.IKeepAlive">
+            <summary>
+            This interface allows a Form to signal that it should not be disposed between tests.
+            </summary>
+        </member>
+        <member name="P:Xunit.Extensions.Forms.IKeepAlive.KeepAlive">
+            <summary>
+            Gets a value which determines if this object should be kept alive between tests.
+            </summary>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.KeepAlive">
+            <summary>
+            Static helper class for <see cref="T:Xunit.Extensions.Forms.IKeepAlive"/> management.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.KeepAlive.ShouldKeepAlive(System.Object)">
+            <summary>
+             Tests if the given object should be kept alive.
+            </summary>
+            <param name="obj">The object to test.</param>
+            <returns>True if obj should be kept alive.</returns>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.Key">
+            <summary>
             Constant values for use with KeyboardController.
-            Values from winuser.h
-            http://www.krugle.com/examples/p-dEfbRNANb0n1Aamr/Key.cs
             </summary>
         </member>
-        <member name="T:Xunit.Extensions.Forms.XunitFormsAssertTest">
+        <member name="T:Xunit.Extensions.Forms.KeyboardController">
             <summary>
-            One of three base classes for your XunitForms tests.  This one can be
-            used by people who want "built-in" Assert functionality and prefer
-            the newer style "Assert" syntax.
-            </summary>
-        </member>
-        <member name="T:Xunit.Extensions.Forms.FormsAssert">
-            <summary>
-             Additional assertion methods for XunitForms.
-            </summary>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.FormsAssert.Equal(System.Object,System.Object,System.String)">
-            <summary>
-             Asserts that the given objects are equal.
-            </summary>
-            <param name="o"></param>
-            <param name="o2"></param>
-            <param name="error"></param>
-            <exception cref="T:Xunit.Extensions.Forms.FormsTestAssertionException"></exception>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.FormsAssert.IsTrue(System.Boolean)">
-            <summary>
-             Asserts that the given value is true.
-            </summary>
-            <param name="val"></param>
-            <exception cref="T:Xunit.Extensions.Forms.FormsTestAssertionException"></exception>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.FormsAssert.IsTrue(System.Boolean,System.String)">
-            <summary>
-             Asserts that the given value is true.
-            </summary>
-            <param name="val"></param>
-            <param name="error"></param> 
-            <exception cref="T:Xunit.Extensions.Forms.FormsTestAssertionException"></exception>
-        </member>
-        <member name="T:Xunit.Extensions.Forms.SendKey.SendKeys">
-            <summary>
-            Wrapper for the dot Net SendKeys class to allow reference by interface
-            for injection and unit testing.
-            
-            Microsoft documents the SendKeys class as unreliable. Only use this class
-            for implementation of ISendKeys if you must use the dot Net class.
-            
-            See: http://msdn2.microsoft.com/en-us/library/system.windows.forms.sendkeys.sendwait(VS.90).aspx
-            </summary>
-        </member>
-        <member name="T:Xunit.Extensions.Forms.TreeViewTester">
-            <summary>
-            A ControlTester for testing TreeViews.
+            Provides testing control of the keyboard.
             </summary>
             <remarks>
-            There is a convenience method for selecting a node in the tree.</remarks>
+            KeyboardController lets you send key presses to your application.  You can
+            click, press, or release any key.  The UseOn() method allows you to assert
+            focus on a specific control before sending the keys.  It also initializes
+            the Keyboard controller for use by blocking user input.
+            </remarks>
         </member>
-        <member name="M:Xunit.Extensions.Forms.TreeViewTester.SelectNode(System.Int32[])">
+        <member name="M:Xunit.Extensions.Forms.KeyboardController.#ctor(Xunit.Extensions.Forms.ControlTester)">
             <summary>
-            Selects a node in the tree.
+            Creates a keyboard controller and sets the focus on the control
+            indicated by the supplied ControlTester.
             </summary>
-            <param name="indices">an array of the indexes of the node to select</param>
+            <param name="controlTester">The ControlTester to use the keyboard
+            on.</param>
         </member>
-        <member name="T:Xunit.Extensions.Forms.Util.GetMessageHook">
+        <member name="M:Xunit.Extensions.Forms.KeyboardController.Dispose">
             <summary>
-            Installs a GetMessageHook, and maintains a list of user supplied callbacks.
-            Every time the hook is run, all the callbacks are run, and those that returned true are discarded.
-            When a callback is recorded, or when the list of callbacks is not empy after a run, a message is
-            posted to the current thread to ensure that the recorded callbacks will be run. Of course one should
-            be wary of infinite loops.
-            
-            Due to the static design, this class will not work in the case of multiple UI threads,
-            each operating a message pump. If this is a concern, it should be feasible to modify it.
-            </summary>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.Util.GetMessageHook.RemoveHook">
-            <summary>
-            Called at test teardown by XunitFormTest
-            </summary>
-        </member>
-        <member name="T:Xunit.Extensions.Forms.ListBoxTester">
-            <summary>
-            A ControlTester for testing ListBoxes.  
+            Implements the IDisposable interface.  This restores user input.
+            It should eventually return the keyboard to its pre-test state.
             </summary>
             <remarks>
-            It includes helper methods for selecting items from the list
-            and for clearing those selections.</remarks>
+            If you are using the Keyboard controller through the base XunitFormTest
+            class, then you should not need to call this method or use finally or using
+            blocks.  The base class handles this for you.</remarks>
         </member>
-        <member name="M:Xunit.Extensions.Forms.ListBoxTester.ClearSelected">
+        <member name="M:Xunit.Extensions.Forms.KeyboardController.UseOn(Xunit.Extensions.Forms.ReflectionTester)">
             <summary>
-            Clears the selections from the list box.
+            Initializes the KeyboardController, blocks user input, and sets
+            the focus on the specified control.
+            </summary>
+            <param name="control">The ControlTester to use the keyboard on.</param>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.KeyboardController.UseOn(System.String)">
+            <summary>
+            Overloaded.  Allows you to specify the control by name.
+            </summary>
+            <remarks>
+            You should probably use this one if you are not sure.</remarks>
+            <param name="name">The name of the control.</param>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.KeyboardController.UseOn(System.String,System.String)">
+            <summary>
+            Overloaded.  Allows you to specify the control by name and
+            qualified by a form name.
+            </summary>
+            <param name="name">The name of the control.</param>
+            <param name="formName">The name of the form.</param>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.KeyboardController.UseOn(System.String,System.Windows.Forms.Form)">
+            <summary>
+            Overloaded.  Allows you to specify the control by name and
+            qualified by a form instance.  This should be obsolete soon.
+            Do not use it unless necessary.
+            </summary>
+            <param name="name">The name of the control.</param>
+            <param name="form">The form instance to test on.</param>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.KeyboardController.Type(System.String)">
+            <summary>
+            This will send a string of key inputs.
+            </summary>
+            <remarks>
+            Use + for SHIFT
+            Use ^ for CONTROL
+            Use % for ALT
+            Use {} to escape or to group examples
+            ^a is Control A
+            +{abc} is SHIFT A SHIFT B SHIFT C
+            {%} is %
+            My goal is to support the strings as shown here: http://www.rutherfurd.net/python/sendkeys/
+            but it is not done yet
+            </remarks>
+            <param name="keyString">the keys to type</param>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.KeyboardController.Click(System.String)">
+            <summary>
+            Press and release a key.
+            these constants.
+            </summary>
+            <remarks>
+            Use the Key class (in Key.cs) to find these constants.
+            </remarks>
+            <param name="key">The key to click.</param>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.KeyboardController.Press(System.String)">
+            <summary>
+            Press a key.
+            </summary>
+            <remarks>
+            Use the Key class (in Key.cs) to find these constants.
+            </remarks>
+            <param name="key">The key to press.</param>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.KeyboardController.Release(System.String)">
+            <summary>
+            Release a key.  
+            </summary>
+            <remarks>
+            Use the Key class (in Key.cs) to find these constants.
+            </remarks>
+            <param name="key">The key to release.</param>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.MenuItemTester">
+            <summary>
+            A ControlTester for MenuItems.
+            </summary>
+            <remarks>
+            It does not extend ControlTester because MenuItems are not Controls.  (sadly)</remarks>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.MenuItemTester.Click">
+            <summary>
+            Clicks the MenuItem (activates it)
             </summary>
         </member>
-        <member name="M:Xunit.Extensions.Forms.ListBoxTester.Select(System.Int32)">
+        <member name="M:Xunit.Extensions.Forms.MenuItemTester.Popup">
             <summary>
-            Selects an item in the ListBox according to its index.
-            </summary>
-            <param name="i">the index to select.</param>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.ListBoxTester.Select(System.String)">
-            <summary>
-            Selects an item in the list according to its string value.
-            </summary>
-            <param name="text">The item to select.</param>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.ListBoxTester.SetSelected(System.Int32,System.Boolean)">
-            <summary>
-            Sets the selected property of an item at an index.
-            </summary>
-            <param name="index">the index to select (or clear)</param>
-            <param name="value">true if you want to select, false to clear.</param>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.ListBoxTester.SetSelected(System.String,System.Boolean)">
-            <summary>
-            Sets the selected property of an item with a specified string value.
-            </summary>
-            <param name="text">the item to select (or clear)</param>
-            <param name="value">true if you want to select, false to clear.</param>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.Program.Main">
-            <summary>
-            The main entry point for the application.
+            Pops up a menu.
             </summary>
         </member>
-        <member name="T:Xunit.Extensions.Forms.ImageFormatHandler">
+        <member name="P:Xunit.Extensions.Forms.MenuItemTester.Text">
             <summary>
-            Supplies some helpers methods used for image processing (file selection dialog, 
-            image format options selection etc.).
-            Here, this is just a fragment of the actual implementation !!!
-            
+            Gets the text of this MenuItem.
             </summary>
         </member>
-        <member name="F:Xunit.Extensions.Forms.ImageFormatHandler.availableDecoders">
+        <member name="P:Xunit.Extensions.Forms.MenuItemTester.Properties">
             <summary>
-            All image decoders available.
+            Allows you to access any properties of this MenuItem.
             </summary>
         </member>
-        <member name="F:Xunit.Extensions.Forms.ImageFormatHandler.availableEncoders">
+        <member name="T:Xunit.Extensions.Forms.MessageBoxTester">
             <summary>
-            All image encoders available.
+            A ControlTester for MessageBoxes.  
+            Allows you to handle and test MessageBoxes by pressing any of the
+            buttons that ordinarily appear on them.
+            </summary>
+            <remarks>
+            It does not extend ControlTester because MessageBoxes are not controls.</remarks>
+            <code>
+            public void MessageBoxHandler
+            {
+            	MessageBoxTester messageBox = new MessageBoxTester( "MessageBoxName" );
+            	Assert.Equal( "MessageBoxText", messageBox.Text );
+              Assert.Equal( "MessageBoxTitle", messageBox.Title );
+            	messageBox.SendCommand( MessageBoxTester.Command.OK );
+            }
+            </code>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.MessageBoxTester.#ctor(System.IntPtr)">
+            <summary>
+            Creates a MessageBoxTester with the specified handle.  XunitForms
+            users probably won't use this directly.  Use the other constructor.
+            </summary>
+            <param name="handle">The handle of the MessageBox to test.</param>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.MessageBoxTester.#ctor(System.String)">
+            <summary>
+            Deprecated in favor of the constructor taking the box's handle as argument.
+            </summary>
+            <param name="name">The name of the MessageBox to test.</param>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.MessageBoxTester.SendCommand(Xunit.Extensions.Forms.MessageBoxTester.Command)">
+            <summary>
+            Sends a command to the MessageBox.
+            </summary>
+            <param name="cmd">The <see cref="T:Xunit.Extensions.Forms.MessageBoxTester.Command"/> to send to this <see cref="T:System.Windows.Forms.MessageBox"/>.</param>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.MessageBoxTester.ClickOk">
+            <summary>
+            Clicks the Ok button of a MessageBox.
             </summary>
         </member>
-        <member name="F:Xunit.Extensions.Forms.ImageFormatHandler.defaultFormat">
+        <member name="M:Xunit.Extensions.Forms.MessageBoxTester.ClickCancel">
             <summary>
-            This is the default format used for saving images.
+            Clicks the cancel button of a MessageBox.
             </summary>
         </member>
-        <member name="F:Xunit.Extensions.Forms.ImageFormatHandler.encodingColorDepth">
+        <member name="P:Xunit.Extensions.Forms.MessageBoxTester.Title">
             <summary>
-            The color depth for TIFF
+            Returns the caption on the message box we are testing.
             </summary>
         </member>
-        <member name="F:Xunit.Extensions.Forms.ImageFormatHandler.encodingCompression">
+        <member name="P:Xunit.Extensions.Forms.MessageBoxTester.Text">
             <summary>
-            The TIFF compression type
+            Returns the text of the message box we are testing.
             </summary>
         </member>
-        <member name="F:Xunit.Extensions.Forms.ImageFormatHandler.encodingQuality">
+        <member name="T:Xunit.Extensions.Forms.MessageBoxTester.Command">
             <summary>
-            The quality for JPEG compresseion (0...100)
+            Available commands you can send to the MessageBox.
+            </summary>
+            <remarks>
+            There are convenience methods for OK and Cancel, so you should not need 
+            those.
+            </remarks>
+        </member>
+        <member name="F:Xunit.Extensions.Forms.MessageBoxTester.Command.OK">
+            <summary>
+            Represents an OK button on a <see cref="T:System.Windows.Forms.MessageBox"/>.
             </summary>
         </member>
-        <member name="F:Xunit.Extensions.Forms.ImageFormatHandler.encodingRenderMethod">
+        <member name="F:Xunit.Extensions.Forms.MessageBoxTester.Command.Cancel">
             <summary>
-            The rendering method for ????
+            Represents a Cancel button on a <see cref="T:System.Windows.Forms.MessageBox"/>.
             </summary>
         </member>
-        <member name="F:Xunit.Extensions.Forms.ImageFormatHandler.encodingScanMethod">
+        <member name="F:Xunit.Extensions.Forms.MessageBoxTester.Command.Abort">
             <summary>
-            The scanning method for GIF
+            Represents an Abort button on a <see cref="T:System.Windows.Forms.MessageBox"/>.
             </summary>
         </member>
-        <member name="M:Xunit.Extensions.Forms.ImageFormatHandler.#ctor">
+        <member name="F:Xunit.Extensions.Forms.MessageBoxTester.Command.Retry">
             <summary>
-            Creator
+            Represents a Retry button on a <see cref="T:System.Windows.Forms.MessageBox"/>.
             </summary>
         </member>
-        <member name="M:Xunit.Extensions.Forms.ImageFormatHandler.GetImageFormat(Xunit.Extensions.Forms.ImageFormatHandler.ImageFormatTypes)">
+        <member name="F:Xunit.Extensions.Forms.MessageBoxTester.Command.Ignore">
             <summary>
-            Get the image format associated with that enum, if it does not exist, then return a 'null'.
-            </summary>
-            <param name="type">The image format enum type</param>
-            <returns>The windows image format type</returns>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.ImageFormatHandler.GetMimeType(Xunit.Extensions.Forms.ImageFormatHandler.ImageFormatTypes)">
-            <summary>
-            Get the MIME name of the image format associated with that enum, 
-            if it does not exist, then return a 'null'.
-            </summary>
-            <param name="type">The image format enum type</param>
-            <returns>The MIME name of the desired image format type or 'null' when none exists.</returns>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.ImageFormatHandler.GetImageFormat(System.Drawing.Imaging.ImageFormat)">
-            <summary>
-            Get the enum image format associated with that windows format, if it does not exist, then return a 'imgNone'.
-            </summary>
-            <param name="type">The windows image format type</param>
-            <returns>The image format enum type</returns>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.ImageFormatHandler.GetCodecInfo(Xunit.Extensions.Forms.ImageFormatHandler.ImageFormatTypes)">
-            <summary>
-            Search the codec for a given type, cycle through encoders and decoders until found. 
-            If no match is found, return 'null'.
-            </summary>
-            <param name="type">The graphic format</param>
-            <returns>The associated codec or 'null'.</returns>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.ImageFormatHandler.GetEncoderParameters(Xunit.Extensions.Forms.ImageFormatHandler.ImageFormatTypes,System.Drawing.Imaging.ImageCodecInfo@)">
-            <summary>
-            Get the encoder parameters used for saving a graphic into a file or stream.
-            </summary>
-            <param name="type">The desired format type.</param>
-            <param name="info">Returns the codec info.</param>
-            <returns>The encoder parameters or 'null' when not supported by the requested type.</returns>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.ImageFormatHandler.GetDefaultFilenameExtension(Xunit.Extensions.Forms.ImageFormatHandler.ImageFormatTypes)">
-            <summary>
-            Get the default filename extension for a given type
-            </summary>
-            <param name="type">The image type</param>
-            <returns>The extension string.</returns>
-        </member>
-        <member name="P:Xunit.Extensions.Forms.ImageFormatHandler.DefaultFormat">
-            <summary>
-            Get/Set the default image format used
+            Represents an Ignore button on a <see cref="T:System.Windows.Forms.MessageBox"/>.
             </summary>
         </member>
-        <member name="T:Xunit.Extensions.Forms.ImageFormatHandler.ImageFormatTypes">
+        <member name="F:Xunit.Extensions.Forms.MessageBoxTester.Command.Yes">
             <summary>
-            An enum which represents all supported graphic formats. These enum names are also used
-            to get a description from the resources.
+            Represents a Yes button on a <see cref="T:System.Windows.Forms.MessageBox"/>.
             </summary>
         </member>
-        <member name="F:Xunit.Extensions.Forms.ImageFormatHandler.ImageFormatTypes.imgNone">
+        <member name="F:Xunit.Extensions.Forms.MessageBoxTester.Command.No">
             <summary>
-            Undefined format
+            Represents a No button on a <see cref="T:System.Windows.Forms.MessageBox"/>.
             </summary>
         </member>
-        <member name="F:Xunit.Extensions.Forms.ImageFormatHandler.ImageFormatTypes.imgBMP">
+        <member name="F:Xunit.Extensions.Forms.MessageBoxTester.Command.Close">
             <summary>
-            Windows bitmap
+            Represents a Close button on a <see cref="T:System.Windows.Forms.MessageBox"/>.
             </summary>
         </member>
-        <member name="F:Xunit.Extensions.Forms.ImageFormatHandler.ImageFormatTypes.imgEMF">
+        <member name="F:Xunit.Extensions.Forms.MessageBoxTester.Command.Help">
             <summary>
-            Enhanced Windows metafile
+            Represents a Close button on a <see cref="T:System.Windows.Forms.MessageBox"/>.
             </summary>
         </member>
-        <member name="F:Xunit.Extensions.Forms.ImageFormatHandler.ImageFormatTypes.imgEXIF">
+        <member name="T:Xunit.Extensions.Forms.ModalFormHandler">
             <summary>
-            Exchangeable Image File
+            Used to specify a handler for a Modal form that is displayed during testing.
+            </summary>
+            <param name="name">Title of the form. Note that the titles of the file dialog boxes are not reliable.</param>
+            <param name="hWnd">Handle of the modal form. Can be passed to the constructors of the dialog box testers.</param>
+            <param name="form">Reference to the modal form. Null if it is a dialog box.</param>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.DialogBoxHandler">
+            <summary>
+            Same as ModalFormHandler, without the form argument.
             </summary>
         </member>
-        <member name="F:Xunit.Extensions.Forms.ImageFormatHandler.ImageFormatTypes.imgGIF">
+        <member name="T:Xunit.Extensions.Forms.ModalFormTester">
             <summary>
-            Graphics Interchange Format
+             A class for testing Modal Forms.
             </summary>
         </member>
-        <member name="F:Xunit.Extensions.Forms.ImageFormatHandler.ImageFormatTypes.imgICON">
+        <member name="F:Xunit.Extensions.Forms.ModalFormTester.hwndList">
             <summary>
-            Windows icon
+            This list is used to keep track of which windows that have been created.
             </summary>
         </member>
-        <member name="F:Xunit.Extensions.Forms.ImageFormatHandler.ImageFormatTypes.imgJPEG">
+        <member name="F:Xunit.Extensions.Forms.ModalFormTester.listening">
             <summary>
-            Joint Photographic Experts Group
+            True if we have begun listening for CBT Activate events.
             </summary>
         </member>
-        <member name="F:Xunit.Extensions.Forms.ImageFormatHandler.ImageFormatTypes.imgPNG">
+        <member name="M:Xunit.Extensions.Forms.ModalFormTester.Dispose">
             <summary>
-            Portable Network Graphics
+             Disposes any resources being managed.
             </summary>
         </member>
-        <member name="F:Xunit.Extensions.Forms.ImageFormatHandler.ImageFormatTypes.imgTIFF">
+        <member name="M:Xunit.Extensions.Forms.ModalFormTester.Verify">
             <summary>
-            Tag Image File
+            Verifies that all expected handlers were invoked,
+            and that no unexpected ones were.
             </summary>
         </member>
-        <member name="F:Xunit.Extensions.Forms.ImageFormatHandler.ImageFormatTypes.imgWMF">
+        <member name="M:Xunit.Extensions.Forms.ModalFormTester.Callback_ModalListener(System.Int32,System.IntPtr,System.IntPtr)">
             <summary>
-            Windows metafile
+            CBT callback called when a form is activated.
+            If the newly activated form is modal, invoke the registered handler.
             </summary>
         </member>
-        <member name="T:Xunit.Extensions.Forms.WindowHandle">
+        <member name="M:Xunit.Extensions.Forms.ModalFormTester.ExpectModal(System.String,Xunit.Extensions.Forms.ModalFormActivated)">
             <summary>
-             Additional methods for working with Window Handles.
+             Registers an expected handler for the given form caption.
+            </summary>
+            <param name="name">The caption of the form to handle.</param>
+            <param name="handler">The handler.</param>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.ModalFormTester.ExpectModal(System.String,Xunit.Extensions.Forms.ModalFormActivated,System.Boolean)">
+            <summary>
+             Registers an expected or unexpected handler for the given form caption.
+            </summary>
+            <param name="name">The caption of the form to handle.</param>
+            <param name="handler">The handler.</param>
+            <param name="expected">True if this handler is expected; false if this handler is not expected.</param>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.ModalFormTester.Add(System.String,Xunit.Extensions.Forms.ModalFormActivatedHwnd,System.Int32)">
+            <summary>
+             Registers an expected or unexpected handler for the given form caption.
+            </summary>
+            <param name="name">The caption of the form to handle.</param>
+            <param name="handler">The handler.</param>
+            <param name="expectedCount">number of times this handler is expected</param>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.ModalFormTester.UnexpectedModal(System.IntPtr)">
+             <summary>
+             A <see cref="T:Xunit.Extensions.Forms.ModalFormActivatedHwnd"/> that tries to click the OK button of the modal form.
             </summary>
         </member>
-        <member name="M:Xunit.Extensions.Forms.WindowHandle.IsDialog(System.IntPtr)">
+        <member name="T:Xunit.Extensions.Forms.ModalFormTester.Handler">
             <summary>
-             Returns true if the given window handle references a Dialog.
-            </summary>
-            <param name="handle"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.WindowHandle.GetText(System.IntPtr)">
-            <summary>
-             Returns the text of the references control.
-            </summary>
-            <param name="handle">A window handle to a control.</param>
-            <returns>The text of the control.</returns>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.WindowHandle.GetCaption(System.IntPtr)">
-            <summary>
-             Gets the caption of the referenced window.
+            This class encapsulates a event handler
+            along with information on whether it was
+            expected to be called, and if it was actually called.
             </summary>
         </member>
-        <member name="M:Xunit.Extensions.Forms.WindowHandle.GetClassName(System.IntPtr)">
+        <member name="M:Xunit.Extensions.Forms.ModalFormTester.Handler.#ctor(System.Delegate,System.Int32,System.String)">
             <summary>
-             Returns the window class name for the referenced window.
+            Constructs a new <see cref="T:Xunit.Extensions.Forms.ModalFormTester.Handler"/>.
             </summary>
         </member>
-        <member name="T:Xunit.Extensions.Forms.Types">
+        <member name="M:Xunit.Extensions.Forms.ModalFormTester.Handler.Verify">
             <summary>
-            Additional methods for working with Types and other Reflection objects.
+            Verify that this handler was either expected and invoked,
+            or not expected and not invoked.
             </summary>
         </member>
-        <member name="M:Xunit.Extensions.Forms.Types.HasPublicProperties(System.Type)">
+        <member name="M:Xunit.Extensions.Forms.ModalFormTester.Handler.Invoke(System.IntPtr)">
             <summary>
-             Returns true if the given type has any declared public properties.
+            Invokes the wrapped event handler with the given window handle.
             </summary>
+            <param name="hWnd"></param>
         </member>
-        <member name="M:Xunit.Extensions.Forms.Types.GetEventNames(System.Type)">
+        <member name="M:Xunit.Extensions.Forms.MouseControl.Convert(System.Drawing.PointF,System.Drawing.PointF)">
             <summary>
-             Retrives a list of names of events that the given type publishes.
+              Translation between mouse position and screen position.
             </summary>
-            <param name="type"></param>
-            <returns></returns>
-        </member>
-        <member name="T:Xunit.Extensions.Forms.Tobor">
-            <summary>
-            Experimental "FIT" interface.
-            </summary>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.Tobor.#ctor(Xunit.Extensions.Forms.FormTester)">
-            <summary>
-            Constructor.
-            </summary>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.Tobor.Type(System.String,System.String)">
-            <summary>
-             Types into the named control.
-            </summary>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.Tobor.Click(System.String)">
-            <summary>
-             Clicks the named control.
-            </summary>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.Tobor.VerifyText(System.String,System.String)">
-            <summary>
-             Verifies the text of the named control matches the expected text.
-            </summary>
+            <param name="p">
+              A <see cref="T:System.Drawing.PointF"/> mouse coordinate relative to
+              the origin control and specified in PositioXunit.
+            </param>
+            <param name="scale">
+            The scale to convert by.
+            </param>
+            <returns>
+              A <see cref="T:Xunit.Extensions.Forms.Win32.Point"/> mouse coordinate relative to
+              the screen and specified in pixels.
+            </returns>
         </member>
         <member name="T:Xunit.Extensions.Forms.MouseController">
              <summary>
@@ -2601,198 +2613,34 @@
               When value is not a valid enumeration value.
             </exception>
         </member>
-        <member name="T:Xunit.Extensions.Forms.KeyboardController">
+        <member name="T:Xunit.Extensions.Forms.NoSuchControlException">
             <summary>
-            Provides testing control of the keyboard.
+            Exception is thrown when a control can not be found
+            by its specified name.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.NoSuchControlException.#ctor(System.String)">
+            <summary>
+            Creates a NoSuchControlException.
             </summary>
             <remarks>
-            KeyboardController lets you send key presses to your application.  You can
-            click, press, or release any key.  The UseOn() method allows you to assert
-            focus on a specific control before sending the keys.  It also initializes
-            the Keyboard controller for use by blocking user input.
+            The message string can be specified.
             </remarks>
+            <param name="message">The messasge for the exception.</param>
         </member>
-        <member name="M:Xunit.Extensions.Forms.KeyboardController.#ctor(Xunit.Extensions.Forms.ControlTester)">
+        <member name="T:Xunit.Extensions.Forms.XunitFormsAssertionTest">
             <summary>
-            Creates a keyboard controller and sets the focus on the control
-            indicated by the supplied ControlTester.
-            </summary>
-            <param name="controlTester">The ControlTester to use the keyboard
-            on.</param>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.KeyboardController.Dispose">
-            <summary>
-            Implements the IDisposable interface.  This restores user input.
-            It should eventually return the keyboard to its pre-test state.
-            </summary>
-            <remarks>
-            If you are using the Keyboard controller through the base XunitFormTest
-            class, then you should not need to call this method or use finally or using
-            blocks.  The base class handles this for you.</remarks>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.KeyboardController.UseOn(Xunit.Extensions.Forms.ReflectionTester)">
-            <summary>
-            Initializes the KeyboardController, blocks user input, and sets
-            the focus on the specified control.
-            </summary>
-            <param name="control">The ControlTester to use the keyboard on.</param>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.KeyboardController.UseOn(System.String)">
-            <summary>
-            Overloaded.  Allows you to specify the control by name.
-            </summary>
-            <remarks>
-            You should probably use this one if you are not sure.</remarks>
-            <param name="name">The name of the control.</param>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.KeyboardController.UseOn(System.String,System.String)">
-            <summary>
-            Overloaded.  Allows you to specify the control by name and
-            qualified by a form name.
-            </summary>
-            <param name="name">The name of the control.</param>
-            <param name="formName">The name of the form.</param>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.KeyboardController.UseOn(System.String,System.Windows.Forms.Form)">
-            <summary>
-            Overloaded.  Allows you to specify the control by name and
-            qualified by a form instance.  This should be obsolete soon.
-            Do not use it unless necessary.
-            </summary>
-            <param name="name">The name of the control.</param>
-            <param name="form">The form instance to test on.</param>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.KeyboardController.Type(System.String)">
-            <summary>
-            This will send a string of key inputs.
-            </summary>
-            <remarks>
-            Use + for SHIFT
-            Use ^ for CONTROL
-            Use % for ALT
-            Use {} to escape or to group examples
-            ^a is Control A
-            +{abc} is SHIFT A SHIFT B SHIFT C
-            {%} is %
-            My goal is to support the strings as shown here: http://www.rutherfurd.net/python/sendkeys/
-            but it is not done yet
-            </remarks>
-            <param name="keyString">the keys to type</param>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.KeyboardController.Click(System.String)">
-            <summary>
-            Press and release a key.
-            these constants.
-            </summary>
-            <remarks>
-            Use the Key class (in Key.cs) to find these constants.
-            </remarks>
-            <param name="key">The key to click.</param>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.KeyboardController.Press(System.String)">
-            <summary>
-            Press a key.
-            </summary>
-            <remarks>
-            Use the Key class (in Key.cs) to find these constants.
-            </remarks>
-            <param name="key">The key to press.</param>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.KeyboardController.Release(System.String)">
-            <summary>
-            Release a key.  
-            </summary>
-            <remarks>
-            Use the Key class (in Key.cs) to find these constants.
-            </remarks>
-            <param name="key">The key to release.</param>
-        </member>
-        <member name="T:Xunit.Extensions.Forms.NativeMethods">
-            <summary>
-            Helper class which maps some WIN32 values
+            One of three base classes for your XunitForms tests.  This one can be
+            used by people who want "built-in" Assertion functionality and prefer
+            the older style "Assertion" syntax.
             </summary>
         </member>
-        <member name="M:Xunit.Extensions.Forms.NativeMethods.GetWindowRect(System.IntPtr,Xunit.Extensions.Forms.NativeMethods.RECT@)">
+        <member name="T:Xunit.Extensions.Forms.XunitFormsAssertTest">
             <summary>
-            Get a windows rectangle in a RECT structure
+            One of three base classes for your XunitForms tests.  This one can be
+            used by people who want "built-in" Assert functionality and prefer
+            the newer style "Assert" syntax.
             </summary>
-            <param name="hwnd">The window handle to look up</param>
-            <param name="rect">The rectangle</param>
-            <returns></returns>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.NativeMethods.BringWindowToTop(System.IntPtr)">
-            <summary>
-            The BringWindowToTop function brings the specified window to the top of the Z order. 
-            If the window is a top-level window, it is activated. 
-            If the window is a child window, the top-level parent window associated 
-            with the child window is activated. 
-            </summary>
-            <param name="hWnd">Handle to the window to bring to the top of the Z order. </param>
-            <returns>If the function succeeds, the return value is nonzero.
-            If the function fails, the return value is zero. 
-            To get extended error information, call GetLastError. 
-            </returns>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.NativeMethods.GetWindowRect(System.IntPtr)">
-            <summary>
-            Get a windows rectangle in a .NET structure
-            </summary>
-            <param name="hwnd">The window handle to look up</param>
-            <returns>The rectangle</returns>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.LinkLabelTester.Click">
-            <summary>
-             Clicks the LinkLabel.
-             NOTE: Should this do "LinkClick" instead?
-            </summary>
-        </member>
-        <member name="T:Xunit.Extensions.Forms.Finder`1">
-            <summary>
-            Internal use only.  Finds controls, components, and menuitems
-            according to their name property.
-            </summary>
-            <remarks>
-            It is also used by the recorder application which is why it is not
-            internal.
-            </remarks>
-            the recorder application.
-        </member>
-        <member name="M:Xunit.Extensions.Forms.Finder`1.#ctor(System.String,System.Windows.Forms.Form)">
-            <summary>
-            Creates a Finder that will find things on a specific Form according to their name.
-            </summary>
-            <param name="name">The name of the Control to find.</param>
-            <param name="form">The form to search for the control.</param>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.Finder`1.#ctor(System.String)">
-            <summary>
-            Creates a Finder that will find things according to their name.  
-            </summary>
-            <param name="name">The name of the thing to find.</param>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.Finder`1.Find">
-            <summary>
-            Finds a control.  
-            </summary>
-            <exception>
-            If there is more than one with the specified name, it will
-            throw an AmbiguousNameException.  If the Control does not exist, it will throw
-            a NoSuchControlException.
-            </exception>
-            <returns>The control if one is found.</returns>
-        </member>
-        <member name="T:Xunit.Extensions.Forms.TextBoxTester">
-            <summary>
-            A ControlTester for testing TextBoxes.
-            </summary>
-            <remarks>
-            There is a convenience method for entering text into a text box.</remarks>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.TextBoxTester.Enter(System.String)">
-            <summary>
-            This method allows you to enter text into the text box.
-            </summary>
-            <param name="text">The text to enter into the text box.</param>
         </member>
         <member name="T:Xunit.Extensions.Forms.OpenFileDialogTester">
             <summary>
@@ -2817,94 +2665,246 @@
              Inputs the give file name into the dialog box, and clicks the open button.
             </summary>
         </member>
-        <member name="T:Xunit.Extensions.Forms.FormTester">
+        <member name="T:Xunit.Extensions.Forms.SaveFileDialogTester">
             <summary>
-            A ControlTester for testing forms.
+            This class is used to test the built-in OpenFileDialog. This class is not meant to be
+            used directly. Instead you should use the ExpectOpenFileDialog and CancelOpenFileDialog functions
+            in the XunitFormTest
+            class.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.SaveFileDialogTester.#ctor(System.IntPtr)">
+            <summary>
+            Constructs a new SaveFileDialogTester working on the dialog box having the given handle.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.SaveFileDialogTester.#ctor(System.String)">
+            <summary>
+            Unreliable, kept for compatibility. The title is not actually used.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.SaveFileDialogTester.SaveFile(System.String)">
+            <summary>
+            Inputs the give file name into the dialog box, and clicks the save button.
+            </summary>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.SendKey.AlternateSendKeys">
+            <summary>
+            Alternative to the dot Net SendKeys class.
             
-            This class implements a Close() helper method to close a form that you find.
-            </summary>
-            <remarks>
-            This class does not have all of the constructors because they don't make
-            sense in this context.</remarks>
-        </member>
-        <member name="M:Xunit.Extensions.Forms.FormTester.Dispose">
-            <summary>
-            Disposes the associated Form.
+            SendWait method emulates the dot Net class method.
             </summary>
         </member>
-        <member name="M:Xunit.Extensions.Forms.FormTester.Close">
+        <member name="M:Xunit.Extensions.Forms.SendKey.AlternateSendKeys.SendWait(System.String)">
             <summary>
-            Closes the associated Form.
+            Send text to keyboard parsing text using .Net SendKeys.SendWait(...) method formatting.
+            See: http://msdn2.microsoft.com/en-us/library/system.windows.forms.sendkeys.sendwait(VS.90).aspx
+            </summary>
+            <param name="text"></param>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.Util.GetMessageHook">
+            <summary>
+            Installs a GetMessageHook, and maintains a list of user supplied callbacks.
+            Every time the hook is run, all the callbacks are run, and those that returned true are discarded.
+            When a callback is recorded, or when the list of callbacks is not empy after a run, a message is
+            posted to the current thread to ensure that the recorded callbacks will be run. Of course one should
+            be wary of infinite loops.
+            
+            Due to the static design, this class will not work in the case of multiple UI threads,
+            each operating a message pump. If this is a concern, it should be feasible to modify it.
             </summary>
         </member>
-        <member name="P:Xunit.Extensions.Forms.FormTester.DialogResult">
+        <member name="M:Xunit.Extensions.Forms.Util.GetMessageHook.RemoveHook">
             <summary>
-            Gets or sets the dialog result for the form.
+            Called at test teardown by XunitFormTest
             </summary>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.Strings">
+            <summary>
+             Additional methods for working with strings.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Strings.SafeRemoveSpaces(System.String)">
+            <summary>
+            Removes all spaces from a string.
+            </summary>
+            <param name="name">
+            Remove all spaces from this string.
+            </param>
             <returns>
-            A <c>System.Windows.Forms.DialogResult</c> that represents the result of the form when used as a dialog box.
+            <list type="bullet">
+            <item><paramref name="name"/> without spaces.</item>
+            <item>if <paramref name="name"/> is not effective, returns an empty string</item>
+            </list>
             </returns>
         </member>
-        <member name="T:Xunit.Extensions.Forms.EventHelper">
+        <member name="T:Xunit.Extensions.Forms.Tobor">
             <summary>
-             Methods for firing events via reflection.
+            Experimental "FIT" interface.
             </summary>
         </member>
-        <member name="M:Xunit.Extensions.Forms.EventHelper.RaiseEvent(System.Object,System.String)">
+        <member name="M:Xunit.Extensions.Forms.Tobor.#ctor(Xunit.Extensions.Forms.FormTester)">
             <summary>
-             Fires the named event on the given object using the object's "OnEventName" method.
+            Constructor.
             </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Tobor.Type(System.String,System.String)">
+            <summary>
+             Types into the named control.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Tobor.Click(System.String)">
+            <summary>
+             Clicks the named control.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Tobor.VerifyText(System.String,System.String)">
+            <summary>
+             Verifies the text of the named control matches the expected text.
+            </summary>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.ToolStripItemTester">
+            <summary>
+             Base class for Tool Strip Item testers.
+            </summary>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.Types">
+            <summary>
+            Additional methods for working with Types and other Reflection objects.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Types.HasPublicProperties(System.Type)">
+            <summary>
+             Returns true if the given type has any declared public properties.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Types.GetEventNames(System.Type)">
+            <summary>
+             Retrives a list of names of events that the given type publishes.
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Win32.BlockInput(System.Boolean)">
+            <summary>
+            Specifies the function's purpose. If this parameter is TRUE, keyboard and mouse input events are 
+            blocked. If this parameter is FALSE, keyboard and mouse events are unblocked. Note that only 
+            the thread that blocked input can successfully unblock input. 
+            </summary>
+            <param name="blockIt"></param>
+            <returns></returns>
+            <remarks>
+            When input is blocked, real physical input from the mouse or keyboard will not affect the input queue's 
+            synchronous key state (reported by GetKeyState and GetKeyboardState), nor will it affect the asynchronous 
+            key state (reported by GetAsyncKeyState). However, the thread that is blocking input can affect both of 
+            these key states by calling SendInput. No other thread can do this.
+            The system will unblock input in the following cases: 
+            The thread that blocked input unexpectedly exits without calling BlockUserInput with fBlock set to FALSE. 
+            In this case, the system cleans up properly and re-enables input. Windows 95/98/Me: The system displays the
+            Close Program/Fault dialog box. This can occur if the thread faults or if the user presses CTRL+ALT+DEL. 
+            Windows 2000/XP: The user presses CTRL+ALT+DEL or the system invokes the Hard System Error modal message
+            box (for example, when a program faults or a device fails). 
+            </remarks>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.Win32.KEYBDINPUT">
+            <summary>
+            Another example can be found on http://www.pinvoke.net/default.aspx/user32/SendInput.html. Notice
+            that KEYBDINPUT on pinvoke.net is split in two structs : INPUT and KEYBDINPUT. The KEYBDINPUT that is
+            used here, contains both structs of pinvoke.net.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.Win32.MOUSEINPUT.#ctor(System.Int32)">
+            <summary>
+             
+             </summary>
              <remarks>
-             <para>
-             By convention, an event named "MyEvent(object sender, MyEventArgs e)" should have a virtual protected
-             method "OnMyEvent(MyEventArgs e)" that actually calls any attached event handler.
-             </para>
-             <para>
-             This method assumes that the target event has been implemented with this pattern.
-             </para>
-             </remarks>
-            <param name="targetObject">The object raising the event.</param>
-            <param name="eventName">The name of the event to raise.</param>
+            dx
+            Specifies the absolute position of the mouse, or the amount of motion since the last mouse event was generated, depending on the value of the dwFlags member. Absolute data is specified as the x coordinate of the mouse; relative data is specified as the number of pixels moved. 
+            dy
+            Specifies the absolute position of the mouse, or the amount of motion since the last mouse event was generated, depending on the value of the dwFlags member. Absolute data is specified as the y coordinate of the mouse; relative data is specified as the number of pixels moved. 
+            mouseData
+            If dwFlags contains MOUSEEVENTF_WHEEL, then mouseData specifies the amount of wheel movement. A positive value indicates that the wheel was rotated forward, away from the user; a negative value indicates that the wheel was rotated backward, toward the user. One wheel click is defined as WHEEL_DELTA, which is 120. 
+            Windows 2000/XP: IfdwFlags does not contain MOUSEEVENTF_WHEEL, MOUSEEVENTF_XDOWN, or MOUSEEVENTF_XUP, then mouseData should be zero. 
+            
+            If dwFlags contains MOUSEEVENTF_XDOWN or MOUSEEVENTF_XUP, then mouseData specifies which X buttons were pressed or released. This value may be any combination of the following flags. 
+            
+            XBUTTON1
+            Set if the first X button is pressed or released.
+            XBUTTON2
+            Set if the second X button is pressed or released.
+            dwFlags
+            A set of bit flags that specify various aspects of mouse motion and button clicks. The bits in this member can be any reasonable combination of the following values. 
+            The bit flags that specify mouse button status are set to indicate changes in status, not ongoing conditions. For example, if the left mouse button is pressed and held down, MOUSEEVENTF_LEFTDOWN is set when the left button is first pressed, but not for subsequent motions. Similarly, MOUSEEVENTF_LEFTUP is set only when the button is first released. 
+            
+            You cannot specify both the MOUSEEVENTF_WHEEL flag and either MOUSEEVENTF_XDOWN or MOUSEEVENTF_XUP flags simultaneously in the dwFlags parameter, because they both require use of the mouseData field. 
+            
+            MOUSEEVENTF_ABSOLUTE
+            Specifies that the dx and dy members contain normalized absolute coordinates. If the flag is not set, dxand dy contain relative data (the change in position since the last reported position). This flag can be set, or not set, regardless of what kind of mouse or other pointing device, if any, is connected to the system. For further information about relative mouse motion, see the following Remarks section.
+            MOUSEEVENTF_MOVE
+            Specifies that movement occurred.
+            MOUSEEVENTF_LEFTDOWN
+            Specifies that the left button was pressed.
+            MOUSEEVENTF_LEFTUP
+            Specifies that the left button was released.
+            MOUSEEVENTF_RIGHTDOWN
+            Specifies that the right button was pressed.
+            MOUSEEVENTF_RIGHTUP
+            Specifies that the right button was released.
+            MOUSEEVENTF_MIDDLEDOWN
+            Specifies that the middle button was pressed.
+            MOUSEEVENTF_MIDDLEUP
+            Specifies that the middle button was released.
+            MOUSEEVENTF_VIRTUALDESK
+            Windows 2000/XP:Maps coordinates to the entire desktop. Must be used with MOUSEEVENTF_ABSOLUTE.
+            MOUSEEVENTF_WHEEL
+            Windows NT/2000/XP: Specifies that the wheel was moved, if the mouse has a wheel. The amount of movement is specified in mouseDataÃ‚Â .
+            MOUSEEVENTF_XDOWN
+            Windows 2000/XP: Specifies that an X button was pressed.
+            MOUSEEVENTF_XUP
+            Windows 2000/XP: Specifies that an X button was released.
+            time
+            Time stamp for the event, in milliseconds. If this parameter is 0, the system will provide its own time stamp. 
+            dwExtraInfo
+            </remarks>
         </member>
-        <member name="M:Xunit.Extensions.Forms.EventHelper.RaiseEvent(System.Object,System.String,System.Object[])">
+        <member name="T:Xunit.Extensions.Forms.WindowHandle">
             <summary>
-             Fires the named event on the given object using the object's "OnEventName" method.
+             Additional methods for working with Window Handles.
             </summary>
-             <remarks>
-             <para>
-             By convention, an event named "MyEvent(object sender, MyEventArgs e)" should have a virtual protected
-             method "OnMyEvent(MyEventArgs e)" that actually calls any attached event handler.
-             </para>
-             <para>
-             This method assumes that the target event has been implemented with this pattern.
-             </para>
-             </remarks>
-            <param name="targetObject">The object raising the event.</param>
-            <param name="eventName">The name of the event to raise.</param>
-            <param name="args">A list of arguments to pass to the EventArgs-derived parameter's constructor.</param>
         </member>
-        <member name="M:Xunit.Extensions.Forms.EventHelper.RaiseEvent(System.Object,System.String,System.EventArgs)">
+        <member name="M:Xunit.Extensions.Forms.WindowHandle.IsDialog(System.IntPtr)">
             <summary>
-             Fires the named event on the given object using the object's "OnEventName" method.
+             Returns true if the given window handle references a Dialog.
             </summary>
-             <remarks>
-             <para>
-             By convention, an event named "MyEvent(object sender, MyEventArgs e)" should have a virtual protected
-             method "OnMyEvent(MyEventArgs e)" that actually calls any attached event handler.
-             </para>
-             <para>
-             This method assumes that the target event has been implemented with this pattern.
-             </para>
-             </remarks>
-            <param name="targetObject">The object raising the event.</param>
-            <param name="eventName">The name of the event to raise.</param>
-            <param name="arg">The EventArgs-derived class to pass to this event.</param>
+            <param name="handle"></param>
+            <returns></returns>
         </member>
-        <member name="M:Xunit.Extensions.Forms.EventHelper.Call(System.Object,System.String,System.Object[])">
+        <member name="M:Xunit.Extensions.Forms.WindowHandle.GetText(System.IntPtr)">
             <summary>
-             Calls the given method on the target object with the specified arguments.
+             Returns the text of the references control.
             </summary>
-            <returns>The return value of the called method, if any.</returns>
+            <param name="handle">A window handle to a control.</param>
+            <returns>The text of the control.</returns>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.WindowHandle.GetCaption(System.IntPtr)">
+            <summary>
+             Gets the caption of the referenced window.
+            </summary>
+        </member>
+        <member name="M:Xunit.Extensions.Forms.WindowHandle.GetClassName(System.IntPtr)">
+            <summary>
+             Returns the window class name for the referenced window.
+            </summary>
+        </member>
+        <member name="T:Xunit.Extensions.Forms.Win32Interop.VirtualKeyCodes">
+            <summary>
+            Microsft virtual key codes.
+            http://msdn2.microsoft.com/en-us/library/ms927175.aspx
+            
+            Constant values for use with KeyboardController.
+            Values from winuser.h
+            http://www.krugle.com/examples/p-dEfbRNANb0n1Aamr/Key.cs
+            </summary>
         </member>
     </members>
 </doc>
