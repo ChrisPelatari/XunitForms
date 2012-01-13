@@ -31,6 +31,7 @@
 #endregion
 
 using Xunit;
+using Should.Fluent;
 
 namespace Xunit.Extensions.Forms.TestApplications
 {
@@ -41,7 +42,7 @@ namespace Xunit.Extensions.Forms.TestApplications
 
         private ButtonTester button;
 
-        public override void Setup()
+        public TabControlTest()
         {
             new TabControlTestForm().Show();
             myTabs = new TabControlTester("myTabs");
@@ -60,18 +61,18 @@ namespace Xunit.Extensions.Forms.TestApplications
         {
             LabelTester label = new LabelTester("label2");
             myTabs.SelectTab(1);
-            Assert.Equal("0", label.Text);
+            label.Text.Should().Equal("0");
             button.Click();
-            Assert.Equal("1", label.Text);
+            label.Text.Should().Equal("1");
         }
 
         [Fact]
         public void TabControl()
         {
             myTabs.SelectTab(1);
-            Assert.Equal(1, myTabs.Properties.SelectedIndex);
+            myTabs.Properties.SelectedIndex.Should().Equal(1);
             myTabs.SelectTab(0);
-            Assert.Equal(0, myTabs.Properties.SelectedIndex);
+            myTabs.Properties.SelectedIndex.Should().Equal(0);
         }
     }
 }
