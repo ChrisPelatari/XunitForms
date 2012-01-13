@@ -32,6 +32,7 @@
 
 using System.Windows.Forms;
 using Xunit;
+using Should.Fluent;
 
 namespace Xunit.Extensions.Forms.TestApplications
 {
@@ -46,7 +47,7 @@ namespace Xunit.Extensions.Forms.TestApplications
             TextBoxTester textbox = new TextBoxTester("textBox1", form);
             ToolStripDropDownButtonTester tester = new ToolStripDropDownButtonTester("toolStripDropDownButton1", form);
             tester.ClickDropDownItem(1);
-            Assert.True(textbox.Text == "twoToolStripMenuItem clicked");
+            textbox.Text.Should().Equal("twoToolStripMenuItem clicked");
         }
 
         [Fact]
@@ -57,7 +58,7 @@ namespace Xunit.Extensions.Forms.TestApplications
             TextBoxTester textbox = new TextBoxTester("textBox1", form);
             ToolStripDropDownButtonTester tester = new ToolStripDropDownButtonTester("toolStripDropDownButton1", form);
             tester.Click();
-            Assert.True(textbox.Text == "toolStripDropDownButton1 clicked");
+            textbox.Text.Should().Equal("toolStripDropDownButton1 clicked");
         }
     }
 }
