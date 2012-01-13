@@ -32,6 +32,7 @@
 
 using System.IO;
 using Xunit;
+using Should.Fluent;
 
 namespace Xunit.Extensions.Forms.TestApplications
 {
@@ -42,10 +43,8 @@ namespace Xunit.Extensions.Forms.TestApplications
         private string _fileName = "";
         private SaveFileDialogTestForm form;
 
-        public override void Setup()
+        public SaveFileDialogTestOld()
         {
-            base.Setup();
-
             form = new SaveFileDialogTestForm();
             form.Show();
         }

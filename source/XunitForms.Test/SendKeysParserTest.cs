@@ -33,6 +33,7 @@
 using Xunit.Extensions.Forms.Win32Interop;
 using Xunit;
 using Xunit.Extensions.Forms.SendKey;
+using Should.Fluent;
 
 namespace Xunit.Extensions.Forms.UnitTests
 {
@@ -44,7 +45,7 @@ namespace Xunit.Extensions.Forms.UnitTests
 		{
 			ISendKeysParser parser = new SendKeysParser("111+(aaa)22+^(bbb)33{{}4%(a)");
 
-			Assert.Equal(8, parser.Groups.Length);
+			parser.Groups.Length.Should().Equal(8);
 
 			int groupIndex = 0;
 			AssertGroup(parser.Groups[groupIndex++], "", "111");
@@ -62,7 +63,7 @@ namespace Xunit.Extensions.Forms.UnitTests
 		{
 			ISendKeysParser parser = new SendKeysParser("a+bc");
 
-			Assert.Equal(3, parser.Groups.Length);
+			parser.Groups.Length.Should().Equal(3);
 
 			int groupIndex = 0;
 			AssertGroup(parser.Groups[groupIndex++], "", "a");
@@ -75,7 +76,7 @@ namespace Xunit.Extensions.Forms.UnitTests
 		{
 			ISendKeysParser parser = new SendKeysParser("a^bc");
 
-			Assert.Equal(3, parser.Groups.Length);
+			parser.Groups.Length.Should().Equal(3);
 
 			int groupIndex = 0;
 			AssertGroup(parser.Groups[groupIndex++], "", "a");
@@ -88,7 +89,7 @@ namespace Xunit.Extensions.Forms.UnitTests
 		{
 			ISendKeysParser parser = new SendKeysParser("a%bc");
 
-			Assert.Equal(3, parser.Groups.Length);
+			parser.Groups.Length.Should().Equal(3);
 
 			int groupIndex = 0;
 			AssertGroup(parser.Groups[groupIndex++], "", "a");
@@ -238,11 +239,11 @@ namespace Xunit.Extensions.Forms.UnitTests
 		{
 			ISendKeysParser parser = new SendKeysParser(keyword);
 
-			Assert.Equal(1, parser.Groups.Length);
+			parser.Groups.Length.Should().Equal(1);
 
-			Assert.Equal("", parser.Groups[0].ModifierCharacters);
-			Assert.Equal(expectedKey, parser.Groups[0].EscapedKey);
-			Assert.Equal("", parser.Groups[0].Body);
+            parser.Groups[0].ModifierCharacters.Should().Be.Empty();
+			parser.Groups[0].EscapedKey.Should().Equal(expectedKey);
+            parser.Groups[0].Body.Should().Be.Empty();
 		}
 
 		[Fact]
@@ -250,37 +251,37 @@ namespace Xunit.Extensions.Forms.UnitTests
 		{
 			ISendKeysParser parser = new SendKeysParser("{F1}{F2}{F3}{F4}{F5}{F6}{F7}{F8}{F9}{F10}{F11}{F12}{F13}{F14}{F15}{F16}");
 
-			Assert.Equal(16, parser.Groups.Length);
+			parser.Groups.Length.Should().Equal(16);
 
 			int groupIndex = 0;
-			Assert.Equal(VirtualKeyCodes.F1, parser.Groups[groupIndex++].EscapedKey);
-			Assert.Equal(VirtualKeyCodes.F2, parser.Groups[groupIndex++].EscapedKey);
-			Assert.Equal(VirtualKeyCodes.F3, parser.Groups[groupIndex++].EscapedKey);
-			Assert.Equal(VirtualKeyCodes.F4, parser.Groups[groupIndex++].EscapedKey);
-			Assert.Equal(VirtualKeyCodes.F5, parser.Groups[groupIndex++].EscapedKey);
-			Assert.Equal(VirtualKeyCodes.F6, parser.Groups[groupIndex++].EscapedKey);
-			Assert.Equal(VirtualKeyCodes.F7, parser.Groups[groupIndex++].EscapedKey);
-			Assert.Equal(VirtualKeyCodes.F8, parser.Groups[groupIndex++].EscapedKey);
-			Assert.Equal(VirtualKeyCodes.F9, parser.Groups[groupIndex++].EscapedKey);
-			Assert.Equal(VirtualKeyCodes.F10, parser.Groups[groupIndex++].EscapedKey);
-			Assert.Equal(VirtualKeyCodes.F11, parser.Groups[groupIndex++].EscapedKey);
-			Assert.Equal(VirtualKeyCodes.F12, parser.Groups[groupIndex++].EscapedKey);
-			Assert.Equal(VirtualKeyCodes.F13, parser.Groups[groupIndex++].EscapedKey);
-			Assert.Equal(VirtualKeyCodes.F14, parser.Groups[groupIndex++].EscapedKey);
-			Assert.Equal(VirtualKeyCodes.F15, parser.Groups[groupIndex++].EscapedKey);
-			Assert.Equal(VirtualKeyCodes.F16, parser.Groups[groupIndex].EscapedKey);
+			parser.Groups[groupIndex++].EscapedKey.Should().Equal(VirtualKeyCodes.F1);
+			parser.Groups[groupIndex++].EscapedKey.Should().Equal(VirtualKeyCodes.F2);
+			parser.Groups[groupIndex++].EscapedKey.Should().Equal(VirtualKeyCodes.F3);
+			parser.Groups[groupIndex++].EscapedKey.Should().Equal(VirtualKeyCodes.F4);
+			parser.Groups[groupIndex++].EscapedKey.Should().Equal(VirtualKeyCodes.F5);
+			parser.Groups[groupIndex++].EscapedKey.Should().Equal(VirtualKeyCodes.F6);
+			parser.Groups[groupIndex++].EscapedKey.Should().Equal(VirtualKeyCodes.F7);
+			parser.Groups[groupIndex++].EscapedKey.Should().Equal(VirtualKeyCodes.F8);
+			parser.Groups[groupIndex++].EscapedKey.Should().Equal(VirtualKeyCodes.F9);
+			parser.Groups[groupIndex++].EscapedKey.Should().Equal(VirtualKeyCodes.F10);
+			parser.Groups[groupIndex++].EscapedKey.Should().Equal(VirtualKeyCodes.F11);
+			parser.Groups[groupIndex++].EscapedKey.Should().Equal(VirtualKeyCodes.F12);
+			parser.Groups[groupIndex++].EscapedKey.Should().Equal(VirtualKeyCodes.F13);
+			parser.Groups[groupIndex++].EscapedKey.Should().Equal(VirtualKeyCodes.F14);
+			parser.Groups[groupIndex++].EscapedKey.Should().Equal(VirtualKeyCodes.F15);
+			parser.Groups[groupIndex].EscapedKey.Should().Equal(VirtualKeyCodes.F16);
 
 			foreach(SendKeysParserGroup group in parser.Groups)
 			{
-				Assert.Equal(string.Empty, group.ModifierCharacters);
-				Assert.Equal(string.Empty, group.Body);
+				group.ModifierCharacters.Should().Be.Empty();
+				group.Body.Should().Be.Empty();
 			}
 		}
 
 		private static void AssertGroup(ISendKeysParserGroup group, string modifierCharacters, string bodyText)
 		{
-			Assert.Equal(modifierCharacters, group.ModifierCharacters);
-			Assert.Equal(bodyText, group.Body);
+			group.ModifierCharacters.Should().Equal(modifierCharacters);
+			group.Body.Should().Equal(bodyText);
 		}
 	}
 }
