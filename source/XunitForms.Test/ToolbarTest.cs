@@ -33,6 +33,7 @@
 //Contributed by: Ian Cooper
 
 using Xunit;
+using Should.Fluent;
 
 namespace Xunit.Extensions.Forms.TestApplications
 {
@@ -43,7 +44,7 @@ namespace Xunit.Extensions.Forms.TestApplications
         private ToolBarTester toolbarTest;
 
 
-        public override void Setup()
+        public ToolbarTest()
         {
             new ToolbarTestForm().Show();
             labelToolbarSelection = new LabelTester("labelToolbarSelection");
@@ -55,11 +56,11 @@ namespace Xunit.Extensions.Forms.TestApplications
         {
             ToolBarButtonTester button = toolbarTest.GetButton("Open");
             button.Click();
-            Assert.Equal("Open", labelToolbarSelection.Text);
+            labelToolbarSelection.Text.Should().Equal("Open");
 
             button = toolbarTest.GetButton("Previous");
             button.Click();
-            Assert.Equal("Previous", labelToolbarSelection.Text);
+            labelToolbarSelection.Text.Should().Equal("Previous");
         }
 
         [Fact]
@@ -67,17 +68,17 @@ namespace Xunit.Extensions.Forms.TestApplications
         {
             ToolBarButtonTester button = toolbarTest.GetButton("Color");
             button.ClickDropDownMenuItem("Red");
-            Assert.Equal("Red", labelToolbarSelection.Text);
+            labelToolbarSelection.Text.Should().Equal("Red");
 
             button = toolbarTest.GetButton("Color");
             button.ClickDropDownMenuItem("Violet");
-            Assert.Equal("Violet", labelToolbarSelection.Text);
+            labelToolbarSelection.Text.Should().Equal("Violet");
         }
 
         [Fact]
         public void GetToolbar()
         {
-            Assert.True(toolbarTest.Properties.Visible);
+            toolbarTest.Properties.Visible.Should().Equal(true);
         }
 
         [Fact]
@@ -85,12 +86,12 @@ namespace Xunit.Extensions.Forms.TestApplications
         {
             ToolBarButtonTester button = toolbarTest.GetButton(7);
             button.Push();
-            Assert.True(button.Pushed);
+            button.Pushed.Should().Equal(true);
 
             button.PartialPush();
-            Assert.True(button.PartialPushed);
+            button.PartialPushed.Should().Equal(true);
             button.PartialPush();
-            Assert.False(button.PartialPushed);
+            button.PartialPushed.Should().Equal(false);
         }
     }
 }
