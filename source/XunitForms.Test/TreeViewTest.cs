@@ -31,6 +31,7 @@
 #endregion
 
 using Xunit;
+using Should.Fluent;
 
 namespace Xunit.Extensions.Forms.TestApplications
 {
@@ -41,7 +42,7 @@ namespace Xunit.Extensions.Forms.TestApplications
 
         private LabelTester label;
 
-        public override void Setup()
+        public TreeViewTest()
         {
             new TreeViewTestForm().Show();
             tree = new TreeViewTester("myTree");
@@ -51,16 +52,16 @@ namespace Xunit.Extensions.Forms.TestApplications
         [Fact]
         public void AfterSelectNode()
         {
-            Assert.Equal("Node0", label.Text);
+            label.Text.Should().Equal("Node0");
             tree.SelectNode(1);
-            Assert.Equal("Node3", label.Text);
+            label.Text.Should().Equal("Node3");
         }
 
         [Fact]
         public void AfterSelectNodeSubNodes()
         {
             tree.SelectNode(1, 0, 1, 1);
-            Assert.Equal("Node8", label.Text);
+            label.Text.Should().Equal("Node8");
         }
     }
 }
