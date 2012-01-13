@@ -32,6 +32,7 @@
 
 using System.Windows.Forms;
 using Xunit;
+using Should.Fluent;
 
 namespace Xunit.Extensions.Forms.TestApplications
 {
@@ -47,7 +48,7 @@ namespace Xunit.Extensions.Forms.TestApplications
 
             ToolStripSplitButtonTester tester = new ToolStripSplitButtonTester("toolStripSplitButton1", form);
             tester.Click();
-            Assert.True(label.Text == "toolStripSplitButton1 clicked");
+            label.Text.Should().Equal("toolStripSplitButton1 clicked");
         }
     }
 }
