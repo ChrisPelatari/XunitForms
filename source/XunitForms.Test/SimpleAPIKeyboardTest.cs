@@ -34,6 +34,7 @@ using System;
 using System.Windows.Forms;
 using Xunit;
 using System.ComponentModel;
+using Should.Fluent;
 
 namespace Xunit.Extensions.Forms.TestApplications
 {
@@ -54,12 +55,12 @@ namespace Xunit.Extensions.Forms.TestApplications
 			LabelTester label = new LabelTester("myLabel", form);
 			ButtonTester button = new ButtonTester("myButton", form);
 
-			Assert.Equal("0", label.Text);
+			label.Text.Should().Equal("0");
 
 			Keyboard.UseOn(button);
 			Keyboard.Click(Key.RETURN);
 
-			Assert.Equal("1", label.Text);
+			label.Text.Should().Equal("1");
 		}
 
 		[Fact]
@@ -69,7 +70,7 @@ namespace Xunit.Extensions.Forms.TestApplications
 			form.Show();
 
 			TextBoxTester box = new TextBoxTester("myTextBox", form);
-			Assert.Equal("default", box.Text);
+			box.Text.Should().Equal("default");
 
 			Keyboard.UseOn(box);
 
@@ -78,7 +79,7 @@ namespace Xunit.Extensions.Forms.TestApplications
 			Keyboard.Click("+(c)");
 			Keyboard.Click("C");
 
-			Assert.Equal("abCC", box.Text);
+			box.Text.Should().Equal("abCC");
 		}
 
 		[Fact]
@@ -86,13 +87,13 @@ namespace Xunit.Extensions.Forms.TestApplications
 		{
 			new TextBoxTestForm().Show();
 			TextBoxTester box = new TextBoxTester("myTextBox");
-			Assert.Equal("default", box.Text);
+			box.Text.Should().Equal("default");
 
 			Keyboard.UseOn(box);
 
 			Keyboard.Type("+ab");
 
-			Assert.Equal("Ab", box.Text);
+			box.Text.Should().Equal("Ab");
 		}
 
 		[Fact]
@@ -100,13 +101,13 @@ namespace Xunit.Extensions.Forms.TestApplications
 		{
 			new TextBoxTestForm().Show();
 			TextBoxTester box = new TextBoxTester("myTextBox");
-			Assert.Equal("default", box.Text);
+			box.Text.Should().Equal("default");
 
 			Keyboard.UseOn(box);
 
 			Keyboard.Type("abc1def ghi");
 
-			Assert.Equal("abc1def ghi", box.Text);
+			box.Text.Should().Equal("abc1def ghi");
 		}
 
 		[Fact]
@@ -114,13 +115,13 @@ namespace Xunit.Extensions.Forms.TestApplications
 		{
 			new TextBoxTestForm().Show();
 			TextBoxTester box = new TextBoxTester("myTextBox");
-			Assert.Equal("default", box.Text);
+			box.Text.Should().Equal("default");
 
 			Keyboard.UseOn(box);
 
 			Keyboard.Type("1231");
 
-			Assert.Equal("1231", box.Text);
+			box.Text.Should().Equal("1231");
 		}
 
 		[Fact]
@@ -128,13 +129,13 @@ namespace Xunit.Extensions.Forms.TestApplications
 		{
 			new TextBoxTestForm().Show();
 			TextBoxTester box = new TextBoxTester("myTextBox");
-			Assert.Equal("default", box.Text);
+			box.Text.Should().Equal("default");
 
 			Keyboard.UseOn(box);
 
 			Keyboard.Type("a");
 
-			Assert.Equal("a", box.Text);
+			box.Text.Should().Equal("a");
 		}
 
 		[Fact]
@@ -142,13 +143,13 @@ namespace Xunit.Extensions.Forms.TestApplications
 		{
 			new TextBoxTestForm().Show();
 			TextBoxTester box = new TextBoxTester("myTextBox");
-			Assert.Equal("default", box.Text);
+			box.Text.Should().Equal("default");
 
 			Keyboard.UseOn(box);
 
 			Keyboard.Type("q+(ABC)d");
 
-			Assert.Equal("qABCd", box.Text);
+			box.Text.Should().Equal("qABCd");
 		}
 
 		[Fact(Skip="This test leaves keyboard controller in a shift state affecting following test.")]
@@ -156,9 +157,9 @@ namespace Xunit.Extensions.Forms.TestApplications
 		{
 			new TextBoxTestForm().Show();
 			TextBoxTester box = new TextBoxTester("myTextBox");
-			Assert.Equal("default", box.Text);
+			box.Text.Should().Equal("default");
 
-			Assert.Throws<ArgumentException>(delegate {
+			Assert.Throws<ArgumentException>(() => {
 
 				Keyboard.UseOn(box);
 
@@ -179,7 +180,7 @@ namespace Xunit.Extensions.Forms.TestApplications
 			Keyboard.Click(Key.B);
 			Keyboard.Press(Key.SHIFT + Key.C + Key.SHIFT_RELEASE);
 
-			Assert.Equal("abC", box.Text);
+			box.Text.Should().Equal("abC");
 		}
 	}
 }
