@@ -32,6 +32,7 @@
 
 using System.Windows.Forms;
 using Xunit;
+using Should.Fluent;
 
 namespace Xunit.Extensions.Forms.TestApplications
 {
@@ -45,7 +46,7 @@ namespace Xunit.Extensions.Forms.TestApplications
             form.Show();
             ToolStripComboBoxTester tester = new ToolStripComboBoxTester("toolStripComboBox1", form);
             tester.Select(1);
-            Assert.True(new LabelTester("label1", form).Text == "two clicked");
+            new LabelTester("label1", form).Text.Should().Equal("two clicked");
         }
     }
 }
