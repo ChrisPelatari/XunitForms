@@ -31,6 +31,7 @@
 #endregion
 
 using Xunit;
+using Should.Fluent;
 
 namespace Xunit.Extensions.Forms.TestApplications
 {
@@ -43,7 +44,7 @@ namespace Xunit.Extensions.Forms.TestApplications
         ///<summary>
         /// Sets up this test.
         ///</summary>
-        public override void Setup()
+        public ToolStripTextBoxTest()
         {
             new ToolStripTextBoxForm().Show();
         }
@@ -58,13 +59,13 @@ namespace Xunit.Extensions.Forms.TestApplications
             ToolStripButtonTester button_tester = new ToolStripButtonTester("toolStripButton1");
 
             ToolStripTextBoxTester textbox_tester = new ToolStripTextBoxTester("toolStripTextBox1");
-            Assert.True(string.IsNullOrEmpty(textbox_tester.Text));
+            textbox_tester.Text.Should().Be.Empty();
 
             button_tester.Click();
-            Assert.True(textbox_tester.Text == "clicked");
+            textbox_tester.Text.Should().Equal("clicked");
 
             textbox_tester.Enter("entered text");
-            Assert.True(textbox_tester.Text == "entered text");
+            textbox_tester.Text.Should().Equal("entered text");
         }
     }
 }

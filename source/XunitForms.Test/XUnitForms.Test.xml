@@ -386,7 +386,7 @@
              Test Fixture for ToolStripTextBoxTester.
             </summary>
         </member>
-        <member name="M:Xunit.Extensions.Forms.TestApplications.ToolStripTextBoxTest.Setup">
+        <member name="M:Xunit.Extensions.Forms.TestApplications.ToolStripTextBoxTest.#ctor">
             <summary>
              Sets up this test.
             </summary>
